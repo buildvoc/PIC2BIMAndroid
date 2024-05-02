@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UnownedPhotoDetailActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <ImageView
+        android:id="@+id/pd_imageView_photo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:paddingHorizontal="@dimen/activity_horizontal_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/pd_imageButton_upload"
+            style="@style/buttonTextWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_marginEnd="@dimen/gn_screenMargin"
+            android:layout_marginBottom="@dimen/gn_screenMargin"
+            android:background="@drawable/background_button_white_r8"
+            android:onClick="uploadPhotoDialog"
+            android:text="@string/pd_sendButton"
+            android:textFontWeight="700"
+            android:textColor="@color/mainPrimary" />
+
+        <Button
+            android:id="@+id/pd_imageButton_pdf"
+            style="@style/buttonTextWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_marginEnd="@dimen/gn_screenMargin"
+            android:layout_marginBottom="@dimen/gn_screenMargin"
+            android:background="@drawable/background_button_white_r8"
+            android:onClick="exportPDF"
+            android:text="@string/pd_exportPDF"
+            android:textFontWeight="700"
+            android:textColor="@color/mainPrimary" />
+
+        <ImageButton
+            android:id="@+id/pd_imageButton_note"
+            style="@style/buttonImage"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="@dimen/gn_screenMargin"
+            android:layout_marginBottom="@dimen/gn_screenMargin"
+            android:background="@drawable/background_button_white_r8"
+            android:onClick="noteDialog"
+            app:srcCompat="@drawable/all_icon_btn_pencil"
+            app:tint="@color/mainPrimary"/>
+
+        <ImageButton
+            android:id="@+id/pd_imageButton_delete"
+            style="@style/buttonImage"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="@dimen/gn_screenMargin"
+            android:layout_marginBottom="@dimen/gn_screenMargin"
+            android:background="@drawable/background_button_white_r8"
+            android:onClick="deletePhotoDialog"
+            android:visibility="visible"
+            app:srcCompat="@drawable/all_icon_btn_trash"
+            app:tint="@color/mainPrimary"/>
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        style="@style/panelMin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="18dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <LinearLayout style="@style/panelRowMin">
+
+            <TextView
+                android:id="@+id/textView6"
+                style="@style/panelValueStartMin"
+                android:text="@string/pd_latitude" />
+
+            <TextView style="@style/panelValueMiddle" />
+
+            <TextView
+                android:id="@+id/pd_textView_latitude"
+                style="@style/panelValueEndMin" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/panelRowMin">
+
+            <TextView
+                android:id="@+id/textView57"
+                style="@style/panelValueStartMin"
+                android:text="@string/pd_longitude" />
+
+            <TextView style="@style/panelValueMiddle" />
+
+            <TextView
+                android:id="@+id/pd_textView_longitude"
+                style="@style/panelValueEndMin" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/panelRowMin">
+
+            <TextView
+                android:id="@+id/textView63"
+                style="@style/panelValueStartMin"
+                android:text="@string/pd_created" />
+
+            <TextView style="@style/panelValueMiddle" />
+
+            <TextView
+                android:id="@+id/pd_textView_created"
+                style="@style/panelValueEndMin" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/panelRowMin">
+
+            <TextView
+                android:id="@+id/textView64"
+                style="@style/panelValueStartMin"
+                android:text="@string/pd_sended" />
+
+            <TextView style="@style/panelValueMiddle" />
+
+            <TextView
+                android:id="@+id/pd_textView_sent"
+                style="@style/panelValueEndMin" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/panelRowMin"
+            android:id="@+id/pd_netstat_layout"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView164"
+                style="@style/panelValueStartMin"
+                android:text="@string/pd_network_status" />
+
+            <TextView style="@style/panelValueMiddle" />
+
+            <TextView
+                android:id="@+id/pd_textView_netstat"
+                style="@style/panelValueEndMin" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/panelRowMin">
+
+            <TextView
+                android:id="@+id/textView76"
+                style="@style/panelValueStartMin"
+                android:text="@string/pd_note" />
+
+            <TextView style="@style/panelValueMiddle" />
+
+            <TextView
+                android:id="@+id/pd_textView_note"
+                style="@style/panelValueEndMin" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/panelRowMin">
+
+            <TextView
+                android:id="@+id/isOsnmaValidatedLabel"
+                style="@style/panelValueStartMin"
+                android:text="@string/pd_validated" />
+
+            <TextView style="@style/panelValueMiddle" />
+
+            <TextView
+                android:id="@+id/pd_OSNMAValidated"
+                style="@style/panelValueEndMin" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/panelRowMin"
+            android:id="@+id/valisatsLayout"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/validatedSatsLabel"
+                style="@style/panelValueStartMin"
+                android:text="@string/pd_validatedSats" />
+
+            <TextView style="@style/panelValueMiddle" />
+
+            <TextView
+                android:id="@+id/pd_validatedSats"
+                style="@style/panelValueEndMin" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

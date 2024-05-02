@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+
+            <LinearLayout
+                android:id="@+id/se_linearLayout_osnmavalidation"
+                style="@style/se_item"
+                android:onClick="switchOSNMAValidation"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    style="@style/se_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        style="@style/se_icon"
+                        app:srcCompat="@drawable/icon_setting_centroid"
+                        app:tint="@color/textNormal"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/se_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:text="@string/se_osnmavalidation" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/se_switch_buttonOSNMA"
+                    style="@style/se_switch"
+                    android:clickable="false" />
+
+            </LinearLayout>
+
+
+            <!--LinearLayout
+                style="@style/se_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="showGNSSLocationSettings"
+                android:orientation="horizontal"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    style="@style/se_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        style="@style/se_icon"
+                        app:srcCompat="@drawable/icon_setting_centroid" />
+
+                    <TextView
+                        style="@style/se_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/se_locationOptions" />
+                </LinearLayout>
+
+            </LinearLayout!-->
+
+            <LinearLayout
+                style="@style/se_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="showBluetoothSettings"
+                android:orientation="horizontal"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    style="@style/se_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        style="@style/se_icon"
+                        app:srcCompat="@drawable/ic_icon_bluetooth" />
+
+                    <TextView
+                        style="@style/se_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/se_bluetoothOptions" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/se_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="photoWithCentroidToggle"
+                android:orientation="horizontal"
+                tools:visibility="gone">
+
+                <LinearLayout
+                    style="@style/se_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView10"
+                        style="@style/se_icon"
+                        app:srcCompat="@drawable/icon_setting_centroid" />
+
+                    <TextView
+                        android:id="@+id/textView138"
+                        style="@style/se_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/se_photoWithCentroid" />
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/se_switch_photoWithCentroid"
+                    style="@style/se_switch"
+                    tools:checked="true" />
+
+            </LinearLayout>
+
+            <!--<LinearLayout
+                style="@style/se_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:visibility="gone">
+
+                <LinearLayout
+                    style="@style/se_content"
+                    android:onClick="showCentroidPositionFiltersSettings"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        style="@style/se_icon"
+                        app:srcCompat="@drawable/icon_setting_filters" />
+
+                    <TextView
+                        android:id="@+id/textView46"
+                        style="@style/se_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/se_filtersOfCentroidLocation" />
+                </LinearLayout>
+
+                <ImageView style="@style/se_switch_devider" />
+
+                <Switch
+                    android:id="@+id/se_switch_filterCentroidActive"
+                    style="@style/se_switch" />
+            </LinearLayout>-->
+
+            <LinearLayout
+                style="@style/se_itemCustom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView54"
+                        style="@style/se_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/se_samplingNumber" />
+
+                    <TextView
+                        android:id="@+id/se_textView_samplingNumber"
+                        style="@style/se_countValue"
+                        tools:text="[count]" />
+                </LinearLayout>
+
+                <com.erasmicoin.euspa.gsa.egnss4all.model.component.SeekBarAPI26
+                    android:id="@+id/se_seekBarAPI26_samplingNumber"
+                    style="@style/se_seekBar"
+                    android:max="10"
+                    android:progress="3" />
+
+                <Button
+                    android:id="@+id/se_button_default"
+                    style="@style/buttonTextWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/background_button_white_r8"
+                    android:onClick="centroidSamplingNumberDefault"
+                    android:text="@string/se_buttonDefault"
+                    android:textAllCaps="false"
+                    android:textColor="@color/mainPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/se_linearLayout_buttonSnapshot"
+                style="@style/se_item"
+                android:onClick="buttonSnapshotToggle"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    style="@style/se_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView12"
+                        style="@style/se_icon"
+                        app:srcCompat="@drawable/all_icon_btn_camera"
+                        app:tint="@color/textNormal"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView141"
+                            style="@style/se_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:text="@string/se_buttonToSnap" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textView78"
+                                style="@style/se_textSub"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:text="@string/se_buttonToSnapCode" />
+
+                            <TextView
+                                android:id="@+id/se_textView_buttonSnapKeyCode"
+                                style="@style/se_textSub"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/se_switch_buttonSnapshot"
+                    style="@style/se_switch"
+                    android:clickable="false" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/se_item"
+                android:onClick="manualBrightnessToggle"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    style="@style/se_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView11"
+                        style="@style/se_icon"
+                        app:srcCompat="@drawable/all_icon_btn_brightness"
+                        app:tint="@color/textNormal"/>
+
+                    <TextView
+                        android:id="@+id/textView84"
+                        style="@style/se_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/se_buttonManualBrightnessCorrection" />
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/se_switch_manualBrightness"
+                    style="@style/se_switch" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/se_item"
+                android:onClick="autoPanToggle"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    style="@style/se_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView139"
+                        style="@style/se_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/se_buttonAutoPan" />
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/se_switch_autoPan"
+                    style="@style/se_switch" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/se_item"
+                android:onClick="beepToggle"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    style="@style/se_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView140"
+                        style="@style/se_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/se_buttonBeep" />
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/se_switch_beep"
+                    style="@style/se_switch" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/se_itemCustom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/se_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/se_pointCapturePeriod" />
+
+                    <TextView
+                        android:id="@+id/se_textView_pointCapturePeriod"
+                        style="@style/se_countValue"
+                        tools:text="[seconds]" />
+                </LinearLayout>
+
+                <com.erasmicoin.euspa.gsa.egnss4all.model.component.SeekBarAPI26
+                    android:id="@+id/se_seekBarAPI26_pointCapturePeriod"
+                    style="@style/se_seekBar"
+                    android:max="60"
+                    android:progress="1" />
+
+                <Button
+                    android:id="@+id/se_button_pointCapturePeriodDefault"
+                    style="@style/buttonTextWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/background_button_white_r8"
+                    android:onClick="capturePointPeriodDefault"
+                    android:text="@string/se_buttonDefault"
+                    android:textAllCaps="false"
+                    android:textColor="@color/mainPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

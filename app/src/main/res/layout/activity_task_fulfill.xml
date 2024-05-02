@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/gn_screenMargin"
+        android:layout_marginTop="@dimen/gn_screenMargin"
+        android:layout_marginEnd="@dimen/gn_screenMargin"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:context=".TaskFulfillActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayout12"
+                style="@style/panel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    style="@style/panelHeader"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView8"
+                        style="@style/panelIcon"
+                        app:srcCompat="@drawable/all_icon_task"
+                        android:layout_width="32dp"
+                        app:tint="@color/mainPrimary"/>
+
+                    <TextView
+                        android:id="@+id/textView"
+                        style="@style/panelTitle"
+                        android:text="@string/tf_task" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/panelRow"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        style="@style/panelValueStart"
+                        android:text="@string/tf_id" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/tf_textView_id"
+                        style="@style/panelValueEnd" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/panelRow"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        style="@style/panelValueStart"
+                        android:text="@string/tf_name" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/tf_textView_name"
+                        style="@style/panelValueEnd" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/panelRow"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView14"
+                        style="@style/panelValueStart"
+                        android:text="@string/tf_status" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/tf_textView_status"
+                        style="@style/panelValueEnd" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/panelRow"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        style="@style/panelValueStart"
+                        android:text="@string/tf_dateCreated" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/tf_textView_dateCreated"
+                        style="@style/panelValueEnd" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/panelRow"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView10"
+                        style="@style/panelValueStart"
+                        android:text="@string/tf_taskDueDay" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/tf_textView_taskDueDate"
+                        style="@style/panelValueEnd" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                style="@style/panel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout12"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/textView16"
+                    style="@style/taskPanelTitle"
+                    android:text="@string/tf_instructions" />
+
+                <TextView
+                    android:id="@+id/tf_textView_text"
+                    style="@style/taskPanelText"
+                    android:autoLink="web" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                style="@style/panel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tf_linearLayout_textReturned">
+
+                <TextView
+                    android:id="@+id/textView18"
+                    style="@style/taskPanelTitle"
+                    android:text="@string/tf_note" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tf_textInputEditText_note"
+                        style="@style/textBold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusableInTouchMode="true" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                style="@style/panel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+                <LinearLayout
+                    style="@style/panelHeader"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView9"
+                        style="@style/panelIcon"
+                        app:srcCompat="@drawable/all_icon_picture"
+                        android:layout_width="32dp"
+                        app:tint="@color/mainPrimary"/>
+
+                    <TextView
+                        android:id="@+id/textView135"
+                        style="@style/panelTitle"
+                        android:layout_width="wrap_content"
+                        android:text="@string/tf_photos" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/panelRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:gravity="start"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/button5"
+                            style="@style/buttonTextGray"
+                            android:textColor="@color/mainPrimary"
+                            android:textFontWeight="700"
+                            android:layout_width="wrap_content"
+                            android:layout_height="45dp"
+                            android:background="@drawable/background_button_gray_r8"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:onClick="showMap"
+                            android:text="@string/tf_mapButton" />
+
+                        <ImageButton
+                            android:id="@+id/tf_imageButton_addPhoto"
+                            style="@style/buttonImage"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_marginStart="12dp"
+                            android:background="@drawable/background_button_gray_r8"
+                            android:onClick="getPhoto"
+                            android:scaleType="centerInside"
+                            app:srcCompat="@drawable/all_icon_btn_camera"
+                            app:tint="@color/mainPrimary"/>
+
+                        <ImageButton
+                            android:id="@+id/tf_imageButton_removePhoto"
+                            style="@style/buttonImage"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_marginStart="12dp"
+                            android:background="@drawable/background_button_gray_r8"
+                            android:onClick="removePhotoDialog"
+                            android:scaleType="centerInside"
+                            app:srcCompat="@drawable/all_icon_btn_trash"
+                            app:tint="@color/mainPrimary"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    style="@style/panelRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                    <ImageView
+                        android:id="@+id/tf_imageView_noPhoto"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="H,16:9"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/no_image" />
+
+                    <ViewFlipper
+                        android:id="@+id/tf_viewFlipper_photoFlipper"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:onClick="goToGallery"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="H,16:9"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        style="@style/panelValueStart"
+                        android:text="@string/tf_lat" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/tf_textView_lat"
+                        style="@style/panelValueEnd" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/textView11"
+                        style="@style/panelValueStart"
+                        android:text="@string/tf_lng" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/tf_textView_lng"
+                        style="@style/panelValueEnd" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/tf_textView_created"
+                        style="@style/panelValueStart"
+                        android:text="@string/tf_photoCreated" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/tf_textView_photoCreated"
+                        style="@style/panelValueEnd" />
+                </LinearLayout>
+                <LinearLayout style="@style/panelRow"
+                    android:id="@+id/tf_netstat_layout">
+                    <TextView
+                        android:id="@+id/tf_textView_netstat"
+                        style="@style/panelValueStart"
+                        android:text="@string/tf_netstat" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/tf_textView_netstat_value"
+                        style="@style/panelValueEnd" />
+                </LinearLayout>
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/tf_textView_osnma_validated"
+                        style="@style/panelValueStart"
+                        android:text="@string/tf_osnmaValidated" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/tf_textView_osnmaValidated_value"
+                        style="@style/panelValueEnd" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+                <Button
+                    android:id="@+id/button7"
+                    style="@style/taskPhotoNavigationButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/all_icon_btn_back"
+                    android:drawableTint="@color/mainPrimary"
+                    android:drawablePadding="8dp"
+                    android:onClick="previousPhoto"
+                    android:paddingStart="0dp"
+                    android:text="@string/tf_previousPhoto"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tf_textView_counter"
+                    style="@style/textBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textFontWeight="700"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/button7"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="[count]" />
+
+                <Button
+                    android:id="@+id/button9"
+                    style="@style/taskPhotoNavigationButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/all_icon_btn_next"
+                    android:drawableTint="@color/mainPrimary"
+                    android:drawablePadding="8dp"
+                    android:onClick="nextPhoto"
+                    android:text="@string/tf_nextPhoto"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/tf_button_send"
+                style="@style/buttonTextPrimary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:onClick="checkPendingValidations"
+                android:text="@string/tf_send"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+            <ProgressBar
+                android:id="@+id/tf_progressBar_sending"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+            <LinearLayout
+                android:id="@+id/tf_linearLayout_textReturned"
+                style="@style/panel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+                tools:visibility="gone">
+
+                <TextView
+                    android:id="@+id/textView79"
+                    style="@style/taskPanelTitle"
+                    android:text="@string/tf_reasonForReturn" />
+
+                <TextView
+                    android:id="@+id/tf_textView_textReturned"
+                    style="@style/taskPanelText" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
+

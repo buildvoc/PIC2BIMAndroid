@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TaskPhotoGalleryActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/tpg_viewPager2_photoPager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" >
+
+    </androidx.viewpager2.widget.ViewPager2>
+
+    <LinearLayout
+        style="@style/panel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="18dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <LinearLayout
+            style="@style/panelRowFirstMin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView85"
+                style="@style/panelValueStartMin"
+                android:text="@string/tpg_taskId" />
+
+            <TextView style="@style/panelValueMiddle" />
+
+            <TextView
+                android:id="@+id/tpg_textView_taskId"
+                style="@style/panelValueEndMin" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/panelRowMin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView87"
+                style="@style/panelValueStartMin"
+                android:text="@string/tpg_order" />
+
+            <TextView style="@style/panelValueMiddle" />
+
+            <TextView
+                android:id="@+id/tpg_textView_order"
+                style="@style/panelValueEndMin" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/panelRowMin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView89"
+                style="@style/panelValueStartMin"
+                android:text="@string/tpg_latitude" />
+
+            <TextView style="@style/panelValueMiddle" />
+
+            <TextView
+                android:id="@+id/tpg_textView_latitude"
+                style="@style/panelValueEndMin" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/panelRowMin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView90"
+                style="@style/panelValueStartMin"
+                android:text="@string/tpg_longitude" />
+
+            <TextView style="@style/panelValueMiddle" />
+
+            <TextView
+                android:id="@+id/tpg_textView_longitude"
+                style="@style/panelValueEndMin" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/panelRowMin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView93"
+                style="@style/panelValueStartMin"
+                android:text="@string/tpg_created" />
+
+            <TextView style="@style/panelValueMiddle" />
+
+            <TextView
+                android:id="@+id/tpg_textView_created"
+                style="@style/panelValueEndMin" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/panelRowMin"
+            android:id="@+id/tpg_netstat_layout"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView164"
+                style="@style/panelValueStartMin"
+                android:text="@string/pd_network_status" />
+
+            <TextView style="@style/panelValueMiddle" />
+
+            <TextView
+                android:id="@+id/tpg_textView_netstat"
+                style="@style/panelValueEndMin" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/panelRowMin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView94"
+                style="@style/panelValueStartMin"
+                android:text="@string/tpg_osnma_validated" />
+
+            <TextView style="@style/panelValueMiddle" />
+
+            <TextView
+                android:id="@+id/tpg_textView_osnma"
+                style="@style/panelValueEndMin" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            style="@style/panelRowMin"
+            android:visibility="gone"
+            android:id="@+id/tpg_layout_valisats"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView95"
+                style="@style/panelValueStartMin"
+                android:text="@string/tpg_osnma_valisats" />
+
+            <TextView style="@style/panelValueMiddle" />
+
+            <TextView
+                android:id="@+id/tpg_textView_osnma_valisats"
+                style="@style/panelValueEndMin" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/tpg_imageButton_delete"
+        style="@style/buttonImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/background_button_white_r8"
+        android:onClick="deletePhotoDialog"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/all_icon_btn_trash"
+        app:tint="@color/mainPrimary"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout12"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            style="@style/buttonImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/background_button_white_r8"
+            android:onClick="nextPhoto"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/all_icon_btn_next"
+            app:tint="@color/mainPrimary"/>
+
+        <ImageButton
+            android:id="@+id/imageButton3"
+            style="@style/buttonImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/background_button_white_r8"
+            android:onClick="previousPhoto"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/all_icon_btn_back"
+            app:tint="@color/mainPrimary"/>
+
+        <TextView
+            android:id="@+id/tpg_textView_photoCounter"
+            style="@style/buttonTextWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:textColor="@color/mainPrimary"
+            android:text="0/0"
+            android:textFontWeight="700"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

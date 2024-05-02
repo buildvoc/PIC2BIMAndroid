@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/ap_white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView13"
+        style="@style/panelTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cgs_title"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="18dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cgs_radio_group"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <RadioGroup
+        android:id="@+id/cgs_radio_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/cgs_btn_confirm_server"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" >
+
+        <RadioButton
+            android:id="@+id/cgs_default_server"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            style="@style/textLabel"
+            android:text="@string/cgs_default_server" />
+        <RadioButton
+            android:id="@+id/cgs_custom_server"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/textLabel"
+            android:text="@string/cgs_custom_server" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/cgs_textInputLayout_server"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp"
+            android:paddingTop="0dp"
+            android:layout_marginBottom="12dp"
+            android:baselineAligned="true"
+            app:hintEnabled="true"
+            app:passwordToggleEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:enabled="false"
+                android:id="@+id/cgs_textInputEditText_server"
+                style="@style/editText"
+                android:layout_marginHorizontal="8dp"
+                android:layout_width="match_parent"
+                android:hint="@string/cgs_url_hint"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/cgs_textView_msg"
+            style="@style/textRed"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:visibility="invisible"
+            android:text="@string/cgs_wrong_url"/>
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/cgs_btn_confirm_server"
+        style="@style/buttonTextPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="120dp"
+        android:layout_marginBottom="18dp"
+        android:text="@string/cgs_confirm_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Deprecated -->
+    <color name="colorPrimary">#E4ECF7</color>
+    <color name="colorPrimaryDark">#4A6FB5</color>
+    <color name="colorAccent">#5F95FF</color>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="grayBackground">#F2F6FB</color>
+
+    <color name="mainPrimary">#5F95FF</color>
+    <color name="mainSecondary">#4A6FB5</color>
+    <color name="transparent">#00000000</color>
+
+<!--    <color name="textEditBackgroundGray">#E9EBFC</color>-->
+
+    <color name="buttonBackgroundPrimary">@color/mainPrimary</color>
+    <color name="buttonBackgroundGray">#E9EBFC</color>
+
+    <color name="textBold">#2D3142</color>
+    <color name="textNormal">#2D3142</color>
+    <color name="textRed">#E51414</color>
+    <color name="textBlue">#1814E5</color>
+    <color name="textSettingsSub">#992D3142</color>
+
+    <color name="switchTrackActive">@color/mainPrimary</color>
+    <color name="switchTrackInactive">#332D3142</color>
+
+    <color name="stateDisabled">#AAAAAA</color>
+
+</resources>

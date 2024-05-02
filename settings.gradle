@@ -1,0 +1,8 @@
+include ':gnss_compare_core:GoGpsExtracts'
+include ':gnss_compare_core:mylibrary'
+include ':gnss_compare_core'
+include ':convex_hull'
+include ':gnss_scan'
+rootProject.name='EGNSS4ALL'
+include ':app'
+include ':ELFA'

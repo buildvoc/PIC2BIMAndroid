@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingFilterActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/se_item"
+                android:onClick="filterActiveToggle"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    style="@style/se_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView13"
+                        style="@style/se_icon"
+                        app:srcCompat="@drawable/all_icon_settings"
+                        android:tint="@color/mainPrimary"/>
+
+                    <TextView
+                        android:id="@+id/textView44"
+                        style="@style/se_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/se_filtersOfCentroidLocation"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/sef_switch_filterActive"
+                    style="@style/se_switch" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/se_itemCustom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <TextView
+                        android:id="@+id/textView49"
+                        style="@style/se_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sef_hdopMin" />
+
+                    <TextView
+                        android:id="@+id/sef_textView_hdopMin"
+                        style="@style/se_countValue" />
+                </LinearLayout>
+
+                <com.erasmicoin.euspa.gsa.egnss4all.model.component.SeekBarAPI26
+                    android:id="@+id/sef_seekBar_hdopMin"
+                    style="@style/se_seekBar"
+                    android:max="10"
+                    android:progress="3" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/se_itemCustom"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView51"
+                        style="@style/se_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sef_minSatNumber" />
+
+                    <TextView
+                        android:id="@+id/sef_textView_minSatNumber"
+                        style="@style/se_countValue" />
+                </LinearLayout>
+
+                <com.erasmicoin.euspa.gsa.egnss4all.model.component.SeekBarAPI26
+                    android:id="@+id/sef_seekBar_minSatNumber"
+                    style="@style/se_seekBar"
+                    android:max="10"
+                    android:progress="3" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/se_itemCustom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView55"
+                        style="@style/se_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sef_minMeanSnr" />
+
+                    <TextView
+                        android:id="@+id/sef_textView_minMeanSnr"
+                        style="@style/se_countValue" />
+                </LinearLayout>
+
+                <com.erasmicoin.euspa.gsa.egnss4all.model.component.SeekBarAPI26
+                    android:id="@+id/sef_seekBar_minMeanSnr"
+                    style="@style/se_seekBar"
+                    android:max="10"
+                    android:progress="3" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/se_itemCustom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView53"
+                        style="@style/se_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sef_minFix" />
+
+                    <TextView
+                        android:id="@+id/sef_textView_minFix"
+                        style="@style/se_countValue" />
+                </LinearLayout>
+
+                <com.erasmicoin.euspa.gsa.egnss4all.model.component.SeekBarAPI26
+                    android:id="@+id/sef_seekBar_minFix"
+                    style="@style/se_seekBar"
+                    android:max="10"
+                    android:progress="3" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/sef_button_toDefault"
+                style="@style/buttonTextPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/gn_screenMargin"
+                android:text="@string/sef_setToDefault"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

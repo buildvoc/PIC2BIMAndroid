@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="3"
+    tools:context=".UnownedPhotoDetailActivity">
+
+
+    <ImageView
+        android:id="@+id/pd_imageView_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scaleType="fitCenter"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="horizontal">
+
+        <fragment
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:id="@+id/map"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            map:cameraZoom="16"
+            map:mapType="normal"
+            map:liteMode="true"/>
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/mapImage"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            tools:srcCompat="@tools:sample/avatars"
+            android:contentDescription="MapImage" />
+
+        <LinearLayout
+            style="@style/panelMin"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout style="@style/panelRowMin">
+
+                <TextView
+                    android:id="@+id/textView6"
+                    style="@style/panelValueStartMin"
+                    android:text="@string/pd_latitude" />
+
+                <TextView style="@style/panelValueMiddle" />
+
+                <TextView
+                    android:id="@+id/pd_textView_latitude"
+                    style="@style/panelValueEndMin" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/panelRowMin">
+
+                <TextView
+                    android:id="@+id/textView57"
+                    style="@style/panelValueStartMin"
+                    android:text="@string/pd_longitude" />
+
+                <TextView style="@style/panelValueMiddle" />
+
+                <TextView
+                    android:id="@+id/pd_textView_longitude"
+                    style="@style/panelValueEndMin" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/panelRowMin">
+
+                <TextView
+                    android:id="@+id/textView63"
+                    style="@style/panelValueStartMin"
+                    android:text="@string/pd_created" />
+
+                <TextView style="@style/panelValueMiddle" />
+
+                <TextView
+                    android:id="@+id/pd_textView_created"
+                    style="@style/panelValueEndMin" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/panelRowMin">
+
+                <TextView
+                    android:id="@+id/textView64"
+                    style="@style/panelValueStartMin"
+                    android:text="@string/pd_sended" />
+
+                <TextView style="@style/panelValueMiddle" />
+
+                <TextView
+                    android:id="@+id/pd_textView_sent"
+                    style="@style/panelValueEndMin" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/panelRowMin">
+
+                <TextView
+                    android:id="@+id/textView76"
+                    style="@style/panelValueStartMin"
+                    android:text="@string/pd_note" />
+
+                <TextView style="@style/panelValueMiddle" />
+
+                <TextView
+                    android:id="@+id/pd_textView_note"
+                    style="@style/panelValueEndMin" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/panelRowMin">
+
+                <TextView
+                    android:id="@+id/isOsnmaValidatedLabel"
+                    style="@style/panelValueStartMin"
+                    android:text="@string/pd_validated" />
+
+                <TextView style="@style/panelValueMiddle" />
+
+                <TextView
+                    android:id="@+id/pd_OSNMAValidated"
+                    style="@style/panelValueEndMin" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/valisatsLayout"
+                style="@style/panelRowMin"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/validatedSatsLabel"
+                    style="@style/panelValueStartMin"
+                    android:text="@string/pd_validatedSats" />
+
+                <TextView style="@style/panelValueMiddle" />
+
+                <TextView
+                    android:id="@+id/pd_validatedSats"
+                    style="@style/panelValueEndMin" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

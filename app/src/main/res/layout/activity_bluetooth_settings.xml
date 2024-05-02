@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:orientation="horizontal">
+        <TextView
+            style="@style/se_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:textSize="20sp"
+            android:text="@string/bts_enableExternal">
+
+        </TextView>
+        <Switch
+            android:id="@+id/bts_switch_external"
+            android:onClick="externalDeviceToggle"
+            style="@style/se_switch" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/selectedDeviceItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:visibility="gone"
+        android:orientation="horizontal">
+        <TextView
+            style="@style/se_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:gravity="start"
+            android:text="@string/bts_selectedDevice">
+
+        </TextView>
+        <TextView
+            android:id="@+id/selectedDevice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bts_no_device_selected"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/scanDevices"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="scanDevices"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:text="Scan for devices"/>
+
+    <Button
+        android:id="@+id/testConnection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="testConnection"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:text="Test connection"/>
+
+</LinearLayout>

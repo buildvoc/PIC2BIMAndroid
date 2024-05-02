@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsGNSSLocationActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <ScrollView
+        android:id="@+id/settingsscroller"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/sla_constellationSelect"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/constSelection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/galileoE1btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:text="@string/sla_galileoe1" />
+
+                <RadioButton
+                    android:id="@+id/galileoE1btn2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:minHeight="48dp"
+                    android:text="@string/sla_galileoe1osnma" />
+
+                <RadioButton
+                    android:id="@+id/galileoe5btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:text="@string/sla_galileoe5" />
+
+                <RadioButton
+                    android:id="@+id/galileogpsbtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:text="@string/sla_galileogps" />
+
+                <RadioButton
+                    android:id="@+id/galileoionobtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:text="@string/sla_galileoiono" />
+
+                <RadioButton
+                    android:id="@+id/gpsbtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="@string/sla_gps" />
+
+                <RadioButton
+                    android:id="@+id/gpsionobtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="@string/sla_gpsiono" />
+
+                <RadioButton
+                    android:id="@+id/gpsl5btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:text="@string/sla_gpsl5" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/sla_correctionSelect"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/shapirobtn"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:minHeight="48dp"
+                android:text="@string/sla_shapirocorr" />
+
+            <CheckBox
+                android:id="@+id/ionobtn"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:minHeight="48dp"
+                android:text="@string/sla_ionocorr" />
+
+            <CheckBox
+                android:id="@+id/tropobtn"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="@string/sla_tropocorr" />
+
+            <Switch
+                android:id="@+id/switchsbas"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:switchPadding="8dp"
+                android:layout_weight="1"
+                android:text="@string/sla_sbasdgnss"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/sbassettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/editTextEDASUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:hint="@string/sl_edasusrphd" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColorHint="#B9B8B8"
+                    app:passwordToggleEnabled="true">
+                    <EditText
+                        android:id="@+id/editTextEDASPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/sl_edaspwdphd"
+                        android:inputType="textPassword" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <Button
+                    android:id="@+id/testEDASCredentials"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="testEDASCredentials"
+                    android:text="@string/sl_test_credentials">
+                </Button>
+
+                <RadioGroup
+                    android:id="@+id/sbasdgnss"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <RadioButton
+                        android:id="@+id/dgnss"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sla_dgnsscorr" />
+
+                    <RadioButton
+                        android:id="@+id/sbas"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sla_sbascorr" />
+                </RadioGroup>
+
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/sla_pvtmethod"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+            <RadioGroup
+                android:id="@+id/pvtMethodSelection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/dekfbtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="@string/sla_dekf" />
+
+                <RadioButton
+                    android:id="@+id/sekfbtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="@string/sla_sekf" />
+
+                <RadioButton
+                    android:id="@+id/pekfbtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:minHeight="48dp"
+                    android:text="@string/sla_pekf" />
+
+                <RadioButton
+                    android:id="@+id/wlsbtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="@string/sla_wlspvt" />
+            </RadioGroup>
+
+            <!--<Switch
+                android:id="@+id/switchkalman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:switchPadding="8dp"
+                android:minHeight="48dp"
+                android:text="@string/sla_kalman"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/seekbarLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/sla_samples"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/seekbarlay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="8">
+
+                <EditText
+                    android:id="@+id/seekbarText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="number">
+
+                </EditText>
+
+                <SeekBar
+                    android:id="@+id/seekBarCamp"
+                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="7"
+                    android:max="20"
+                    android:min="3"
+                    android:progress="3" />
+
+            </LinearLayout>-->
+
+            <Button
+                android:id="@+id/defaultbtn"
+                android:layout_marginVertical="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="resetDefaults"
+                android:text="Defaults" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

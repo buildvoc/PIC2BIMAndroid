@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="1.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/gn_screenMargin"
+            tools:context=".GnssRawActivity">
+
+            <FrameLayout
+                android:id="@+id/gnss_frameLayout_basicInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout16"
+                style="@style/panel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gnss_frameLayout_basicInfo"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    style="@style/panelHeader"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView14"
+                        style="@style/panelIcon"
+                        android:layout_width="32dp"
+                        app:srcCompat="@drawable/all_icon_sat"
+                        app:tint="@color/mainPrimary"/>
+
+                    <TextView
+                        android:id="@+id/textView142"
+                        style="@style/panelTitle"
+                        android:text="@string/gnss_satInfo" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/panelRow"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/gnss_textView_satInUseTitle"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_satInUse" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_satInUse"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/panelRow"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/gnss_textView_satInViewTitle"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_satInView" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_satInView"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/panelRow"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/gnss_textView_egnosTitle"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_egnos" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_egnos"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/panelRow"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView52"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_meanSnr" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_meanSnr"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout17"
+                style="@style/panel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout16"
+                tools:visibility="visible">
+
+                <LinearLayout style="@style/panelHeader">
+
+                    <ImageView
+                        android:id="@+id/imageView15"
+                        style="@style/panelIcon"
+                        android:layout_width="32dp"
+                        app:tint="@color/mainPrimary"
+                        app:srcCompat="@drawable/all_icon_location" />
+
+                    <TextView
+                        android:id="@+id/textView22"
+                        style="@style/panelTitle"
+                        android:text="@string/gnss_geolocationInfo" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/textView26"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_latitude" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_latitude"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/textView34"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_longitude" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_longitude"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/textView36"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_altitude" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_altitude"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/textView40"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_NS" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_NS"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/textView43"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_EW" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_EW_geoInfo"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/textView45"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_fixQuality" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_fixQuality"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/textView48"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_hdop" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_HDOP"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/textView50"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_pdop" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_PDOP"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_vdop" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_VDOP"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_accurancy" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_accuracy"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_precision" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_precision"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout5"
+                style="@style/panel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout17"
+                tools:visibility="visible">
+
+                <LinearLayout style="@style/panelHeader">
+
+                    <ImageView
+                        android:id="@+id/imageView16"
+                        style="@style/panelIcon"
+                        android:layout_width="32dp"
+                        app:srcCompat="@drawable/all_icon_location"
+                        app:tint="@color/mainPrimary"/>
+
+                    <TextView
+                        android:id="@+id/textView38"
+                        style="@style/panelTitle"
+                        android:text="@string/gnss_vtgInfo" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/textView39"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_trueDegrees" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_trueDegrees"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/textView41"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_magneticDegrees" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_magneticDegrees"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/gnss_textView_speedKnotsVTGTitle"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_speedKnots" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_speedKnotsVTG"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/gnss_textView_speedKmhVTGTitle"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_speedKmh" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_speedKmhVTG"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/linearLayout18"
+                style="@style/panel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
+                tools:visibility="visible">
+
+                <LinearLayout style="@style/panelHeader">
+
+                    <ImageView
+                        android:id="@+id/imageView17"
+                        style="@style/panelIcon"
+                        android:layout_width="32dp"
+                        app:srcCompat="@drawable/all_icon_location"
+                        app:tint="@color/mainPrimary"/>
+
+                    <TextView
+                        android:id="@+id/textView12"
+                        style="@style/panelTitle"
+                        android:text="@string/gnss_rmcInfo" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/textView21"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_magneticVariation" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_magneticVariation"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/textView24"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_EW" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_EWRMC"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/textView32"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_TrueNorthAngle" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_trueNorthAngle"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/gnss_textView_speedKnotsTitle"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_speedKnots" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_speedKnotsRMC"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <TextView
+                        android:id="@+id/gnss_textView_speedKmhTitle"
+                        style="@style/panelValueStart"
+                        android:text="@string/gnss_speedKmh" />
+
+                    <TextView style="@style/panelValueMiddle" />
+
+                    <TextView
+                        android:id="@+id/gnss_textView_speedKmhRMC"
+                        style="@style/panelValueEnd"
+                        android:text="@string/gnss_nd" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/panel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout18">
+
+                <LinearLayout style="@style/panelHeader">
+
+                    <ImageView
+                        style="@style/panelIcon"
+                        android:layout_width="32dp"
+                        app:srcCompat="@drawable/all_icon_sat"
+                        app:tint="@color/mainPrimary"/>
+
+                    <TextView
+                        style="@style/panelTitle"
+                        android:text="@string/gnss_satellites" />
+
+                </LinearLayout>
+
+                <LinearLayout style="@style/panelRow">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout style="@style/gnss_satsPanel">
+
+                            <LinearLayout style="@style/panelRowMin">
+
+                                <TextView
+                                    style="@style/gnss_satsPanelTitle"
+                                    android:text="@string/gnss_galileoSats" />
+                            </LinearLayout>
+
+                            <LinearLayout style="@style/panelRowMin">
+
+                                <com.erasmicoin.euspa.gsa.egnss4all.model.component.DynamicListView
+                                    android:id="@+id/gnss_listView_galileo"
+                                    style="@style/gnss_satsList" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="8dp" />
+
+                        <LinearLayout style="@style/gnss_satsPanel">
+
+                            <LinearLayout style="@style/panelRowMin">
+
+                                <TextView
+                                    style="@style/gnss_satsPanelTitle"
+                                    android:text="@string/gnss_glonassSats" />
+                            </LinearLayout>
+
+                            <LinearLayout style="@style/panelRowMin">
+
+                                <com.erasmicoin.euspa.gsa.egnss4all.model.component.DynamicListView
+                                    android:id="@+id/gnss_listView_glonass"
+                                    style="@style/gnss_satsList" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="8dp"
+                        android:layout_height="match_parent" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout style="@style/gnss_satsPanel">
+
+                            <LinearLayout style="@style/panelRowMin">
+
+                                <TextView
+                                    style="@style/gnss_satsPanelTitle"
+                                    android:text="@string/gnss_gpsSats" />
+
+                            </LinearLayout>
+
+                            <LinearLayout style="@style/panelRowMin">
+
+                                <com.erasmicoin.euspa.gsa.egnss4all.model.component.DynamicListView
+                                    android:id="@+id/gnss_listView_gps"
+                                    style="@style/gnss_satsList" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="8dp" />
+
+                        <LinearLayout style="@style/gnss_satsPanel">
+
+                            <LinearLayout style="@style/panelRowMin">
+
+                                <TextView
+                                    style="@style/gnss_satsPanelTitle"
+                                    android:text="@string/gnss_beidouSats" />
+                            </LinearLayout>
+
+                            <LinearLayout style="@style/panelRowMin">
+
+                                <com.erasmicoin.euspa.gsa.egnss4all.model.component.DynamicListView
+                                    android:id="@+id/gnss_listView_beidou"
+                                    style="@style/gnss_satsList" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.erasmicoin.euspa.gsa.egnss4all">
+
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS"/>
+
+    <uses-feature android:name="android.hardware.camera.any" />
+
+    <application
+        android:name="com.erasmicoin.euspa.gsa.egnss4all.Launcher"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="EGNSS4ALL"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name="com.erasmicoin.euspa.gsa.egnss4all.model.mock.EkfMock" />
+        <activity android:name="com.erasmicoin.euspa.gsa.egnss4all.model.mock.LocationMock" />
+
+        <service
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.model.pathTrack.PTService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.model.convexHullMap.CHService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <activity android:name="com.erasmicoin.euspa.gsa.egnss4all.model.mock.MockQuickHullActivity" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_key" />
+
+        <meta-data android:name="@string/meta_appMode_name" android:value="@string/meta_appMode_gsa"/>
+
+        <activity
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.StartActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="EGNSS4ALL"
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/FullscreenTheme"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.PermissionActivity"
+            android:label="@string/title_permissions"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.erasmicoin.euspa.gsa.egnss4all.StartActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.erasmicoin.euspa.gsa.egnss4all.StartActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.MainActivity"
+            android:label="@string/title_home"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.erasmicoin.euspa.gsa.egnss4all.StartActivity"
+            android:screenOrientation="sensorPortrait" /> <!-- main -->
+        <activity
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.TaskOverviewActivity"
+            android:label="@string/menu_taskOverview"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.erasmicoin.euspa.gsa.egnss4all.MainActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.MapActivity"
+            android:label="@string/title_map"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.erasmicoin.euspa.gsa.egnss4all.MainActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.PathTrackingOverviewActivity"
+            android:label="@string/title_pathTrackingOverview"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.erasmicoin.euspa.gsa.egnss4all.MapActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.TaskFulfillActivity"
+            android:label="@string/title_taskFulfill"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.erasmicoin.euspa.gsa.egnss4all.TaskOverviewActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.TaskPhotoGalleryActivity"
+            android:label="@string/title_taskPhotoGallery"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.erasmicoin.euspa.gsa.egnss4all.TaskFulfillActivity"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.UnownedPhotoOverviewActivity"
+            android:label="@string/title_unownedPhotos"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.erasmicoin.euspa.gsa.egnss4all.MainActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.UnownedPhotoDetailActivity"
+            android:label="@string/title_photoDetail"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.erasmicoin.euspa.gsa.egnss4all.UnownedPhotoOverviewActivity"
+            android:screenOrientation="fullSensor"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.CameraActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/ca_camera"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.erasmicoin.euspa.gsa.egnss4all.MainActivity"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.SettingsActivity"
+            android:label="@string/title_settings"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.erasmicoin.euspa.gsa.egnss4all.MainActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.SettingFilterActivity"
+            android:label="@string/title_setFilterCentroid"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.erasmicoin.euspa.gsa.egnss4all.SettingsActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.GnssRawActivity"
+            android:label="@string/title_gnnsRawData"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.erasmicoin.euspa.gsa.egnss4all.MainActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.GnssSkyMapActivity"
+            android:label="@string/title_gnnsSkyMap"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.erasmicoin.euspa.gsa.egnss4all.MainActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.AboutActivity"
+            android:label="@string/title_about"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.erasmicoin.euspa.gsa.egnss4all.MainActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name="com.erasmicoin.euspa.gsa.egnss4all.model.mock.MockSensorActivity"
+            android:label="Mock sensor activity"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.erasmicoin.euspa.gsa.egnss4all.StartActivity"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".SettingsGNSSLocationActivity"
+            android:label="@string/title_GNSSLocationSettings"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.erasmicoin.euspa.gsa.egnss4all.SettingsActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".BluetoothSettingsActivity"
+            android:label="@string/se_bluetoothOptions"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.erasmicoin.euspa.gsa.egnss4all.SettingsActivity"
+            android:screenOrientation="sensorPortrait" />
+
+        <service android:name="com.erasmicoin.euspa.gsa.egnss4all.MainService" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.erasmicoin.euspa.gsa.egnss4all.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>
