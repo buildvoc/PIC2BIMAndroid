@@ -199,23 +199,15 @@ public class SettingsGNSSLocationActivity extends BaseActivity {
         methodGr.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch (i){
-                    case R.id.dekfbtn:
-                        GNSSSettingsStore.savePositionPositioningMethod(getApplicationContext(), GNSSSettingsStore.DEK_FILTER_METHOD);
-                        break;
-                    case R.id.sekfbtn:
-                        GNSSSettingsStore.savePositionPositioningMethod(getApplicationContext(), GNSSSettingsStore.SEK_FILTER_METHOD);
-                        break;
-                    case R.id.pekfbtn:
-                        GNSSSettingsStore.savePositionPositioningMethod(getApplicationContext(), GNSSSettingsStore.PSEK_FILTER_METHOD);
-                        break;
-                    case R.id.wlsbtn:
-                        GNSSSettingsStore.savePositionPositioningMethod(getApplicationContext(), GNSSSettingsStore.WLS_METHOD);
-                        break;
-                    default:
-                        break;
+                if (i == R.id.dekfbtn) {
+                    GNSSSettingsStore.savePositionPositioningMethod(getApplicationContext(), GNSSSettingsStore.DEK_FILTER_METHOD);
+                } else if (i == R.id.sekfbtn) {
+                    GNSSSettingsStore.savePositionPositioningMethod(getApplicationContext(), GNSSSettingsStore.SEK_FILTER_METHOD);
+                } else if (i == R.id.pekfbtn) {
+                    GNSSSettingsStore.savePositionPositioningMethod(getApplicationContext(), GNSSSettingsStore.PSEK_FILTER_METHOD);
+                } else if (i == R.id.wlsbtn) {
+                    GNSSSettingsStore.savePositionPositioningMethod(getApplicationContext(), GNSSSettingsStore.WLS_METHOD);
                 }
-
             }
         });
         constellationGr.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -236,33 +228,22 @@ public class SettingsGNSSLocationActivity extends BaseActivity {
                     sbassettings.setVisibility(GNSSSettingsStore.readPositionSBASActive(getApplicationContext()) ? View.VISIBLE : View.GONE);
 
                 }
-                switch (i){
-                    case R.id.galileoE1btn:
-                        GNSSSettingsStore.savePositionConstellation(getApplicationContext(), GNSSSettingsStore.GALILEO_E1_CONSTELLATION);
-                        break;
-                    case R.id.galileoE1btn2:
-                        GNSSSettingsStore.savePositionConstellation(getApplicationContext(), GNSSSettingsStore.GALILEO_E1_OSNMA_CONSTELLATION);
-                        break;
-                    case R.id.galileoe5btn:
-                        GNSSSettingsStore.savePositionConstellation(getApplicationContext(), GNSSSettingsStore.GALILEO_E5_CONSTELLATION);
-                        break;
-                    case R.id.galileogpsbtn:
-                        GNSSSettingsStore.savePositionConstellation(getApplicationContext(), GNSSSettingsStore.GALILEO_GPS_CONSTELLATION);
-                        break;
-                    case R.id.galileoionobtn:
-                        GNSSSettingsStore.savePositionConstellation(getApplicationContext(), GNSSSettingsStore.GALILEO_IONOFREE_CONSTELLATION);
-                        break;
-                    case R.id.gpsbtn:
-                        GNSSSettingsStore.savePositionConstellation(getApplicationContext(), GNSSSettingsStore.GPS_CONSTELLATION);
-                        break;
-                    case R.id.gpsionobtn:
-                        GNSSSettingsStore.savePositionConstellation(getApplicationContext(), GNSSSettingsStore.GPS_IONOFREE_CONSTELLATION);
-                        break;
-                    case R.id.gpsl5btn:
-                        GNSSSettingsStore.savePositionConstellation(getApplicationContext(), GNSSSettingsStore.GPS_L5_CONSTELLATION);
-                        break;
-                    default:
-                        break;
+                if (i == R.id.galileoE1btn) {
+                    GNSSSettingsStore.savePositionConstellation(getApplicationContext(), GNSSSettingsStore.GALILEO_E1_CONSTELLATION);
+                } else if (i == R.id.galileoE1btn2) {
+                    GNSSSettingsStore.savePositionConstellation(getApplicationContext(), GNSSSettingsStore.GALILEO_E1_OSNMA_CONSTELLATION);
+                } else if (i == R.id.galileoe5btn) {
+                    GNSSSettingsStore.savePositionConstellation(getApplicationContext(), GNSSSettingsStore.GALILEO_E5_CONSTELLATION);
+                } else if (i == R.id.galileogpsbtn) {
+                    GNSSSettingsStore.savePositionConstellation(getApplicationContext(), GNSSSettingsStore.GALILEO_GPS_CONSTELLATION);
+                } else if (i == R.id.galileoionobtn) {
+                    GNSSSettingsStore.savePositionConstellation(getApplicationContext(), GNSSSettingsStore.GALILEO_IONOFREE_CONSTELLATION);
+                } else if (i == R.id.gpsbtn) {
+                    GNSSSettingsStore.savePositionConstellation(getApplicationContext(), GNSSSettingsStore.GPS_CONSTELLATION);
+                } else if (i == R.id.gpsionobtn) {
+                    GNSSSettingsStore.savePositionConstellation(getApplicationContext(), GNSSSettingsStore.GPS_IONOFREE_CONSTELLATION);
+                } else if (i == R.id.gpsl5btn) {
+                    GNSSSettingsStore.savePositionConstellation(getApplicationContext(), GNSSSettingsStore.GPS_L5_CONSTELLATION);
                 }
             }
         });

@@ -30,7 +30,7 @@ public class CameraExposureCorrector {
 
     @SuppressLint("UnsafeExperimentalUsageError")
     public void init(Camera camera) {
-        String cameraId = Camera2CameraInfo.extractCameraId(camera.getCameraInfo());
+        String cameraId = getCameraId(camera);
         CameraManager cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         CameraCharacteristics cameraCharacteristics;
         try {
@@ -60,6 +60,10 @@ public class CameraExposureCorrector {
         }
         isAvailable = false;
         isInitilized = true;
+    }
+
+    private static String getCameraId(Camera camera) {
+        return getCameraId(camera);
     }
 
     public void setCorrection(int correction) {

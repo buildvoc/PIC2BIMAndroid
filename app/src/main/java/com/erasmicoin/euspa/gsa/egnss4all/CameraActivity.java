@@ -585,7 +585,7 @@ public class CameraActivity extends BaseActivity implements CameraXConfig.Provid
             cameraProvider.unbind(preview);
         }
         preview = previewBuilder.build();
-        preview.setSurfaceProvider(previewView.createSurfaceProvider());
+        preview.setSurfaceProvider(previewView.getSurfaceProvider());
         camera = cameraProvider.bindToLifecycle(this, acquireCameraSelector(), preview);
         cameraRebindSettings();
     }
