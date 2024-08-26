@@ -41,7 +41,7 @@
             android:id="@+id/login_logo"
             android:layout_width="wrap_content"
             android:layout_height="190dp"
-            android:src="@drawable/all2_egnss4all_logo_v"/>
+            android:src="@drawable/pic2bim_logo_v"/>
 
 
     </LinearLayout>
@@ -185,6 +185,7 @@
     </LinearLayout>
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/login_logo_euspa"
         android:layout_width="wrap_content"
         android:layout_height="60dp"

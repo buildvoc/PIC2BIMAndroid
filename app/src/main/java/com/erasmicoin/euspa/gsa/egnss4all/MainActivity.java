@@ -36,7 +36,8 @@ public class MainActivity extends BaseActivity {
         setToolbar(R.id.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setLogo(R.drawable.all_title_logo);
+       // toolbar.setLogo(R.drawable.all_title_logo);
+        toolbar.setTitle("PIC2BIM");
         setShowMenu(true);
         resolveShowingLoggedUser();
 

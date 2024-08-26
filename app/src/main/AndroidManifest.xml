@@ -21,7 +21,7 @@
         android:name="com.erasmicoin.euspa.gsa.egnss4all.Launcher"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="EGNSS4ALL"
+        android:label="PIC2BIM"
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -50,7 +50,7 @@
         <activity
             android:name="com.erasmicoin.euspa.gsa.egnss4all.StartActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="EGNSS4ALL"
+            android:label="PIC2BIM"
             android:launchMode="singleTask"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/FullscreenTheme"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">EGNSS4ALL</string>
+    <string name="app_name" translatable="false">PIC2BIM</string>
 
     <!-- general -->
     <string name="gn_failure">Failure</string>
@@ -24,7 +24,7 @@
     <string name="menu_unownedPhoto">Unassigned Photos</string>
 
     <!-- title -->
-    <string name="title_activity_login">Sign in EGNSS4ALL</string>
+    <string name="title_activity_login">Sign in PIC2BIM</string>
     <string name="title_home">@string/app_name</string>
     <string name="title_map">Map</string>
     <string name="title_pathTrackingOverview">Path Tracking Overview</string>
@@ -421,14 +421,14 @@
         \n\nTo check if the device that you are using is able to use all the EGNSS differentiators, the following traffic lights provide a confirmation of your smartphone capabilities
     </string-->
     <string name="ab_text">
-        EGNSS4ALL is an Open-Source mobile phone application for IOS and Android. It takes advantage of GNSS raw measurements, EGNSS differentiators (EGNOS, dual frequency capabilities and Open Service – Navigation Message Authentication – OS-NMA) for trustworthy and accurate geotagging. Inside the App, the user can perform several different tasks:\n\n
+        PIC2BIM is an Open-Source mobile phone application for IOS and Android. It takes advantage of GNSS raw measurements, EGNSS differentiators (EGNOS, dual frequency capabilities and Open Service – Navigation Message Authentication – OS-NMA) for trustworthy and accurate geotagging. Inside the App, the user can perform several different tasks:\n\n
         &#8226;&#09;&#09;Taking photos, storing the position data (PVT) and representing them on the map;\n\n
         &#8226;&#09;&#09;Path recording;\n\n
         &#8226;&#09;&#09;Retrieving raw data about a specific point on the map through GNSS Raw Data;\n\n
         &#8226;&#09;&#09;Having access to GNSS SkyMap, showing the location of the satellites of the four global constellations (GPS, GALILEO, GLONASS, BeiDou) allowing for Two-Line Element (TLA) cross-check\n\n
         &#8226;&#09;&#09;Assisted-NMA architecture providing authenticated positioning.\n\n
 
-        EGNSS4ALL unique functionalities improve the performance and trustworthiness of smartphone photo geotagging, mapping and tracing, serving multiple domains including urban planning, logistics and insurance.\n
+        PIC2BIM unique functionalities improve the performance and trustworthiness of smartphone photo geotagging, mapping and tracing, serving multiple domains including urban planning, logistics and insurance.\n
         To check if the device that you are using can indeed use all the EGNSS differentiators, the following traffic lights are given as confirmation on your smartphone capabilities:\n\n
         &#8226;&#09;&#09;Location service check: green light if this device has enabled location service and application has permission to use it;\n\n
         &#8226;&#09;&#09;Galileo capacity check: green light if this device is capable to use Galileo.\n\n

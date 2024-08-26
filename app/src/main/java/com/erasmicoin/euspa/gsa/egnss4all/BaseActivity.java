@@ -54,7 +54,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ServiceI
         }
     }
 
-    public static final String SERVER_BASE_URL = "https://<your server url>/";
+    public static final String SERVER_BASE_URL = "https://pic2bim.co.uk/";
 
     public static final String TAG = BaseActivity.class.getSimpleName();
     private static final int EXIT_STATUS = 11;

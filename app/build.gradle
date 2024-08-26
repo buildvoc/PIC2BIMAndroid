@@ -11,7 +11,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        project.archivesBaseName = "EGNSS4ALL"
+        project.archivesBaseName = "PIC2BIM"
         setProperty("archivesBaseName", "${archivesBaseName}-$versionName")
 
         javaCompileOptions {
@@ -51,9 +51,9 @@ dependencies {
     implementation (project(path: ':gnss_compare_core:GoGpsExtracts')){
         exclude(group: 'joda-time')
     }
-    implementation (project(path: ':ELFA')){
-        exclude(group: 'joda-time')
-    }
+//    implementation (project(path: ':ELFA')){
+//        exclude(group: 'joda-time')
+//    }
 
     def room_version = "2.2.5"
     implementation "androidx.room:room-runtime:$room_version"

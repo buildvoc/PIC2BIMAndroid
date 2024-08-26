@@ -19,8 +19,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 
 import com.erasmicoin.euspa.gsa.egnss4all.model.GNSSLocation.GNSSSettingsStore;
-import com.example.ELFA.edas.ClientThread;
-import com.example.ELFA.edas.ntrip.MT1_Message;
+//import com.example.ELFA.edas.ClientThread;
+//import com.example.ELFA.edas.ntrip.MT1_Message;
 
 public class SettingsGNSSLocationActivity extends BaseActivity {
 
@@ -448,55 +448,55 @@ public class SettingsGNSSLocationActivity extends BaseActivity {
 
 
 
-        ClientThread mClient = new ClientThread();
-        final boolean[] hasConnected = {false};
-        ClientThread.NtripClientListener listener = new ClientThread.NtripClientListener() {
-            @Override
-            public void onClientStateChange(String message, ClientThread.clientState state) {
-                switch (state) {
-                    case CONNECTED:
-                        runOnUiThread(() -> goodCredentialsDlg.show());
-                        GNSSSettingsStore.saveEDASUsername(appContext, username);
-                        GNSSSettingsStore.saveEDASPassword(appContext, password);
-                        GNSSSettingsStore.savePositionSBASActive(appContext, true);
-                        hasConnected[0] = true;
-                        mClient.Disconnect();
-                        break;
-                    case DISCONNECTED:
-                        if(!hasConnected[0]){
-                            GNSSSettingsStore.saveEDASUsername(appContext, null);
-                            GNSSSettingsStore.saveEDASPassword(appContext, null);
-                            GNSSSettingsStore.savePositionSBASActive(appContext, false);
-                            runOnUiThread(() -> wrongCredentialsDlg.show());
-                        }
-                        break;
-                    case RECONNECTING:
-                        Log.d("SSSS","AAAA");
-                        break;
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + state);
-                }
-            }
-
-            @Override
-            public void onMessageReceived(MT1_Message message) {
-                System.out.println("Ricevuto messaggio DGNSS");
-                //System.out.println(message.toString());
-            }
-        };
-        mClient.setNtripClientListener(listener);
-
-        if(!username.isEmpty() && !password.isEmpty()){
-            int sbastype = GNSSSettingsStore.readPositionSBASType(getApplicationContext());
-            if(sbastype == GNSSSettingsStore.DGNSS_CORRECTION){
-                mClient.ConnectNtrip("egnos-edas.eu",2101, username,password, "ROMA_2401");
-            }else{
-                mClient.ConnectSisnet("egnos-edas.eu",7777, username, password);
-            }
-
-        }else{
-            runOnUiThread(() -> noCredentialsDlg.show());
-        }
+//        ClientThread mClient = new ClientThread();
+//        final boolean[] hasConnected = {false};
+//        ClientThread.NtripClientListener listener = new ClientThread.NtripClientListener() {
+//            @Override
+//            public void onClientStateChange(String message, ClientThread.clientState state) {
+//                switch (state) {
+//                    case CONNECTED:
+//                        runOnUiThread(() -> goodCredentialsDlg.show());
+//                        GNSSSettingsStore.saveEDASUsername(appContext, username);
+//                        GNSSSettingsStore.saveEDASPassword(appContext, password);
+//                        GNSSSettingsStore.savePositionSBASActive(appContext, true);
+//                        hasConnected[0] = true;
+//                        mClient.Disconnect();
+//                        break;
+//                    case DISCONNECTED:
+//                        if(!hasConnected[0]){
+//                            GNSSSettingsStore.saveEDASUsername(appContext, null);
+//                            GNSSSettingsStore.saveEDASPassword(appContext, null);
+//                            GNSSSettingsStore.savePositionSBASActive(appContext, false);
+//                            runOnUiThread(() -> wrongCredentialsDlg.show());
+//                        }
+//                        break;
+//                    case RECONNECTING:
+//                        Log.d("SSSS","AAAA");
+//                        break;
+//                    default:
+//                        throw new IllegalStateException("Unexpected value: " + state);
+//                }
+//            }
+//
+//            @Override
+//            public void onMessageReceived(MT1_Message message) {
+//                System.out.println("Ricevuto messaggio DGNSS");
+//                //System.out.println(message.toString());
+//            }
+//        };
+//        mClient.setNtripClientListener(listener);
+//
+//        if(!username.isEmpty() && !password.isEmpty()){
+//            int sbastype = GNSSSettingsStore.readPositionSBASType(getApplicationContext());
+//            if(sbastype == GNSSSettingsStore.DGNSS_CORRECTION){
+//                mClient.ConnectNtrip("egnos-edas.eu",2101, username,password, "ROMA_2401");
+//            }else{
+//                mClient.ConnectSisnet("egnos-edas.eu",7777, username, password);
+//            }
+//
+//        }else{
+//            runOnUiThread(() -> noCredentialsDlg.show());
+//        }
 
 
     }

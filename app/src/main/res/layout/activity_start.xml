@@ -31,7 +31,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:padding="100dp"
-                app:srcCompat="@drawable/all2_egnss4all_logo_s" />
+                app:srcCompat="@drawable/pic2bim_logo_s" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

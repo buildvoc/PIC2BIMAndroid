@@ -22,7 +22,7 @@ import com.erasmicoin.euspa.gsa.egnss4all.model.OSNMA.ServerPostPacketTask;
 import com.erasmicoin.euspa.gsa.egnss4all.model.OSNMA.ServerPostResponse;
 import com.erasmicoin.euspa.gsa.egnss4all.model.fusedLocation.FLDelegateActivity;
 import com.erasmicoin.euspa.gsa.egnss4all.model.locationManager.InavMessage;
-import com.example.ELFA.edas.ClientThread;
+//import com.example.ELFA.edas.ClientThread;
 import com.galfins.gogpsextracts.Coordinates;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -45,8 +45,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import eu.foxcom.gnss_compare_core.Constellations.Constellation;
 import eu.foxcom.gnss_compare_core.Constellations.GalileoOSNMAConstellation;
 import eu.foxcom.gnss_compare_core.Corrections.Correction;
-import eu.foxcom.gnss_compare_core.Corrections.DGNSSCorrection;
-import eu.foxcom.gnss_compare_core.Corrections.SBASCorrection;
+//import eu.foxcom.gnss_compare_core.Corrections.DGNSSCorrection;
+//import eu.foxcom.gnss_compare_core.Corrections.SBASCorrection;
 import eu.foxcom.gnss_compare_core.PvtMethods.PvtMethod;
 
 public class GNSSManager {
@@ -82,10 +82,10 @@ public class GNSSManager {
 
     private FLDelegateActivity flDelegateActivity;
 
-    private ClientThread mClientThread = new ClientThread();
-
-    private DGNSSCorrection dgnsCorrection;
-    private SBASCorrection sbasCorrection;
+//    private ClientThread mClientThread = new ClientThread();
+//
+//    private DGNSSCorrection dgnsCorrection;
+//    private SBASCorrection sbasCorrection;
 
     private double[] campionamentiX;
     private double[] campionamentiY;
@@ -188,9 +188,9 @@ public class GNSSManager {
                 osnmaThread.interrupt();
             }
         }
-        if(mClientThread.isAlive()){
-            mClientThread.Disconnect();
-        }
+//        if(mClientThread.isAlive()){
+//            mClientThread.Disconnect();
+//        }
         isRunning.setValue(false);
     }
 
@@ -293,24 +293,24 @@ public class GNSSManager {
 
         if(GNSSSettingsStore.readPositionSBASActive(appContext)){
 
-            switch (GNSSSettingsStore.readPositionSBASType(appContext)){
-                case GNSSSettingsStore.DGNSS_CORRECTION:
-                    if(!mClientThread.isAlive())
-                        mClientThread.start();
-                    dgnsCorrection = new DGNSSCorrection(mClientThread,appContext);
-                    corrections.add(dgnsCorrection);
-                    dgnsCorrection.connectNTRIP(GNSSSettingsStore.readEDASUsername(appContext), GNSSSettingsStore.readEDASPassword(appContext));
-                    break;
-                case GNSSSettingsStore.SBAS_CORRECTION:
-                    if(!mClientThread.isAlive())
-                        mClientThread.start();
-                    sbasCorrection = new SBASCorrection(mClientThread);
-                    sbasCorrection.connectSISNET(GNSSSettingsStore.readEDASUsername(appContext), GNSSSettingsStore.readEDASPassword(appContext));
-                    corrections.add(sbasCorrection);
-                    break;
-                default:
-                    break;
-            }
+//            switch (GNSSSettingsStore.readPositionSBASType(appContext)){
+//                case GNSSSettingsStore.DGNSS_CORRECTION:
+//                    if(!mClientThread.isAlive())
+//                        mClientThread.start();
+//                    dgnsCorrection = new DGNSSCorrection(mClientThread,appContext);
+//                    corrections.add(dgnsCorrection);
+//                    dgnsCorrection.connectNTRIP(GNSSSettingsStore.readEDASUsername(appContext), GNSSSettingsStore.readEDASPassword(appContext));
+//                    break;
+//                case GNSSSettingsStore.SBAS_CORRECTION:
+//                    if(!mClientThread.isAlive())
+//                        mClientThread.start();
+//                    sbasCorrection = new SBASCorrection(mClientThread);
+//                    sbasCorrection.connectSISNET(GNSSSettingsStore.readEDASUsername(appContext), GNSSSettingsStore.readEDASPassword(appContext));
+//                    corrections.add(sbasCorrection);
+//                    break;
+//                default:
+//                    break;
+//            }
         }
 
         constellation.addCorrections(corrections);
