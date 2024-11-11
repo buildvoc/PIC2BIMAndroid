@@ -273,17 +273,19 @@ public class Photo {
         //Inav messages unwrap
         ArrayList<InavMessage> inavMessages = photoDataController.getInavMessages();
         JSONArray inavJsonArray = new JSONArray();
-        for (InavMessage inavMessage : inavMessages) {
-            try{
-                JSONObject obj = new JSONObject();
-                obj.put("svid", inavMessage.getSvid());
-                obj.put("timestamp", inavMessage.getTimestamp());
-                obj.put( "message", inavMessage.getInavMessage());
-                inavJsonArray.put(obj);
+        if (inavMessages != null) {
+            for (InavMessage inavMessage : inavMessages) {
+                try {
+                    JSONObject obj = new JSONObject();
+                    obj.put("svid", inavMessage.getSvid());
+                    obj.put("timestamp", inavMessage.getTimestamp());
+                    obj.put("message", inavMessage.getInavMessage());
+                    inavJsonArray.put(obj);
 
-            }catch (JSONException e){
-                photo.inavMessages = "ERROR";
-                e.printStackTrace();
+                } catch (JSONException e) {
+                    photo.inavMessages = "ERROR";
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -391,7 +393,7 @@ public class Photo {
         Location photoLocation = photoDataController.getLocation();
         photo.osnmaEnabled = photoDataController.isOsnmaEnabled();
         if(photo.osnmaEnabled){
-            if(!photo.provider.equals(MainService.OFFLINE_LM_PROVIDER)){
+            if(photo != null && photo.provider != null && !photo.provider.equals(MainService.OFFLINE_LM_PROVIDER)){
                 photo.osnmaValidated = photoLocation.getExtras().getBoolean("isOsnma");
                 photo.validatedSats = photoLocation.getExtras().getInt("valisats");
             }else{

@@ -132,7 +132,7 @@ public class UnownedPhotoOverviewActivity extends BaseActivity {
             holder.validateText.setText(validated);*/
 
             if(photo.isOsnmaEnabled()){
-                if(photo.getProvider().equals(MainService.OFFLINE_LM_PROVIDER)){
+                if(photo != null && photo.getProvider() != null && photo.getProvider().equals(MainService.OFFLINE_LM_PROVIDER)){
                     if(photo.isSent()){
                         holder.validateText.setText(photo.isOsnmaValidated() ? "True" : "False");
                     }else{
