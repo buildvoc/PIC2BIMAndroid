@@ -297,8 +297,13 @@ public class Photo {
         String userId = LoggedUser.createFromAppDatabase(appDatabase).getId();
         photo.userId = userId;
         photo.context = context;
-        photo.lat = location.getLatitude();
-        photo.lng = location.getLongitude();
+        if (location != null) {
+            photo.lat = location.getLatitude();
+            photo.lng = location.getLongitude();
+        } else {
+            photo.lat = 0.0;
+            photo.lng = 0.0;
+        }
         photo.created = createdDateTime;
         int indx = findNewIndx(taskId, appDatabase);
         if (TO_FILE) {
@@ -310,9 +315,16 @@ public class Photo {
         photo.isSent = false;
 
         // pouze horizontální
-        photo.accuracy = Double.valueOf(location.getAccuracy());
-        photo.altitude = location.getAltitude();
-        photo.bearing = Double.valueOf(location.getBearing());
+        if (location != null) {
+            photo.accuracy = Double.valueOf(location.getAccuracy());
+            photo.altitude = location.getAltitude();
+            photo.bearing = Double.valueOf(location.getBearing());
+        } else {
+            System.out.println("Location object is null. Using default values.");
+            photo.accuracy = 0.0;
+            photo.altitude = 0.0;
+            photo.bearing = 0.0;
+        }
         photo.azimMagneticField = photoDataController.getPositionSensorController().getAzimuthDegreesAverage();
         photo.photoHeading = photoDataController.computePhotoHeading(photoDataController.getLastScreenRotation(), photoDataController.getLastTilt(), photo.azimMagneticField);
         photo.pitch = photoDataController.getPositionSensorController().getPitchDegreesAverage();
