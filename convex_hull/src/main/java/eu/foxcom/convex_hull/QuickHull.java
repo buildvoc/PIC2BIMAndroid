@@ -5,7 +5,7 @@ import java.util.List;
 
 class QuickHull {
     List<Point> quickHull(final List<Point> ps) {
-        List<Point> points = new ArrayList(ps);
+        List<Point> points = new ArrayList<>(ps);
         ArrayList<Point> convexHull = new ArrayList<Point>();
         if (points.size() < 3) {
             return points;

@@ -69,6 +69,8 @@ public class GNSSSettingsStore {
     public static final String GLONASS_SKYVIEW = "GLONASS";
     public static final String BEIDOU_SKYVIEW = "BEIDOU";
 
+    public static final String AUTH_TOKEN = "AUTH_TOKEN";
+
 
     public static void resetDefaultPosition(Context ctx){
         savePositionConstellation(ctx, GALILEO_GPS_CONSTELLATION);
@@ -243,6 +245,17 @@ public class GNSSSettingsStore {
     public static boolean readOnlyActualSkyview(Context ctx){
         SharedPreferences settings = getSharedPreferences(ctx);
         return settings.getBoolean(ONLY_ACTUAL_SKV, false);
+    }
+
+    public static void saveAuthToken(Context ctx, String token){
+        SharedPreferences.Editor editor = getEditor(ctx);
+        editor.putString(AUTH_TOKEN, token);
+        editor.apply();
+    }
+
+    public static String readAuthToken(Context ctx){
+        SharedPreferences settings = getSharedPreferences(ctx);
+        return settings.getString(AUTH_TOKEN, null);
     }
 
 }

@@ -205,7 +205,7 @@ public class PTPath {
         }
         UploadExecutor uploadExecutor = this.new UploadExecutor(appDatabase, uploadReceiver);
         String errMsgTitle = "uploadPath failed (autoId = " + autoId + "; realId = " + realId + "; name = " + name + ")";
-        requestor.requestAuth(currentServer+"/egnss4allservices/comm_path.php", response -> {
+        requestor.requestAuth(currentServer+"comm_path", response -> {
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 if (jsonObject.has("status")) {

@@ -400,7 +400,7 @@ public class MainService extends Service implements GNSSManager.GNSSLocationCall
 
     private void loadTasks(final SyncQueue syncQueue) {
         String currentServer = GNSSSettingsStore.readCurrentServer(this);
-        requestor.requestAuth(currentServer+"/egnss4allservices/comm_tasks.php", new Response.Listener<String>() {
+        requestor.requestAuth(currentServer+"comm_tasks", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -585,7 +585,7 @@ public class MainService extends Service implements GNSSManager.GNSSLocationCall
         pathSyncNotifier = new SyncNotifier(1);
         pathSyncNotifier.notifyProgress();
         String currentServer = GNSSSettingsStore.readCurrentServer(this);
-        requestor.requestAuth(currentServer+"/egnss4allservices/comm_get_paths.php", new Response.Listener<String>() {
+        requestor.requestAuth(currentServer+"comm_get_paths", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {

@@ -256,7 +256,7 @@ public class Task {
 
     public void updateStatus(final AppDatabase appDatabase, Context context, final UpdateTaskReceiver receiver, Requestor requestor) {
         String currentServer = GNSSSettingsStore.readCurrentServer(context);
-        requestor.requestAuth(currentServer+"/egnss4allservices/comm_update.php", new Response.Listener<String>() {
+        requestor.requestAuth(currentServer+"comm_update", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -300,7 +300,7 @@ public class Task {
     @Deprecated
     public void updateCompleteInSingleRequest(final AppDatabase appDatabase, Context context, final UpdateTaskReceiver receiver, Requestor requestor) {
         String currentServer = GNSSSettingsStore.readCurrentServer(context);
-        requestor.requestAuth(currentServer+"/egnss4allservices/comm_update.php", new Response.Listener<String>() {
+        requestor.requestAuth(currentServer+"comm_update", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -438,7 +438,7 @@ public class Task {
         // endregion
 
         for (Photo photo : photoList.getPhotos()) {
-            requestor.requestAuth(currentServer+"/egnss4allservices/comm_photo.php",
+            requestor.requestAuth(currentServer+"comm_photo",
                     photoListener.apply(photo),
                     photoErrorListener.apply(photo),
                     photoRequestor.apply(photo));
@@ -510,7 +510,7 @@ public class Task {
                                 }
                             };
                             // endregion
-                            requestor.requestAuth(currentServer+"/egnss4allservices/comm_status.php",
+                            requestor.requestAuth(currentServer+"comm_status",
                                     statusListener,
                                     statusErrorListener,
                                     statusRequestor);
@@ -536,7 +536,7 @@ public class Task {
         syncQueue.addAsyncExecutor(new SyncQueue.AsyncExecutor() {
             @Override
             protected void run() {
-                requestor.requestAuth(currentServer+"/egnss4allservices/comm_update.php", new Response.Listener<String>() {
+                requestor.requestAuth(currentServer+"comm_update", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
@@ -558,7 +558,7 @@ public class Task {
                                 syncQueue.addAsyncExecutor(new SyncQueue.AsyncExecutor() {
                                     @Override
                                     protected void run() {
-                                        requestor.requestAuth(currentServer+"/egnss4allservices/comm_update.php", new Response.Listener<String>() {
+                                        requestor.requestAuth(currentServer+"comm_update", new Response.Listener<String>() {
                                             @Override
                                             public void onResponse(String response) {
                                                 try {
@@ -643,7 +643,7 @@ public class Task {
             return;
         }
         String currentServer = GNSSSettingsStore.readCurrentServer(context);
-        requestor.requestAuth(currentServer+"/egnss4allservices/comm_task_photos.php", new Response.Listener<String>() {
+        requestor.requestAuth(currentServer+"comm_task_photos", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -732,7 +732,7 @@ public class Task {
             photoReceiver.failedExec(errMsgTitle + ": " + errMsg);
         };
         for (Long realId : photoRealIdsCollector.toUpdatePhotoRealIds) {
-            requestor.requestAuth(currentServer+"/egnss4allservices/comm_get_photo.php", response -> {
+            requestor.requestAuth(currentServer+"comm_get_photo", response -> {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     String status = jsonObject.getString("status");
@@ -796,7 +796,7 @@ public class Task {
         Consumer<String> failedConsumer = errMsg -> {
             taskReceiver.failedExec(errMsgTitle + ": " + errMsg);
         };
-        requestor.requestAuth(currentServer+"/egnss4allservices/comm_unassigned.php", response -> {
+        requestor.requestAuth(currentServer+"comm_unassigned", response -> {
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");

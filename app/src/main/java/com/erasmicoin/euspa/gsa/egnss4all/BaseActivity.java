@@ -499,40 +499,40 @@ public abstract class BaseActivity extends AppCompatActivity implements ServiceI
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.menuItem_syncAll:
-                MS.syncAll();
-                return true;
-            case R.id.menuItem_home:
-                showHome();
-                return true;
-            case R.id.menuItem_taskOverview:
-                showTaskOverView();
-                return true;
-            case R.id.menuItem_unownedPhoto:
-                showUnownedPhoto();
-                return true;
-            case R.id.menuItem_map:
-                showMap();
-                return true;
-            case R.id.menuItem_pathTracking:
-                showPathTracking();
-                return true;
-            case R.id.menuItem_about:
-                showAbout();
-                return true;
-            case R.id.menuItem_logout:
-                logout();
-                return true;
-            case R.id.menuItem_settings:
-                showSettings();
-                return true;
-            case R.id.menuItem_gnssRawData:
-                showGnssRawData();
-                return true;
-            case R.id.menuItem_gnssSkyview:
-                showGnssSkyview();
-                return true;
+        int itemId = menuItem.getItemId();
+        if (itemId == R.id.menuItem_syncAll) {
+            MS.syncAll();
+            return true;
+        } else if (itemId == R.id.menuItem_home) {
+            showHome();
+            return true;
+        } else if (itemId == R.id.menuItem_taskOverview) {
+            showTaskOverView();
+            return true;
+        } else if (itemId == R.id.menuItem_unownedPhoto) {
+            showUnownedPhoto();
+            return true;
+        } else if (itemId == R.id.menuItem_map) {
+            showMap();
+            return true;
+        } else if (itemId == R.id.menuItem_pathTracking) {
+            showPathTracking();
+            return true;
+        } else if (itemId == R.id.menuItem_about) {
+            showAbout();
+            return true;
+        } else if (itemId == R.id.menuItem_logout) {
+            logout();
+            return true;
+        } else if (itemId == R.id.menuItem_settings) {
+            showSettings();
+            return true;
+        } else if (itemId == R.id.menuItem_gnssRawData) {
+            showGnssRawData();
+            return true;
+        } else if (itemId == R.id.menuItem_gnssSkyview) {
+            showGnssSkyview();
+            return true;
         }
         return super.onOptionsItemSelected(menuItem);
     }

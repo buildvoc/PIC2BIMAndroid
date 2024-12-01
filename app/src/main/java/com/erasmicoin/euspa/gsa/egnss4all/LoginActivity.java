@@ -138,7 +138,7 @@ public class LoginActivity extends BaseActivity {
         final TextView passwordTextView = findViewById(R.id.lg_textInputEditText_password);
 
         String currentServer = GNSSSettingsStore.readCurrentServer(mCtx);
-        MS.getRequestor().requestAuth(currentServer+"/egnss4allservices/comm_login.php", new Response.Listener<String>() {
+        MS.getRequestor().requestAuth(currentServer+"comm_login", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 isServerLastConnected = true;
@@ -156,6 +156,8 @@ public class LoginActivity extends BaseActivity {
                         return;
                     } else {
                         loggedUser = LoggedUser.createFromResponse(jsonObject.getJSONObject("user"), loginTextView.getText().toString(), new DateTime());
+                        String token = jsonObject.getString("token").trim();
+                        GNSSSettingsStore.saveAuthToken(mCtx, token);
                     }
                     LoggedUser.login(MS.getAppDatabase(), loggedUser);
                     MS.syncAll();
