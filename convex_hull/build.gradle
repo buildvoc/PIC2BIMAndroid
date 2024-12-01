@@ -2,12 +2,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
-
+    compileSdk 34
+    namespace 'eu.foxcom.convex_hull'
     defaultConfig {
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -20,6 +19,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -47,7 +50,7 @@ afterEvaluate {
             def def_version = '1.0';
 
             release(MavenPublication) {
-                from components.release
+                from components.findByName('release')
 
                 groupId = def_groupId
                 artifactId = def_artifactId
@@ -55,7 +58,7 @@ afterEvaluate {
             }
 
             debug(MavenPublication) {
-                from components.debug
+                from components.findByName('debug')
 
                 groupId = def_groupId
                 artifactId = def_artifactId

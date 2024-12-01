@@ -248,26 +248,19 @@ public class TaskOverviewActivity extends BaseActivity {
         taskListFilter.setSortPassedAtEnd(passedAtEndCheckBox.isChecked());
         RadioGroup sortOrderRadioGroup = filterView.findViewById(R.id.to_radioGroup_sortOrder);
         int sortOrderRadioId = sortOrderRadioGroup.getCheckedRadioButtonId();
-        switch (sortOrderRadioId) {
-            case R.id.to_radioButton_sortDesc:
-                taskListFilter.setSortDesc(true);
-                break;
-            case R.id.to_radioButton_sortAsc:
-                taskListFilter.setSortDesc(false);
-                break;
+        if (sortOrderRadioId == R.id.to_radioButton_sortDesc) {
+            taskListFilter.setSortDesc(true);
+        } else if (sortOrderRadioId == R.id.to_radioButton_sortAsc) {
+            taskListFilter.setSortDesc(false);
         }
         RadioGroup sortTypeRadioGroup = filterView.findViewById(R.id.to_radioGroup_sortType);
         int sortTypeId = sortTypeRadioGroup.getCheckedRadioButtonId();
-        switch (sortTypeId) {
-            case R.id.to_radioButton_sortByStatus:
-                taskListFilter.setSort(TaskList.TaskListFilter.SORT.STATUS);
-                break;
-            case R.id.to_radioButton_sortByDueDate:
-                taskListFilter.setSort(TaskList.TaskListFilter.SORT.DUE_DATE);
-                break;
-            case R.id.to_radioButton_sortByName:
-                taskListFilter.setSort(TaskList.TaskListFilter.SORT.NAME);
-                break;
+        if (sortTypeId == R.id.to_radioButton_sortByStatus) {
+            taskListFilter.setSort(TaskList.TaskListFilter.SORT.STATUS);
+        } else if (sortTypeId == R.id.to_radioButton_sortByDueDate) {
+            taskListFilter.setSort(TaskList.TaskListFilter.SORT.DUE_DATE);
+        } else if (sortTypeId == R.id.to_radioButton_sortByName) {
+            taskListFilter.setSort(TaskList.TaskListFilter.SORT.NAME);
         }
 
         this.taskListFilter = taskListFilter;

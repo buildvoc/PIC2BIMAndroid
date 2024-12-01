@@ -9,6 +9,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.erasmicoin.euspa.gsa.egnss4all.BaseActivity;
+import com.erasmicoin.euspa.gsa.egnss4all.model.GNSSLocation.GNSSSettingsStore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -71,9 +73,13 @@ public class Requestor {
             public java.util.Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                String creds = String.format("%s:%s", "login", "password");
-                String auth = "Basic " + Base64.encodeToString(creds.getBytes(), Base64.DEFAULT);
-                params.put("Authorization", auth);
+                //String creds = String.format("%s:%s", "login", "password");
+                //String auth = "Basic " + Base64.encodeToString(creds.getBytes(), Base64.DEFAULT);
+                params.put("Accept", "application/json");
+                String auth = GNSSSettingsStore.readAuthToken(context);
+                if (auth != null) {
+                    params.put("Authorization", "Bearer " + auth);
+                }
                 return params;
             }
         };

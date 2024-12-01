@@ -35,7 +35,7 @@ class GGLoader {
 
     void load(GGRegion ggRegion, Context ctx) {
         String currentServer = GNSSSettingsStore.readCurrentServer(ctx);
-            requestor.requestAuth(currentServer+"/egnss4allservices/comm_shapes.php", response -> {
+            requestor.requestAuth(currentServer+"comm_shapes", response -> {
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
