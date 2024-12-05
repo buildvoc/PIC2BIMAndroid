@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.RequiresPermission;
 
@@ -23,6 +24,8 @@ import com.google.android.gms.location.SettingsClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Objects;
 
 @RequiresApi(Build.VERSION_CODES.N)
 public class NMEAScanner extends Scanner {
@@ -200,10 +203,10 @@ public class NMEAScanner extends Scanner {
 
     @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
     private void startFusedLocationUpdates() {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(UPDATE_INTERVAL);
-        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+        mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(UPDATE_INTERVAL)
+                .setFastestInterval(FASTEST_INTERVAL);
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         builder.addLocationRequest(mLocationRequest);
@@ -214,13 +217,13 @@ public class NMEAScanner extends Scanner {
 
         mLocationCallback = new LocationCallback() {
             @Override
-            public void onLocationResult(LocationResult locationResult) {
+            public void onLocationResult(@NonNull LocationResult locationResult) {
                 NMEAScanner.this.onLocationChanged(locationResult.getLastLocation());
             }
         };
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
-        mFusedLocationProviderClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+        mFusedLocationProviderClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Objects.requireNonNull(Looper.myLooper()));
     }
 
     private void onLocationChanged(Location location) {
@@ -232,7 +235,7 @@ public class NMEAScanner extends Scanner {
         lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         locationListenerGPS = new LocationListener() {
             @Override
-            public void onLocationChanged(Location location) {
+            public void onLocationChanged(@NonNull Location location) {
                 updateNMEALocationReceiver(PROVIDER.GNSS, location);
             }
 
@@ -242,12 +245,12 @@ public class NMEAScanner extends Scanner {
             }
 
             @Override
-            public void onProviderEnabled(String provider) {
+            public void onProviderEnabled(@NonNull String provider) {
 
             }
 
             @Override
-            public void onProviderDisabled(String provider) {
+            public void onProviderDisabled(@NonNull String provider) {
 
             }
         };

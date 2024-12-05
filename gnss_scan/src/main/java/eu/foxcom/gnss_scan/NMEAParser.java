@@ -2,6 +2,7 @@ package eu.foxcom.gnss_scan;
 
 import android.content.Context;
 import android.location.Location;
+import android.os.Build;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -440,7 +441,9 @@ public class NMEAParser extends NMEAScanner.NMEAReceiver {
 
     @Override
     public void receive(NMEAScanner.NMEAHolder nmeaHolder) {
-        currentNmeaMessage = nmeaHolder.getNmeaMessage();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            currentNmeaMessage = nmeaHolder.getNmeaMessage();
+        }
         nmeaRawMessage();
         parseNMEAMessage();
     }

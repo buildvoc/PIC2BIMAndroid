@@ -22,12 +22,15 @@ import android.location.LocationManager;
 import android.os.Looper;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CalculationModulesArrayList extends ArrayList<CalculationModule> {
 
@@ -71,16 +74,15 @@ public class CalculationModulesArrayList extends ArrayList<CalculationModule> {
             }
         };
 
-        locationRequest = new LocationRequest();
-
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setMaxWaitTime(500);
-        locationRequest.setInterval(1000);
-        locationRequest.setFastestInterval(100);
+        locationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setMaxWaitTime(500)
+                .setInterval(1000)
+                .setFastestInterval(100);
 
         locationCallback = new LocationCallback(){
             @Override
-            public void onLocationResult(LocationResult locationResult) {
+            public void onLocationResult(@NonNull LocationResult locationResult) {
 
             final Location lastLocation = locationResult.getLocations().get(locationResult.getLocations().size()-1);
 
@@ -104,7 +106,8 @@ public class CalculationModulesArrayList extends ArrayList<CalculationModule> {
             fusedLocationClient.requestLocationUpdates(
                     locationRequest,
                     locationCallback,
-                    Looper.myLooper());
+                    Objects.requireNonNull(Looper.myLooper())
+            );
 
             locationManager.registerGnssMeasurementsCallback(
                     gnssCallback);

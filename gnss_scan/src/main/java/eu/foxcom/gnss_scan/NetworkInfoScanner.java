@@ -313,7 +313,7 @@ public class NetworkInfoScanner extends Scanner {
             NetworkCapabilities networkCapabilities = connManager.getNetworkCapabilities(activeNetwork);
             if (networkCapabilities != null) {
                 if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                    final WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                    final WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                     if (wifiManager != null) {
                         final WifiInfo connectionInfo = wifiManager.getConnectionInfo();
                         if (connectionInfo != null) {
