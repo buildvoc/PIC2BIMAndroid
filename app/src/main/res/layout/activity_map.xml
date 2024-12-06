@@ -5,7 +5,7 @@
     style="@style/button"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MapActivity">
+    tools:context="com.erasmicoin.euspa.gsa.egnss4all.MapActivity">
 
     <include
         android:id="@+id/toolbar"

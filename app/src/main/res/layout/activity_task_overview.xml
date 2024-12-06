@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TaskOverviewActivity">
+    tools:context="com.erasmicoin.euspa.gsa.egnss4all.TaskOverviewActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/baseAppbarLayout"
@@ -17,7 +17,7 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar"></include>
+            layout="@layout/toolbar" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -52,11 +52,12 @@
                 android:layout_marginBottom="16dp"
                 android:drawableEnd="@drawable/all_icon_filter"
                 android:drawableTint="@color/mainPrimary"
-                android:editable="false"
+                android:cursorVisible="false"
                 android:ems="10"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:hint="@string/to_filter"
+                android:autofillHints="@string/to_filter"
                 android:inputType="none"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

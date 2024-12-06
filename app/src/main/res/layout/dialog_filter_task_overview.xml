@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/background_panel_bottom"
-    tools:context=".TaskOverviewActivity"
+    tools:context="com.erasmicoin.euspa.gsa.egnss4all.TaskOverviewActivity"
     android:padding="16dp"
     tools:layout_editor_absoluteY="8dp">
 

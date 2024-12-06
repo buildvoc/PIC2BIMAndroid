@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
-    tools:context=".CameraActivity">
+    tools:context="com.erasmicoin.euspa.gsa.egnss4all.CameraActivity">
 
     <androidx.camera.view.PreviewView
         android:id="@+id/ca_previewView_camera"

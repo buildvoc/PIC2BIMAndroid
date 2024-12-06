@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="3"
-    tools:context=".UnownedPhotoDetailActivity">
+    tools:context="com.erasmicoin.euspa.gsa.egnss4all.UnownedPhotoDetailActivity">
 
 
     <ImageView

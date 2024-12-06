@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingFilterActivity">
+    tools:context="com.erasmicoin.euspa.gsa.egnss4all.SettingFilterActivity">
 
     <include
         android:id="@+id/toolbar"
