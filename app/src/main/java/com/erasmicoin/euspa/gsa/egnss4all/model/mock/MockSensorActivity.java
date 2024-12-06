@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.erasmicoin.euspa.gsa.egnss4all.BaseActivity;
 import com.erasmicoin.euspa.gsa.egnss4all.MainService;
-import com.erasmicoin.euspa.gsa.egnss4all.R;
+import co.uk.pic2bim.R;
 import com.erasmicoin.euspa.gsa.egnss4all.model.ExifUtil;
 import com.erasmicoin.euspa.gsa.egnss4all.model.PhotoDataController;
 import com.erasmicoin.euspa.gsa.egnss4all.model.ekf.EkfCreateException;

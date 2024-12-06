@@ -77,6 +77,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Phaser;
 
+import co.uk.pic2bim.R;
+
 public class MainService extends Service implements GNSSManager.GNSSLocationCallback, BluetoothManager.BluetoothLocationCallback {
 
 

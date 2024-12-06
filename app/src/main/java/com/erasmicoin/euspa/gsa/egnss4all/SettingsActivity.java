@@ -14,6 +14,8 @@ import com.erasmicoin.euspa.gsa.egnss4all.model.PersistData;
 import com.erasmicoin.euspa.gsa.egnss4all.model.Util;
 import com.erasmicoin.euspa.gsa.egnss4all.model.component.SeekBarAPI26;
 
+import co.uk.pic2bim.R;
+
 public class SettingsActivity extends BaseActivity {
 
     public static final int SAMPLING_NUMBER_MIN = 1;

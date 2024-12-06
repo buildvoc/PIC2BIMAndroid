@@ -35,6 +35,8 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
+import co.uk.pic2bim.R;
+
 public class LoginActivity extends BaseActivity {
 
     public final String TAG = LoginActivity.class.getName();

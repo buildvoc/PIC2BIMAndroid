@@ -13,7 +13,7 @@ import androidx.room.PrimaryKey;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.erasmicoin.euspa.gsa.egnss4all.R;
+import co.uk.pic2bim.R;
 import com.erasmicoin.euspa.gsa.egnss4all.model.GNSSLocation.GNSSSettingsStore;
 import com.erasmicoin.euspa.gsa.egnss4all.model.functionInterface.BiConsumer;
 import com.erasmicoin.euspa.gsa.egnss4all.model.functionInterface.Consumer;

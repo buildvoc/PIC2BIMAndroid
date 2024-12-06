@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import com.erasmicoin.euspa.gsa.egnss4all.R;
+import co.uk.pic2bim.R;
 import com.erasmicoin.euspa.gsa.egnss4all.TaskOverviewActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;

@@ -94,6 +94,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import co.uk.pic2bim.R;
+
 public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGMapActivity, PTMapActivity, PTOnNoPointToAdd, PTOnNoPointToDelete, CHMapActivity, FLDelegateActivity, LMDelegateActivity {
 
     private static class PTIsPathsUploadingBinderImpl implements PTIsPathsUploadingBinder {

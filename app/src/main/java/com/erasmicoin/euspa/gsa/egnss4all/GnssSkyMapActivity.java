@@ -40,6 +40,8 @@ import java.util.concurrent.ExecutionException;
 
 import eu.foxcom.gnss_scan.GnssStatusScanner;
 
+import co.uk.pic2bim.R;
+
 public class GnssSkyMapActivity extends BaseActivity {
 
     public static final String TAG = GnssSkyMapActivity.class.getSimpleName();

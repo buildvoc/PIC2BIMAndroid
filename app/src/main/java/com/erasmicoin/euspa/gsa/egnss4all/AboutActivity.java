@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentTransaction;
 
+import co.uk.pic2bim.R;
 import eu.foxcom.gnss_scan.GnssStatusScanner;
 
 public class AboutActivity extends BaseActivity {

@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.erasmicoin.euspa.gsa.egnss4all.R;
+import co.uk.pic2bim.R;
 import com.erasmicoin.euspa.gsa.egnss4all.model.AppDatabase;
 import com.erasmicoin.euspa.gsa.egnss4all.model.Util;
 import com.google.android.gms.maps.CameraUpdateFactory;

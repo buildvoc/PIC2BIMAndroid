@@ -28,6 +28,7 @@ import org.joda.time.format.DateTimeFormatter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
+import co.uk.pic2bim.R;
 
 public class TaskPhotoGalleryActivity extends BaseActivity {
 

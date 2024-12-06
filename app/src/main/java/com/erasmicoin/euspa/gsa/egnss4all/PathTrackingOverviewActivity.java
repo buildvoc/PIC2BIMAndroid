@@ -38,6 +38,8 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Phaser;
 
+import co.uk.pic2bim.R;
+
 public class PathTrackingOverviewActivity extends BaseActivity {
 
     class PathTrackingAdapter extends RecyclerView.Adapter<PathTrackingAdapter.PathTrackingHolder> {

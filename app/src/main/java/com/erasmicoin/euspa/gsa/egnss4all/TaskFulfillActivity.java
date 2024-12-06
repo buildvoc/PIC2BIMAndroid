@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import co.uk.pic2bim.R;
+
 public class TaskFulfillActivity extends BaseActivity {
 
     static abstract class TaskDeletePhotoDialogBuilder {

@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import eu.foxcom.gnss_scan.GnssStatusScanner;
+import co.uk.pic2bim.R;
 
 
 public class BasicInfoFragment extends BaseFragment {

@@ -2,7 +2,7 @@ package com.erasmicoin.euspa.gsa.egnss4all.model.groundGeometry;
 
 import android.content.Context;
 
-import com.erasmicoin.euspa.gsa.egnss4all.R;
+import co.uk.pic2bim.R;
 import com.erasmicoin.euspa.gsa.egnss4all.model.GNSSLocation.GNSSSettingsStore;
 import com.erasmicoin.euspa.gsa.egnss4all.model.Requestor;
 

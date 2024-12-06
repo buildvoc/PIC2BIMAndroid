@@ -12,6 +12,8 @@ import com.erasmicoin.euspa.gsa.egnss4all.model.component.SeekBarAPI26;
 import com.erasmicoin.euspa.gsa.egnss4all.model.functionInterface.BiConsumer;
 import com.erasmicoin.euspa.gsa.egnss4all.model.functionInterface.Function;
 
+import co.uk.pic2bim.R;
+
 public class SettingFilterActivity extends BaseActivity {
     public static final String TAG = SettingFilterActivity.class.getSimpleName();
 

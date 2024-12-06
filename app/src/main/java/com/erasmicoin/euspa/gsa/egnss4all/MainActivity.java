@@ -23,6 +23,8 @@ import com.erasmicoin.euspa.gsa.egnss4all.model.Util;
 
 import eu.foxcom.gnss_scan.GnssStatusScanner;
 
+import co.uk.pic2bim.R;
+
 public class MainActivity extends BaseActivity {
 
     public static final int REQUEST_LOCATION_UPDATE_TIMEOUT = 10000;
@@ -36,7 +38,7 @@ public class MainActivity extends BaseActivity {
         setToolbar(R.id.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setLogo(R.drawable.all_title_logo);
+        toolbar.setLogo(R.drawable.pic2bim_text);
         setShowMenu(true);
         resolveShowingLoggedUser();
 

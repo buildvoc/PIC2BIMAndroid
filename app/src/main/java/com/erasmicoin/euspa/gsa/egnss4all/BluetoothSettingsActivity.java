@@ -26,6 +26,8 @@ import com.erasmicoin.euspa.gsa.egnss4all.model.extbluetooth.SelectDeviceDialog;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import co.uk.pic2bim.R;
+
 public class BluetoothSettingsActivity extends BaseActivity implements BluetoothManager.ScanEndCallback {
 
     private BluetoothManager bluetoothManager;

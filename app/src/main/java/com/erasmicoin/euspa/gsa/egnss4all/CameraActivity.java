@@ -78,6 +78,8 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import co.uk.pic2bim.R;
+
 public class CameraActivity extends BaseActivity implements CameraXConfig.Provider {
 
     enum MSG {

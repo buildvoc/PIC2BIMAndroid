@@ -36,6 +36,8 @@ import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import co.uk.pic2bim.R;
+
 public class UnownedPhotoOverviewActivity extends BaseActivity {
 
     public enum BROADCAST_ACTION {

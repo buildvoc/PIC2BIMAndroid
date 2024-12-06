@@ -33,6 +33,8 @@ import com.erasmicoin.euspa.gsa.egnss4all.model.functionInterface.Function;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 
+import co.uk.pic2bim.R;
+
 public class TaskOverviewActivity extends BaseActivity {
 
     class TaskListAdapter extends ArrayAdapter<Task> {

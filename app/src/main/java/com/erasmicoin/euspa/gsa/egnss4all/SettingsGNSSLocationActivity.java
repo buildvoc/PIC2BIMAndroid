@@ -22,6 +22,8 @@ import com.erasmicoin.euspa.gsa.egnss4all.model.GNSSLocation.GNSSSettingsStore;
 import com.example.ELFA.edas.ClientThread;
 import com.example.ELFA.edas.ntrip.MT1_Message;
 
+import co.uk.pic2bim.R;
+
 public class SettingsGNSSLocationActivity extends BaseActivity {
 
     private Switch sbasSwitch;

@@ -33,6 +33,8 @@ import eu.foxcom.gnss_scan.GnssStatusScanner;
 import eu.foxcom.gnss_scan.NMEAParser;
 import eu.foxcom.gnss_scan.NMEAScanner;
 
+import co.uk.pic2bim.R;
+
 public class GnssRawActivity extends BaseActivity {
 
     class SatsListAdapter extends ArrayAdapter<String> {

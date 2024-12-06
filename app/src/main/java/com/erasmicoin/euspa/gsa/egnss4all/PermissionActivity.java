@@ -6,6 +6,8 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import co.uk.pic2bim.R;
+
 public class PermissionActivity extends BaseActivity {
 
     @Override

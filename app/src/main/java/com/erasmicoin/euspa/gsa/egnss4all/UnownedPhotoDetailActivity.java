@@ -41,6 +41,8 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
+import co.uk.pic2bim.R;
+
 public class UnownedPhotoDetailActivity extends BaseActivity {
 
     public static final String INTENT_ACTION_START = "intentActionStart";

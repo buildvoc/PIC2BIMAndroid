@@ -12,6 +12,8 @@ import androidx.appcompat.app.ActionBar;
 
 import com.erasmicoin.euspa.gsa.egnss4all.model.LoggedUser;
 
+import co.uk.pic2bim.R;
+
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.

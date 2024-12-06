@@ -15,7 +15,7 @@ import androidx.lifecycle.LifecycleService;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
-import com.erasmicoin.euspa.gsa.egnss4all.R;
+import co.uk.pic2bim.R;
 import com.erasmicoin.euspa.gsa.egnss4all.ServiceController;
 import com.erasmicoin.euspa.gsa.egnss4all.ServiceInit;
 import com.erasmicoin.euspa.gsa.egnss4all.model.AppDatabase;

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
-import com.erasmicoin.euspa.gsa.egnss4all.R;
+import co.uk.pic2bim.R;
 import com.erasmicoin.euspa.gsa.egnss4all.ServiceController;
 import com.erasmicoin.euspa.gsa.egnss4all.ServiceGetter;
 import com.erasmicoin.euspa.gsa.egnss4all.ServiceInit;
