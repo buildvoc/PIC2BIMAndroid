@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".StartActivity">
+    tools:context="com.erasmicoin.euspa.gsa.egnss4all.StartActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
@@ -31,7 +31,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:padding="100dp"
-                app:srcCompat="@drawable/all2_egnss4all_logo_s" />
+                app:srcCompat="@drawable/pic2bim_logo" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

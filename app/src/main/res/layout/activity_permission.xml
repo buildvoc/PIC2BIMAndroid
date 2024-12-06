@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PermissionActivity">
+    tools:context="com.erasmicoin.euspa.gsa.egnss4all.PermissionActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintVertical_chainStyle="packed"
-        app:srcCompat="@drawable/all2_egnss4all_logo_h" />
+        app:srcCompat="@drawable/pic2bim_h" />
 
     <TextView
         android:id="@+id/textView42"

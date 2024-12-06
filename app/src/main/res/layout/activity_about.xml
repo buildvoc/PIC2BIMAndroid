@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_marginTop="16dp"
-                android:src="@drawable/all2_egnss4all_logo_h"/>
+                android:src="@drawable/pic2bim_h"/>
 
             <ImageView
                 android:id="@+id/login_logo_euspa"

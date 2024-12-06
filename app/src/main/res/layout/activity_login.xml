@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context="com.erasmicoin.euspa.gsa.egnss4all.LoginActivity">
 
     <!-- <ImageView
         android:id="@+id/imageView3"
@@ -41,7 +41,7 @@
             android:id="@+id/login_logo"
             android:layout_width="wrap_content"
             android:layout_height="190dp"
-            android:src="@drawable/all2_egnss4all_logo_v"/>
+            android:src="@drawable/pic2bim_v"/>
 
 
     </LinearLayout>
