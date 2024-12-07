@@ -6,7 +6,6 @@ import android.location.GnssNavigationMessage;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
@@ -18,7 +17,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.erasmicoin.euspa.gsa.egnss4all.MainService;
-import com.erasmicoin.euspa.gsa.egnss4all.model.OSNMA.ServerPostPacketTask;
 import com.erasmicoin.euspa.gsa.egnss4all.model.OSNMA.ServerPostResponse;
 import com.erasmicoin.euspa.gsa.egnss4all.model.fusedLocation.FLDelegateActivity;
 import com.erasmicoin.euspa.gsa.egnss4all.model.locationManager.InavMessage;
@@ -30,6 +28,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -39,7 +41,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import eu.foxcom.gnss_compare_core.Constellations.Constellation;
@@ -48,9 +50,15 @@ import eu.foxcom.gnss_compare_core.Corrections.Correction;
 import eu.foxcom.gnss_compare_core.Corrections.DGNSSCorrection;
 import eu.foxcom.gnss_compare_core.Corrections.SBASCorrection;
 import eu.foxcom.gnss_compare_core.PvtMethods.PvtMethod;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 public class GNSSManager {
 
+    private final static String SERVER_URL = "http://157.230.208.98:8000/galmon";
     public static HashMap<String, Date> satValidationMap = new HashMap<>();
     private static int satValidationTimeframe = 240; //in seconds
     private final int MIN_OSNMA_VALIDATED_FOR_FIX = 1;
@@ -367,41 +375,73 @@ public class GNSSManager {
                 String deviceMan = android.os.Build.MANUFACTURER;
                 String deviceVer = Build.VERSION.RELEASE;
 
-                AsyncTask<String, Void, ServerPostResponse> server_response = new ServerPostPacketTask().execute(
-                        rawDate,
-                        String.valueOf(svid),
-                        "2",
-                        b64Inav,
-                        deviceMan,
-                        deviceName,
-                        sessionID,
-                        deviceVer);
-
+                JSONObject packet = new JSONObject();
                 try {
-                    ServerPostResponse result = server_response.get();
-                    String svidStr = String.valueOf(svid);
-                    if(result.getStatus().equalsIgnoreCase(ServerPostResponse.OK)) {
-                        if (!isSatValidated(svidStr)) {
-                            addSatToValidated(svidStr);
-                        } else {
-                            if(isValidationExpired(svidStr)){
-                                removeSatFromValidated(svidStr);
-                                addSatToValidated(svidStr);
+                    packet.put("timestamp", rawDate);
+                    packet.put("wn",0);
+                    packet.put("tow",0);
+                    packet.put("sat_id", String.valueOf(svid));
+                    packet.put("gnssid", "2");
+                    packet.put("inav_string", b64Inav);
+                    packet.put("ntp_offset", 0/1000L);
+                    packet.put("ntp_time", 0);
+                    packet.put("manufacturer", deviceMan);
+                    packet.put("model", deviceName);
+                    packet.put("uuid", sessionID);
+                    packet.put("version",deviceVer);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .connectTimeout(10, TimeUnit.SECONDS)
+                        .writeTimeout(10, TimeUnit.SECONDS)
+                        .readTimeout(30, TimeUnit.SECONDS)
+                        .build();
+
+                RequestBody body = RequestBody.create(packet.toString(), JSON);
+                okhttp3.Request request = new okhttp3.Request.Builder()
+                        .url(SERVER_URL)
+                        .post(body)
+                        .build();
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                        call.cancel();
+                    }
+                    @Override
+                    public void onResponse(@NonNull Call call, @NonNull okhttp3.Response response) throws IOException {
+                        try {
+                            if (response.body() != null) {
+                                JSONObject networkResp = new JSONObject(response.body().string());
+                                ServerPostResponse result = new ServerPostResponse(networkResp.getString("validity_check"), 0, 0);
+                                String svidStr = String.valueOf(svid);
+                                if(result.getStatus().equalsIgnoreCase(ServerPostResponse.OK)) {
+                                    if (!isSatValidated(svidStr)) {
+                                        addSatToValidated(svidStr);
+                                    } else {
+                                        if(isValidationExpired(svidStr)){
+                                            removeSatFromValidated(svidStr);
+                                            addSatToValidated(svidStr);
+                                        }
+                                    }
+                                }else if(result.getStatus().equalsIgnoreCase(ServerPostResponse.KO)) {
+                                    if (isSatValidated(svidStr) && isValidationExpired(svidStr)) {
+                                        removeSatFromValidated(String.valueOf(svid));
+                                    }
+                                }
+
+                                Thread.currentThread().interrupt();
+                                Log.d(TAG,"Server response: <"+ svid +"> - <"+result.getStatus()+">");
                             }
-                        }
-                    }else if(result.getStatus().equalsIgnoreCase(ServerPostResponse.KO)) {
-                        if (isSatValidated(svidStr) && isValidationExpired(svidStr)) {
-                            removeSatFromValidated(String.valueOf(svid));
+                        } catch (JSONException e) {
+                            Log.e(TAG,"Server error",e);
                         }
                     }
-
-                    Thread.currentThread().interrupt();
-                    Log.d(TAG,"Server response: <"+ svid +"> - <"+result.getStatus()+">");
-                } catch (ExecutionException e) {
-                    Log.e(TAG,"Server error",e);
-                } catch (InterruptedException e) {
-                    Log.e(TAG,"Server error",e);
-                }
+                });
             } catch (InterruptedException e) {
                 Log.e(TAG,"OSNMA Validation THREAD interrupted",e);
             }

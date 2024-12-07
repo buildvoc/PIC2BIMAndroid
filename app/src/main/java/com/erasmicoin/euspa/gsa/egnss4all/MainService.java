@@ -3,11 +3,11 @@ package com.erasmicoin.euspa.gsa.egnss4all;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.app.Service;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -17,7 +17,6 @@ import android.location.GnssNavigationMessage;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +24,9 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Window;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,7 +41,6 @@ import com.erasmicoin.euspa.gsa.egnss4all.model.AppDatabase;
 import com.erasmicoin.euspa.gsa.egnss4all.model.GNSSLocation.GNSSManager;
 import com.erasmicoin.euspa.gsa.egnss4all.model.GNSSLocation.GNSSSettingsStore;
 import com.erasmicoin.euspa.gsa.egnss4all.model.LoggedUser;
-import com.erasmicoin.euspa.gsa.egnss4all.model.OSNMA.ServerPostPacketTask;
 import com.erasmicoin.euspa.gsa.egnss4all.model.OSNMA.ServerPostResponse;
 import com.erasmicoin.euspa.gsa.egnss4all.model.PersistData;
 import com.erasmicoin.euspa.gsa.egnss4all.model.Photo;
@@ -65,6 +66,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
@@ -73,15 +75,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Phaser;
+import java.util.concurrent.TimeUnit;
 
 import co.uk.pic2bim.R;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 public class MainService extends Service implements GNSSManager.GNSSLocationCallback, BluetoothManager.BluetoothLocationCallback {
 
-
+    private final static String SERVER_URL = "http://157.230.208.98:8000/galmon";
     public static final String OFFLINE_LM_PROVIDER = "offlineLM";
     public static final String ONLINE_LM_PROVIDER = "onlineLM";
     public static final String FUSED_PROVIDER = "fused";
@@ -228,7 +235,7 @@ public class MainService extends Service implements GNSSManager.GNSSLocationCall
     public static final boolean IS_FOREGROUND = false;
     private static final int LOCATION_REQUEST_MILS = 100;
     private static final int LOCATION_REQUEST_MILS_FASTEST = 100;
-    public static final String CHANNEL_ID = "EGNSS4ALLChannel";
+    public static final String CHANNEL_ID = "co.uk.pic2bim.notification_channel";
     public static final int FOREGROUND_SERVICE_ID = 1;
     private static final int MODE_START = START_STICKY;
     private static final int TASK_UPDATER_INTERVALS_MILS = 3600000; // 1 hod
@@ -697,7 +704,7 @@ public class MainService extends Service implements GNSSManager.GNSSLocationCall
         notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.ms_notificationContent))
-                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentIntent(pendingIntent)
                 .build();
 
@@ -856,48 +863,83 @@ public class MainService extends Service implements GNSSManager.GNSSLocationCall
                 String deviceMan = android.os.Build.MANUFACTURER;
                 String deviceVer = Build.VERSION.RELEASE;
 
-                AsyncTask<String, Void, ServerPostResponse> server_response = new ServerPostPacketTask().execute(
-                        rawDate,
-                        String.valueOf(svid),
-                        "2",
-                        b64Inav,
-                        deviceMan,
-                        deviceName,
-                        sessionID,
-                        deviceVer);
-
+                JSONObject packet = new JSONObject();
                 try {
-                    ServerPostResponse result = server_response.get();
-                    String svidStr = String.valueOf(svid);
-                    boolean validated = false;
-                    if(result.getStatus().equalsIgnoreCase(ServerPostResponse.OK)) {
-                        if (!isSatValidated(svidStr)) {
-                            addSatToValidated(svidStr);
-                        } else {
-                            if(isValidationExpired(svidStr)){
-                                removeSatFromValidated(svidStr);
-                                addSatToValidated(svidStr);
-                            }
-                        }
-                        validated = true;
-                    }else if(result.getStatus().equalsIgnoreCase(ServerPostResponse.KO)) {
-                        if (isSatValidated(svidStr) && isValidationExpired(svidStr)) {
-                            removeSatFromValidated(String.valueOf(svid));
-                        }
-                        validated = false;
-                    }
+                    packet.put("timestamp", rawDate);
+                    packet.put("wn",0);
+                    packet.put("tow",0);
+                    packet.put("sat_id", String.valueOf(svid));
+                    packet.put("gnssid", "2");
+                    packet.put("inav_string", b64Inav);
+                    packet.put("ntp_offset", 0/1000L);
+                    packet.put("ntp_time", 0);
+                    packet.put("manufacturer", deviceMan);
+                    packet.put("model", deviceName);
+                    packet.put("uuid", sessionID);
+                    packet.put("version",deviceVer);
 
-                    /*for (InavMessage inavMessage : inavMessages) {
-                        if(inavMessage.getSvid() == svid && String.valueOf(inavMessage.getTimestamp()).equals(rawDate)){
-                            inavMessage.setValidated(validated);
-                        }
-                    }*/
-
-                    //Thread.currentThread().interrupt();
-                    Log.d(TAG,"Server response: <"+ svid +"> - <"+result.getStatus()+">");
-                } catch (ExecutionException | InterruptedException e) {
-                    Log.e(TAG,"Server error",e);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
+                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .connectTimeout(10, TimeUnit.SECONDS)
+                        .writeTimeout(10, TimeUnit.SECONDS)
+                        .readTimeout(30, TimeUnit.SECONDS)
+                        .build();
+
+                RequestBody body = RequestBody.create(packet.toString(), JSON);
+                okhttp3.Request request = new okhttp3.Request.Builder()
+                        .url(SERVER_URL)
+                        .post(body)
+                        .build();
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                        call.cancel();
+                    }
+                    @Override
+                    public void onResponse(@NonNull Call call, @NonNull okhttp3.Response response) throws IOException {
+                        try {
+                            if (response.body() != null) {
+                                JSONObject networkResp = new JSONObject(response.body().string());
+                                ServerPostResponse result = new ServerPostResponse(networkResp.getString("validity_check"), 0, 0);
+                                String svidStr = String.valueOf(svid);
+                                boolean validated = false;
+                                Log.d(TAG, result.getStatus());
+                                if(result.getStatus().equalsIgnoreCase(ServerPostResponse.OK)) {
+                                    if (!isSatValidated(svidStr)) {
+                                        addSatToValidated(svidStr);
+                                    } else {
+                                        if(isValidationExpired(svidStr)){
+                                            removeSatFromValidated(svidStr);
+                                            addSatToValidated(svidStr);
+                                        }
+                                    }
+                                    validated = true;
+                                }else if(result.getStatus().equalsIgnoreCase(ServerPostResponse.KO)) {
+                                    if (isSatValidated(svidStr) && isValidationExpired(svidStr)) {
+                                        removeSatFromValidated(String.valueOf(svid));
+                                    }
+                                    validated = false;
+                                }
+
+                                /*for (InavMessage inavMessage : inavMessages) {
+                                    if(inavMessage.getSvid() == svid && String.valueOf(inavMessage.getTimestamp()).equals(rawDate)){
+                                        inavMessage.setValidated(validated);
+                                    }
+                                }*/
+
+                                //Thread.currentThread().interrupt();
+                                Log.d(TAG,"Server response: <"+ svid +"> - <"+result.getStatus()+">");
+                            }
+                        } catch (JSONException e) {
+                            Log.e(TAG,"Server error",e);
+                        }
+                    }
+                });
             } catch (InterruptedException e) {
                 Log.e(TAG,"OSNMA Validation THREAD interrupted",e);
             }
@@ -999,8 +1041,17 @@ public class MainService extends Service implements GNSSManager.GNSSLocationCall
             bluetoothManager = new BluetoothManager(getApplicationContext());
             bluetoothManager.setBluetoothLocationCallback(this);
             bluetoothManager.requestLocationUpdates();
-            ProgressDialog searchDialog = ProgressDialog.show(activity, "",
-                    "Searching for device. Please wait...", true);
+
+            Dialog searchDialog = new Dialog(getApplicationContext());
+            searchDialog.setContentView(R.layout.progress_dialog);
+            Window window = searchDialog.getWindow();
+            if (window != null) {
+                window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                TextView dialogMsg = searchDialog.findViewById(R.id.loading_msg);
+                dialogMsg.setText("Searching for device. Please wait...");
+                searchDialog.show();
+            }
+            //ProgressDialog searchDialog = ProgressDialog.show(activity, "", "Searching for device. Please wait...", true);
             bluetoothManager.setDeviceFoundCallback(new BluetoothManager.DeviceFoundCallback() {
                 @Override
                 public void onDeviceFound(BluetoothDevice device) {

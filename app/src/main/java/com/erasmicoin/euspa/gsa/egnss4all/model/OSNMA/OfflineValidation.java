@@ -1,8 +1,9 @@
 package com.erasmicoin.euspa.gsa.egnss4all.model.OSNMA;
 
-import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.erasmicoin.euspa.gsa.egnss4all.model.Photo;
 
@@ -12,16 +13,25 @@ import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 public class OfflineValidation {
 
+    private final static String SERVER_URL = "http://157.230.208.98:8000/galmon";
     private static final String TAG = "OFFLINEVALIDATION";
 
     public interface ValidationProcess{
@@ -84,34 +94,68 @@ public class OfflineValidation {
                     System.out.println("Lancio validazione per svid "+svid);
                     new Thread(() -> {
                         boolean validated = false;
-                        AsyncTask<String, Void, ServerPostResponse> server_response = new ServerPostPacketTask().execute(
-                                ts,
-                                String.valueOf(svid),
-                                "2",
-                                inavb64,
-                                deviceMan,
-                                deviceName,
-                                sessionID,
-                                deviceVer);
-
+                        JSONObject packet = new JSONObject();
                         try {
-                            ServerPostResponse serverResult = server_response.get();
-                            validationAnswers.getAndIncrement();
-                            String svidStr = String.valueOf(svid);
-                            if (serverResult.getStatus().equalsIgnoreCase(ServerPostResponse.OK)) {
-                                if (!isSatValidated(svidStr)) {
-                                    addSatToValidated(svidStr);
+                            packet.put("timestamp", ts);
+                            packet.put("wn",0);
+                            packet.put("tow",0);
+                            packet.put("sat_id", String.valueOf(svid));
+                            packet.put("gnssid", "2");
+                            packet.put("inav_string", inavb64);
+                            packet.put("ntp_offset", 0/1000L);
+                            packet.put("ntp_time", 0);
+                            packet.put("manufacturer", deviceMan);
+                            packet.put("model", deviceName);
+                            packet.put("uuid", sessionID);
+                            packet.put("version",deviceVer);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+                        OkHttpClient client = new OkHttpClient.Builder()
+                                .connectTimeout(10, TimeUnit.SECONDS)
+                                .writeTimeout(10, TimeUnit.SECONDS)
+                                .readTimeout(30, TimeUnit.SECONDS)
+                                .build();
+
+                        RequestBody body = RequestBody.create(packet.toString(), JSON);
+                        okhttp3.Request request = new okhttp3.Request.Builder()
+                                .url(SERVER_URL)
+                                .post(body)
+                                .build();
+                        client.newCall(request).enqueue(new Callback() {
+                            @Override
+                            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                                call.cancel();
+                            }
+                            @Override
+                            public void onResponse(@NonNull Call call, @NonNull okhttp3.Response response) throws IOException {
+                                try {
+                                    if (response.body() != null) {
+                                        JSONObject networkResp = new JSONObject(response.body().string());
+                                        ServerPostResponse serverResult = new ServerPostResponse(networkResp.getString("validity_check"), 0, 0);
+
+                                        validationAnswers.getAndIncrement();
+                                        String svidStr = String.valueOf(svid);
+                                        if (serverResult.getStatus().equalsIgnoreCase(ServerPostResponse.OK)) {
+                                            if (!isSatValidated(svidStr)) {
+                                                addSatToValidated(svidStr);
+                                            }
+                                        }
+
+                                        if(validationAnswers.get() >= totalMessagesLength){
+                                            result.onValidationResult(satValidationMap.size());
+                                        }
+                                    }
+                                } catch (JSONException e) {
+                                    validationAnswers.getAndIncrement();
+                                    throw new RuntimeException(e);
                                 }
                             }
-
-                            if(validationAnswers.get() >= totalMessagesLength){
-                                result.onValidationResult(satValidationMap.size());
-                            }
-
-                        } catch (ExecutionException | InterruptedException e) {
-                            validationAnswers.getAndIncrement();
-                            throw new RuntimeException(e);
-                        }
+                        });
                     }).start();
                 }else{
                     System.out.println("Salto validazione per svid "+svid+" già validato");

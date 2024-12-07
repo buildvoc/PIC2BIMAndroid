@@ -1,7 +1,8 @@
 package com.erasmicoin.euspa.gsa.egnss4all;
 
 import android.Manifest;
-import android.app.ProgressDialog;
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ApplicationInfo;
@@ -10,14 +11,16 @@ import android.location.GnssStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.webkit.WebView;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -31,19 +34,27 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import eu.foxcom.gnss_scan.GnssStatusScanner;
 
 import co.uk.pic2bim.R;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class GnssSkyMapActivity extends BaseActivity {
 
+    private final static String SERVER_URL = "https://www.tlesatellite.com/getSatellites";
     public static final String TAG = GnssSkyMapActivity.class.getSimpleName();
     public static final int REQUEST_LOCATION_UPDATE_TIMEOUT = 5000;
     public static final int UPDATE_SATS_NUMBER_INTERVAL = 4000;
@@ -62,7 +73,7 @@ public class GnssSkyMapActivity extends BaseActivity {
 
     private LocationManager mLocationManager;
 
-    private ProgressDialog locationWait;
+    private Dialog locationWait;
 
     private long startTime;
 
@@ -74,6 +85,7 @@ public class GnssSkyMapActivity extends BaseActivity {
     private boolean reachableInternet = false;
 
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,10 +122,16 @@ public class GnssSkyMapActivity extends BaseActivity {
 
         constellationSpinner = findViewById(R.id.constellation_spinner);
 
-        locationWait = ProgressDialog.show(this, "",
-                getString(R.string.gnsm_wait_message), true);
-
-        locationWait.show();
+        locationWait = new Dialog(this);
+        locationWait.setContentView(R.layout.progress_dialog);
+        Window window = locationWait.getWindow();
+        if (window != null) {
+            window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            TextView dialogMsg = locationWait.findViewById(R.id.loading_msg);
+            dialogMsg.setText(R.string.gnsm_wait_message);
+            locationWait.show();
+        }
+        // locationWait = ProgressDialog.show(this, "", getString(R.string.gnsm_wait_message), true);
         setSpinnerAction();
 
         reachableInternet = Util.isInternetAvailable();
@@ -277,13 +295,50 @@ public class GnssSkyMapActivity extends BaseActivity {
 
 
     private void downloadSatellitesLocations(double latitude, double longitude, String constellation){
-        AsyncTask<String, Void, JSONObject> satellites_response = new ServerGetSatelllitesTask().execute(
-                String.valueOf(latitude), String.valueOf(longitude), constellation);
+        //        AsyncTask<String, Void, JSONObject> satellites_response = new ServerGetSatelllitesTask().execute(
+        //                String.valueOf(latitude), String.valueOf(longitude), constellation);
+        //        try {
+        //            remoteSatellites = satellites_response.get();
+        //        } catch (ExecutionException | InterruptedException e) {
+        //            e.printStackTrace();
+        //        }
+        JSONObject packet = new JSONObject();
         try {
-            remoteSatellites = satellites_response.get();
-        } catch (ExecutionException | InterruptedException e) {
+            packet.put("lat", Double.valueOf(latitude));
+            packet.put("lon", Double.valueOf(longitude));
+            packet.put("type", constellation);
+
+        } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build();
+        RequestBody body = RequestBody.create(packet.toString(), JSON);
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(SERVER_URL)
+                .post(body)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                call.cancel();
+            }
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                try {
+                    if (response.body() != null) {
+                        remoteSatellites = new JSONObject(response.body().string());
+                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
     }
 
     @Override

@@ -7,11 +7,11 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.MutableLiveData;
@@ -19,7 +19,6 @@ import androidx.lifecycle.Observer;
 
 import com.erasmicoin.euspa.gsa.egnss4all.MainService;
 import com.erasmicoin.euspa.gsa.egnss4all.model.GNSSLocation.GNSSSettingsStore;
-import com.erasmicoin.euspa.gsa.egnss4all.model.OSNMA.ServerExternalDevicePostPacketTask;
 import com.erasmicoin.euspa.gsa.egnss4all.model.OSNMA.ServerPostResponse;
 import com.erasmicoin.euspa.gsa.egnss4all.model.fusedLocation.FLDelegateActivity;
 import com.github.douglasjunior.bluetoothclassiclibrary.BluetoothClassicService;
@@ -40,6 +39,7 @@ import net.sf.marineapi.nmea.util.Position;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -47,11 +47,19 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class BluetoothManager {
 
+    private final static String SERVER_URL = "http://157.230.208.98:8000/galmon";
     private final String TAG = BluetoothManager.class.getSimpleName();
     private static final int MY_BLUETOOTH_PERMISSION = 66;
     private BluetoothService service;
@@ -317,33 +325,57 @@ public class BluetoothManager {
                                     String svidStr = svid;
                                     Thread.sleep(10000);
 
-                                    AsyncTask<JSONObject, Void, ServerPostResponse> server_response = new ServerExternalDevicePostPacketTask().execute(msg);
-
                                     try {
-                                        ServerPostResponse result = server_response.get();
+                                        msg.put("source","client");
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                                    OkHttpClient client = new OkHttpClient.Builder()
+                                            .connectTimeout(10, TimeUnit.SECONDS)
+                                            .writeTimeout(10, TimeUnit.SECONDS)
+                                            .readTimeout(30, TimeUnit.SECONDS)
+                                            .build();
+                                    RequestBody body = RequestBody.create(msg.toString(), JSON);
+                                    okhttp3.Request request = new okhttp3.Request.Builder()
+                                            .url(SERVER_URL)
+                                            .post(body)
+                                            .build();
 
-                                        if(result.getStatus().equalsIgnoreCase(ServerPostResponse.OK)) {
-                                            if (!isSatValidated(svidStr)) {
-                                                addSatToValidated(svidStr);
-                                            } else {
-                                                if(isValidationExpired(svidStr)){
-                                                    removeSatFromValidated(svidStr);
-                                                    addSatToValidated(svidStr);
+                                    client.newCall(request).enqueue(new Callback() {
+                                        @Override
+                                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                                            call.cancel();
+                                        }
+                                        @Override
+                                        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                                            try {
+                                                if (response.body() != null) {
+                                                    JSONObject networkResp = new JSONObject(response.body().string());
+                                                    ServerPostResponse result = new ServerPostResponse(networkResp.getString("validity_check"), 0, 0);
+                                                    if(result.getStatus().equalsIgnoreCase(ServerPostResponse.OK)) {
+                                                        if (!isSatValidated(svidStr)) {
+                                                            addSatToValidated(svidStr);
+                                                        } else {
+                                                            if(isValidationExpired(svidStr)){
+                                                                removeSatFromValidated(svidStr);
+                                                                addSatToValidated(svidStr);
+                                                            }
+                                                        }
+                                                    }else if(result.getStatus().equalsIgnoreCase(ServerPostResponse.KO)) {
+                                                        if (isSatValidated(svidStr) && isValidationExpired(svidStr)) {
+                                                            removeSatFromValidated(svidStr);
+                                                        }
+                                                    }
+
+                                                    Thread.currentThread().interrupt();
+                                                    Log.d(TAG,"Server response: <"+ svid +"> - <"+result.getStatus()+">");
                                                 }
-                                            }
-                                        }else if(result.getStatus().equalsIgnoreCase(ServerPostResponse.KO)) {
-                                            if (isSatValidated(svidStr) && isValidationExpired(svidStr)) {
-                                                removeSatFromValidated(svidStr);
+                                            } catch (JSONException e) {
+                                                Log.e(TAG,"Server error",e);
                                             }
                                         }
-
-                                        Thread.currentThread().interrupt();
-                                        Log.d(TAG,"Server response: <"+ svid +"> - <"+result.getStatus()+">");
-                                    } catch (ExecutionException e) {
-                                        Log.e(TAG,"Server error",e);
-                                    } catch (InterruptedException e) {
-                                        Log.e(TAG,"Server error",e);
-                                    }
+                                    });
                                 } catch (InterruptedException e) {
                                     Log.e(TAG,"OSNMA Validation THREAD interrupted",e);
                                 }
