@@ -29,6 +29,7 @@ public class PermissionActivity extends BaseActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (onRequestPermissionResultAllGranted(requestCode, permissions, grantResults)) {
             Intent intent = new Intent(this, StartActivity.class);
             startActivity(intent);

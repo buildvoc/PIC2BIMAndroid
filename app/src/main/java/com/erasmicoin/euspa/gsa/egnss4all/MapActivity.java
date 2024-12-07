@@ -3,7 +3,7 @@ package com.erasmicoin.euspa.gsa.egnss4all;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.app.Dialog;
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
@@ -286,7 +287,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGM
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         if (menuItem.getItemId() == android.R.id.home) {
             if (startMode.equals(START_MODE.TASK_PHOTOS) || startMode.equals(START_MODE.UNOWNED_PHOTOS)) {
-                onBackPressed();
+                getOnBackPressedDispatcher().onBackPressed();
                 return true;
             }
         }
@@ -449,7 +450,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGM
     //BluetoothDevice bluetoothDevice = null;
     Activity currentActivity = this;
 
-    ProgressDialog searchDialog;
+    Dialog searchDialog;
 
     @SuppressLint("MissingPermission")
     private void initBluetoothLocation(){
@@ -466,8 +467,16 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGM
         bluetoothManager.setCameraAnimateDurationMils(CAMERA_ANIMATION_DURATION_MILS);
         bluetoothManager.requestCameraMoveToNewLocation();
 
-        searchDialog = ProgressDialog.show(this, "",
-                "Searching for device. Please wait...", true);
+        searchDialog = new Dialog(getApplicationContext());
+        searchDialog.setContentView(R.layout.progress_dialog);
+        Window window = searchDialog.getWindow();
+        if (window != null) {
+            window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            TextView dialogMsg = searchDialog.findViewById(R.id.loading_msg);
+            dialogMsg.setText("Searching for device. Please wait...");
+            searchDialog.show();
+        }
+        // searchDialog = ProgressDialog.show(this, "", "Searching for device. Please wait...", true);
         if (locationPermissionCheck()) {
             bluetoothManager.setDeviceFoundCallback(new BluetoothManager.DeviceFoundCallback() {
                 @Override

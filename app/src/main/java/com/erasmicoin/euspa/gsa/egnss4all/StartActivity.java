@@ -178,7 +178,8 @@ public class StartActivity extends BaseActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(onRequestPermissionResultAllGranted(requestCode, permissions, grantResults)) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (onRequestPermissionResultAllGranted(requestCode, permissions, grantResults)) {
             routeAfterCheckPermission();
         } else {
             routeToPermissionGranted();

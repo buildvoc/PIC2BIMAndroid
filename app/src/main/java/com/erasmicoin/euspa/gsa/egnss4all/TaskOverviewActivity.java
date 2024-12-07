@@ -33,6 +33,8 @@ import com.erasmicoin.euspa.gsa.egnss4all.model.functionInterface.Function;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.util.Objects;
+
 import co.uk.pic2bim.R;
 
 public class TaskOverviewActivity extends BaseActivity {
@@ -124,7 +126,7 @@ public class TaskOverviewActivity extends BaseActivity {
         filterDialog = new FilterTaskDialogFragment(this);
         filterView = LayoutInflater.from(this).inflate(R.layout.dialog_filter_task_overview, null, false);
         filterDialog.show(getSupportFragmentManager(), FilterTaskDialogFragment.TAG);
-        filterDialog.dismiss();
+        // filterDialog.dismiss();
         EditText filterEditText = findViewById(R.id.to_editText_filter);
         filterEditText.setOnClickListener(v -> filterDialog.show(getSupportFragmentManager(), FilterTaskDialogFragment.TAG));
     }
@@ -144,13 +146,11 @@ public class TaskOverviewActivity extends BaseActivity {
     @Override
     protected MainService.BROADCAST_MSG broadcastImplicitReceiver(Context context, Intent intent) {
         MainService.BROADCAST_MSG broadcastMsg = super.broadcastImplicitReceiver(context, intent);
-        switch (broadcastMsg) {
-            case REFRESH_TASKS_FINISHED:
-                boolean success = intent.getBooleanExtra(MainService.BROADCAST_REFRESH_TASKS_PARAMS.SUCCESS.ID, false);
-                if (success) {
-                    restartActivity();
-                }
-                break;
+        if (Objects.requireNonNull(broadcastMsg) == MainService.BROADCAST_MSG.REFRESH_TASKS_FINISHED) {
+            boolean success = intent.getBooleanExtra(MainService.BROADCAST_REFRESH_TASKS_PARAMS.SUCCESS.ID, false);
+            if (success) {
+                restartActivity();
+            }
         }
 
         return broadcastMsg;
@@ -160,7 +160,6 @@ public class TaskOverviewActivity extends BaseActivity {
         if (!serviceController.isServiceBound() || !isFilterViewInit) {
             return;
         }
-
         ListView listView = findViewById(R.id.to_listView);
         if (taskListFilter == null) {
             loadTaskFilterPerzToUI();
