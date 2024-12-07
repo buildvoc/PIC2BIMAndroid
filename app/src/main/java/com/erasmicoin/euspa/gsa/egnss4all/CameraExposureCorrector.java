@@ -8,7 +8,9 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
 import android.util.Range;
 
+import androidx.annotation.OptIn;
 import androidx.camera.camera2.interop.Camera2CameraInfo;
+import androidx.camera.camera2.interop.ExperimentalCamera2Interop;
 import androidx.camera.core.Camera;
 
 import com.erasmicoin.euspa.gsa.egnss4all.model.PersistData;
@@ -28,9 +30,9 @@ public class CameraExposureCorrector {
         this.context = context;
     }
 
-    @SuppressLint("UnsafeExperimentalUsageError")
+    @OptIn(markerClass = ExperimentalCamera2Interop.class)
     public void init(Camera camera) {
-        String cameraId = Camera2CameraInfo.extractCameraId(camera.getCameraInfo());
+        String cameraId = Camera2CameraInfo.from(camera.getCameraInfo()).getCameraId();
         CameraManager cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         CameraCharacteristics cameraCharacteristics;
         try {

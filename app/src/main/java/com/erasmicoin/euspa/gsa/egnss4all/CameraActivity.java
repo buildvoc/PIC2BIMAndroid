@@ -30,9 +30,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.annotation.RequiresApi;
 import androidx.camera.camera2.Camera2Config;
 import androidx.camera.camera2.interop.Camera2Interop;
+import androidx.camera.camera2.interop.ExperimentalCamera2Interop;
+import androidx.camera.core.AspectRatio;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.CameraXConfig;
@@ -41,6 +44,9 @@ import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.core.impl.DeferrableSurface;
+import androidx.camera.core.resolutionselector.AspectRatioStrategy;
+import androidx.camera.core.resolutionselector.ResolutionSelector;
+import androidx.camera.core.resolutionselector.ResolutionStrategy;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -449,7 +455,13 @@ public class CameraActivity extends BaseActivity implements CameraXConfig.Provid
         return new ImageCapture.Builder()
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
                 //.setTargetAspectRatio(AspectRatio.RATIO_16_9)
-                .setTargetResolution(new Size(1920, 1080))
+                //.setTargetResolution(new Size(1920, 1080))
+                .setResolutionSelector(
+                        new ResolutionSelector.Builder()
+                                .setResolutionStrategy(new ResolutionStrategy(new Size(1080, 1920), ResolutionStrategy.FALLBACK_RULE_CLOSEST_HIGHER_THEN_LOWER))
+                                .setAspectRatioStrategy(new AspectRatioStrategy(AspectRatio.RATIO_16_9, AspectRatioStrategy.FALLBACK_RULE_AUTO))
+                                        .build()
+                )
                 .setFlashMode(ImageCapture.FLASH_MODE_AUTO)
                 // oprava s garancí pro samsung a MI 9
                 .setTargetRotation(Surface.ROTATION_90)
@@ -464,12 +476,12 @@ public class CameraActivity extends BaseActivity implements CameraXConfig.Provid
     protected void onResume() {
         super.onResume();
 
-        getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-            @Override
-            public void onSystemUiVisibilityChange(int visibility) {
-                toFullScreen();
-            }
-        });
+//        getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+//            @Override
+//            public void onSystemUiVisibilityChange(int visibility) {
+//                toFullScreen();
+//            }
+//        });
 
         if (serviceController.isServiceInitialized()) {
             updatorPhotoControllerDataHandler.postDelayed(updatorPhotoControllerDataRunnable, INTERVAL_UPDATE_PHOTO_CONTROLLER_DATA_MILS);
@@ -529,7 +541,7 @@ public class CameraActivity extends BaseActivity implements CameraXConfig.Provid
         return cameraSelector;
     }
 
-    @SuppressLint("UnsafeExperimentalUsageError")
+    @OptIn(markerClass = ExperimentalCamera2Interop.class)
     private void configExtender(Camera2Interop.Extender extender) {
         if (SettingsActivity.isManualBrightnessActive(this)) {
             extender.setCaptureRequestOption(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, PersistData.getExposureCorrection(this));
@@ -561,7 +573,8 @@ public class CameraActivity extends BaseActivity implements CameraXConfig.Provid
     }
 
     // rebind with only preview
-    @SuppressLint("UnsafeExperimentalUsageError")
+    // @SuppressLint("UnsafeExperimentalUsageError")
+    @OptIn(markerClass = ExperimentalCamera2Interop.class)
     private void cameraProviderRebindPreview() {
         Preview.Builder previewBuilder = createBuilderPreviewUseCase();
         Camera2Interop.Extender extender = new Camera2Interop.Extender(previewBuilder);
@@ -587,7 +600,7 @@ public class CameraActivity extends BaseActivity implements CameraXConfig.Provid
             cameraProvider.unbind(preview);
         }
         preview = previewBuilder.build();
-        preview.setSurfaceProvider(previewView.createSurfaceProvider());
+        preview.setSurfaceProvider(previewView.getSurfaceProvider());
         camera = cameraProvider.bindToLifecycle(this, acquireCameraSelector(), preview);
         cameraRebindSettings();
     }
@@ -626,7 +639,8 @@ public class CameraActivity extends BaseActivity implements CameraXConfig.Provid
     }
 
     // rebind with only imageCapture
-    @SuppressLint("UnsafeExperimentalUsageError")
+    // @SuppressLint("UnsafeExperimentalUsageError")
+    @OptIn(markerClass = ExperimentalCamera2Interop.class)
     private void cameraProviderRebindImageCapture() {
         ImageCapture.Builder imageCaptureBuilder = createBuilderImageCaptureUseCase();
         Camera2Interop.Extender extender = new Camera2Interop.Extender(imageCaptureBuilder);
@@ -733,7 +747,7 @@ public class CameraActivity extends BaseActivity implements CameraXConfig.Provid
                     if (checkData()) {
                         /* manual rotation correction */
                         int rotationDegrees = image.getImageInfo().getRotationDegrees();
-                        @SuppressLint("UnsafeExperimentalUsageError") Image img = image.getImage();
+                        // @SuppressLint("UnsafeExperimentalUsageError") Image img = image.getImage();
                         ImageProxy.PlaneProxy[] planeProxy = image.getPlanes();
                         ByteBuffer buffer = planeProxy[0].getBuffer();
                         byte[] bytes = new byte[buffer.capacity()];
