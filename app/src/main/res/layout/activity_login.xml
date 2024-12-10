@@ -41,7 +41,9 @@
             android:id="@+id/login_logo"
             android:layout_width="wrap_content"
             android:layout_height="190dp"
-            android:src="@drawable/pic2bim_v"/>
+            android:padding="24dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/pic2bim_logo_v"/>
 
 
     </LinearLayout>
@@ -189,7 +191,9 @@
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginBottom="32dp"
+        android:contentDescription="@string/app_name"
         android:src="@drawable/all_logo_euspa"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

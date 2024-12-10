@@ -34,13 +34,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_marginTop="16dp"
-                android:src="@drawable/pic2bim_h"/>
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/pic2bim_logo_h"/>
 
             <ImageView
                 android:id="@+id/login_logo_euspa"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:layout_marginVertical="16dp"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/all_logo_euspa"/>
             <TextView
                 android:id="@+id/textView61"

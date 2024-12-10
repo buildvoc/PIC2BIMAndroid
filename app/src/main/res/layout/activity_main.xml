@@ -37,7 +37,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:src="@drawable/pic2bim_v"/>
+            android:padding="28dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/pic2bim_logo_v" />
 
         <ImageButton
             android:id="@+id/buttonShowInfo"
@@ -47,6 +49,7 @@
             android:layout_marginStart="16dp"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:contentDescription="@string/app_name"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
@@ -58,6 +61,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="64dp"
+            android:contentDescription="@string/app_name"
+            android:visibility="gone"
             android:src="@drawable/all_logo_euspa" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
