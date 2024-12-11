@@ -2,14 +2,17 @@ package com.erasmicoin.euspa.gsa.egnss4all;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
+import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.ParcelUuid;
 import android.view.View;
+import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -38,8 +41,8 @@ public class BluetoothSettingsActivity extends BaseActivity implements Bluetooth
     private AlertDialog notFoundDlg;
     private ConnectionResultDialog testResult;
 
-    private ProgressDialog scanDialog;
-    private ProgressDialog searchDialog;
+    private Dialog scanDialog;
+    private Dialog searchDialog;
 
     private HashMap<String, BluetoothDevice> deviceList = new HashMap<>();
 
@@ -62,15 +65,22 @@ public class BluetoothSettingsActivity extends BaseActivity implements Bluetooth
         currentDevice = findViewById(R.id.selectedDevice);
 
         if (GNSSSettingsStore.readExternalBT(getApplicationContext())) {
-            if(checkBluetoothEnabled()){
+            if (checkBluetoothEnabled()) {
                 ((Switch) findViewById(R.id.bts_switch_external)).setChecked(true);
                 findViewById(R.id.selectedDeviceItem).setVisibility(View.VISIBLE);
                 findViewById(R.id.testConnection).setVisibility(View.VISIBLE);
                 findViewById(R.id.scanDevices).setVisibility(View.VISIBLE);
                 if (!GNSSSettingsStore.readExternalBTName(getApplicationContext()).isEmpty()) {
-
-                    searchDialog = ProgressDialog.show(this, "",
-                            "Searching for device. Please wait...", true);
+                    searchDialog = new Dialog(getApplicationContext());
+                    searchDialog.setContentView(R.layout.progress_dialog);
+                    Window window = searchDialog.getWindow();
+                    if (window != null) {
+                        window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        TextView dialogMsg = searchDialog.findViewById(R.id.loading_msg);
+                        dialogMsg.setText("Searching for device. Please wait...");
+                        searchDialog.show();
+                    }
+                    // searchDialog = ProgressDialog.show(this, "", "Searching for device. Please wait...", true);
                     bluetoothManager.setDeviceFoundCallback(new BluetoothManager.DeviceFoundCallback() {
                         @Override
                         public void onDeviceFound(BluetoothDevice device) {
@@ -120,7 +130,8 @@ public class BluetoothSettingsActivity extends BaseActivity implements Bluetooth
 
     int MY_PERMISSIONS_LOCATION = 13;
 
-    private void enableBluetooth(){
+    private void enableBluetooth() {
+        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -129,17 +140,9 @@ public class BluetoothSettingsActivity extends BaseActivity implements Bluetooth
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, MY_PERMISSIONS_LOCATION);
+            return;
         }
-        BluetoothAdapter.getDefaultAdapter().enable();
-        scanDialog = ProgressDialog.show(this, "",
-                "Enabling Bluetooth. Please wait...", true);
-        try {
-            Thread.sleep(2000);
-            scanDialog.dismiss();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        startActivity(enableBtIntent);
     }
 
     private boolean checkBluetoothEnabled(){
@@ -168,8 +171,16 @@ public class BluetoothSettingsActivity extends BaseActivity implements Bluetooth
 
     public void scanDevices(View view) {
         checkBluetoothEnabled();
-        scanDialog = ProgressDialog.show(this, "",
-                "Scanning. Please wait...", true);
+        scanDialog = new Dialog(view.getContext());
+        scanDialog.setContentView(R.layout.progress_dialog);
+        Window window = scanDialog.getWindow();
+        if (window != null) {
+            window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            TextView dialogMsg = scanDialog.findViewById(R.id.loading_msg);
+            dialogMsg.setText("Scanning. Please wait...");
+            scanDialog.show();
+        }
+        // scanDialog = ProgressDialog.show(this, "", "Scanning. Please wait...", true);
         bluetoothManager.setScanEndCallback(this);
 
         bluetoothManager.startScan(this);
@@ -179,8 +190,16 @@ public class BluetoothSettingsActivity extends BaseActivity implements Bluetooth
         if(selectedDevice == null){
             notSelectedDlg.show();
         }else{
-            ProgressDialog prdialog = ProgressDialog.show(this, "",
-                    "Connecting. Please wait...", true);
+            Dialog prdialog = new Dialog(view.getContext());
+            prdialog.setContentView(R.layout.progress_dialog);
+            Window window = prdialog.getWindow();
+            if (window != null) {
+                window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                TextView dialogMsg = prdialog.findViewById(R.id.loading_msg);
+                dialogMsg.setText("Connecting. Please wait...");
+                prdialog.show();
+            }
+            // ProgressDialog prdialog = ProgressDialog.show(this, "", "Connecting. Please wait...", true);
 
             bluetoothManager.testConnection(selectedDevice, new BluetoothManager.TestConnectCallback() {
                 @Override
