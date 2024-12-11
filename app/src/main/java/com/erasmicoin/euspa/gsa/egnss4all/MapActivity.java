@@ -467,7 +467,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGM
         bluetoothManager.setCameraAnimateDurationMils(CAMERA_ANIMATION_DURATION_MILS);
         bluetoothManager.requestCameraMoveToNewLocation();
 
-        searchDialog = new Dialog(getApplicationContext());
+        searchDialog = new Dialog(MapActivity.this);
         searchDialog.setContentView(R.layout.progress_dialog);
         Window window = searchDialog.getWindow();
         if (window != null) {
