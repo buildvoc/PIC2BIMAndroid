@@ -11,7 +11,7 @@ class QuickHull {
             return points;
         }
 
-        int minPoint = -1, maxPoint = -1;
+        int minPoint = 0, maxPoint = 0;
         double minX = Double.MAX_VALUE;
         double maxX = Double.MIN_VALUE;
         for (int i = 0; i < points.size(); i++) {
