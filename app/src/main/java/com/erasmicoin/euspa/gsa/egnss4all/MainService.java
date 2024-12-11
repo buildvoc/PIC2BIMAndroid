@@ -1042,7 +1042,7 @@ public class MainService extends Service implements GNSSManager.GNSSLocationCall
             bluetoothManager.setBluetoothLocationCallback(this);
             bluetoothManager.requestLocationUpdates();
 
-            Dialog searchDialog = new Dialog(activity.getApplicationContext());
+            Dialog searchDialog = new Dialog(activity);
             searchDialog.setContentView(R.layout.progress_dialog);
             Window window = searchDialog.getWindow();
             if (window != null) {
