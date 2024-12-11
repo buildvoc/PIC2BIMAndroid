@@ -71,7 +71,7 @@ public class BluetoothSettingsActivity extends BaseActivity implements Bluetooth
                 findViewById(R.id.testConnection).setVisibility(View.VISIBLE);
                 findViewById(R.id.scanDevices).setVisibility(View.VISIBLE);
                 if (!GNSSSettingsStore.readExternalBTName(getApplicationContext()).isEmpty()) {
-                    searchDialog = new Dialog(getApplicationContext());
+                    searchDialog = new Dialog(BluetoothSettingsActivity.this);
                     searchDialog.setContentView(R.layout.progress_dialog);
                     Window window = searchDialog.getWindow();
                     if (window != null) {
