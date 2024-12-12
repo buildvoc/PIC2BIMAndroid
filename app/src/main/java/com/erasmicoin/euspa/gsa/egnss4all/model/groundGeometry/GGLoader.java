@@ -1,6 +1,7 @@
 package com.erasmicoin.euspa.gsa.egnss4all.model.groundGeometry;
 
 import android.content.Context;
+import android.util.Log;
 
 import co.uk.pic2bim.R;
 import com.erasmicoin.euspa.gsa.egnss4all.model.GNSSLocation.GNSSSettingsStore;
@@ -37,7 +38,7 @@ class GGLoader {
         String currentServer = GNSSSettingsStore.readCurrentServer(ctx);
             requestor.requestAuth(currentServer+"comm_shapes", response -> {
             try {
-                JSONObject jsonObject = new JSONObject(response);
+                JSONObject jsonObject = new JSONObject("{ \"status\": \"ok\", \"error_msg\": null, \"shapes\": [ { \"identificator\": \"SURREY.13399\", \"wgs_geometry\": \"[ [ [ -0.808977288, 51.212073995 ], [ -0.809045188, 51.212116595 ], [ -0.809069888, 51.212132095 ], [ -0.809128088, 51.212168595 ], [ -0.809282288, 51.212071695 ], [ -0.809131588, 51.211977095 ], [ -0.808977288, 51.212073995 ] ] ]\" } ]}");
                 String status = jsonObject.getString("status");
                 if (!status.equals("ok")) {
                     String errMgs = jsonObject.getString("error_msg");
@@ -46,6 +47,7 @@ class GGLoader {
                     return;
                 }
                 JSONArray shapes = jsonObject.getJSONArray("shapes");
+                Log.d("GGLoader", shapes.toString());
                 List<GGObject> ggObjects = GGObject.createListFromResponse(shapes);
                 ggManager.loaderLoadGrounds(ggObjects);
             } catch (JSONException | GGObject.GGParseException e) {
