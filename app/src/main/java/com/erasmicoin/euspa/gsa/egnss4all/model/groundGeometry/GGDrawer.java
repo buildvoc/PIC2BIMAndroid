@@ -1,6 +1,8 @@
 package com.erasmicoin.euspa.gsa.egnss4all.model.groundGeometry;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -32,13 +34,14 @@ class GGDrawer {
             List<GGObject> ggObjects = ggManager.getGgObjects();
             for(GGObject ggObject : ggObjects) {
                 PolygonOptions polygonOptions = new PolygonOptions();
-                 polygonOptions.addAll(ggObject.getOuterPoints());
+                polygonOptions.addAll(ggObject.getOuterPoints());
                 List<List<LatLng>> holes = ggObject.getInnerPoints();
                 for (List<LatLng> hole : holes) {
                     polygonOptions.addHole(hole);
                 }
-                polygonOptions.fillColor(0x30ea3122);
-                polygonOptions.strokeColor(0xffea3122);
+                polygonOptions.fillColor(Color.argb(20, 242, 10, 51));
+                polygonOptions.strokeColor(Color.argb(100, 242, 10, 51));
+                polygonOptions.strokeWidth(3);
                 ggObject.setPolygon(polygonCollection.addPolygon(polygonOptions));
 
                 IconGenerator iconGenerator = new IconGenerator(ggManager.getContext());
@@ -50,6 +53,8 @@ class GGDrawer {
                 markerOptions.position(ggObject.getCentroid());
                 markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
                 ggObject.setMarker(markerCollection.addMarker(markerOptions));
+
+                Log.d("GGLoader",ggObject.getCentroid().latitude+","+ggObject.getCentroid().longitude);
 
                 ggObject.setDrawn(true);
             }

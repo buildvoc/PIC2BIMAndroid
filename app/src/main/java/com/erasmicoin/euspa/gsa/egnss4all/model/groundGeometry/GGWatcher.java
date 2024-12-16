@@ -18,7 +18,7 @@ class GGWatcher {
             if (map.getCameraPosition().zoom > LIMIT_ZOOM_LEVEL) {
                 ggManager.watcherDrawGrounds(new GGRegion(map.getProjection().getVisibleRegion().latLngBounds));
             } else {
-                ggManager.watcherHideGrounds();
+                // ggManager.watcherHideGrounds();
             }
         });
     }

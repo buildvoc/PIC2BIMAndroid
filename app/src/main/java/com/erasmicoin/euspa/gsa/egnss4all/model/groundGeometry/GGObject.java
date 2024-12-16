@@ -34,18 +34,21 @@ class GGObject {
     private Marker marker;
     private LatLng centroid;
 
-    static List<GGObject> createListFromResponse(JSONArray shapes) throws JSONException, GGParseException {
+    static List<GGObject> createListFromResponse(JSONArray features) throws JSONException, GGParseException {
         List<GGObject> ggObjects = new ArrayList<>();
-        for (int i = 0; i < shapes.length(); ++i) {
-            ggObjects.add(createFromJSON(shapes.getJSONObject(i)));
+        for (int i = 0; i < features.length(); ++i) {
+            ggObjects.add(createFromJSON(features.getJSONObject(i)));
         }
         return ggObjects;
     }
 
     private static GGObject createFromJSON(JSONObject jsonObject) throws JSONException, GGParseException {
         GGObject ggObject = new GGObject();
-        ggObject.label = jsonObject.getString("identificator");
-        JSONArray paths = new JSONArray(jsonObject.getString("wgs_geometry"));
+        JSONObject properties = jsonObject.getJSONObject("properties");
+        ggObject.label = properties.getString("wd24nm");
+        JSONObject geometry = jsonObject.getJSONObject("geometry");
+        JSONArray paths = geometry.getJSONArray("coordinates");
+        paths = paths.getJSONArray(0);
         if (paths.length() == 0) {
             throw new GGParseException("wgs_geometry for " + ggObject.label + " is empty array");
         }
@@ -56,8 +59,8 @@ class GGObject {
             }
             for (int j = 0; j < path.length(); ++j) {
                 JSONArray point = path.getJSONArray(j);
-                Double lat = point.getDouble(0);
-                Double lng = point.getDouble(1);
+                double lat = point.getDouble(1);
+                double lng = point.getDouble(0);
                 LatLng latLng = new LatLng(lat, lng);
                 if (i == 0) {
                     ggObject.outerPoints.add(latLng);
