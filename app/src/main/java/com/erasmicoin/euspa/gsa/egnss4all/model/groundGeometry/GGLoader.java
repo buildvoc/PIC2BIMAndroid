@@ -59,10 +59,10 @@ class GGLoader {
                 .addPathSegment("api")
                 .addPathSegment("v1")
                 .addPathSegment("ward-south-east")
-                .addQueryParameter("max_lat", String.valueOf(ggRegion.getMaxLng()))
-                .addQueryParameter("min_lat", String.valueOf(ggRegion.getMinLng()))
-                .addQueryParameter("max_lng", String.valueOf(ggRegion.getMaxLat()))
-                .addQueryParameter("min_lng", String.valueOf(ggRegion.getMinLat()))
+                .addQueryParameter("max_lat", String.valueOf(ggRegion.getMaxLat()))
+                .addQueryParameter("min_lat", String.valueOf(ggRegion.getMinLat()))
+                .addQueryParameter("max_lng", String.valueOf(ggRegion.getMaxLng()))
+                .addQueryParameter("min_lng", String.valueOf(ggRegion.getMinLng()))
                 .build();
         Log.d("GGLoader", url.toString());
         okhttp3.Request request = new okhttp3.Request.Builder()
