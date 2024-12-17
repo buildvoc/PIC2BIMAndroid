@@ -13,7 +13,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        project.archivesBaseName = "EGNSS4ALL"
+        project.archivesBaseName = "PIC2BIM"
         setProperty("archivesBaseName", "${archivesBaseName}-$versionName")
 
         javaCompileOptions {
