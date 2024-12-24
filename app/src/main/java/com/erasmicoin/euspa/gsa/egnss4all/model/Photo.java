@@ -8,7 +8,9 @@ import android.location.Location;
 import android.media.ExifInterface;
 import android.os.Build;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.util.Base64;
+import android.util.Log;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -34,8 +36,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.concurrent.Phaser;
@@ -199,7 +205,7 @@ public class Photo {
         Double lat = jsonObject.isNull("lat") ? null : jsonObject.getDouble("lat");
         Double lng = jsonObject.isNull("lng") ? null : jsonObject.getDouble("lng");
         DateTime created = jsonObject.isNull("created") ? null : DateTime.parse(jsonObject.getString("created"), DateTimeFormat.forPattern(DATETIME_RECEIVED_FORMAT));
-        String base64 = jsonObject.getString("photo");
+        String base64 = getBase64PhotoFromURL(jsonObject.getString("link"));
         String userId = LoggedUser.createFromAppDatabase(appDatabase).getId();
         String path = null;
         byte[] photoBytes = null;
@@ -682,6 +688,27 @@ public class Photo {
             return Base64.encodeToString(org.apache.commons.io.FileUtils.readFileToByteArray(image), Base64.DEFAULT);
         } else {
             return Base64.encodeToString(photoBytes, Base64.DEFAULT);
+        }
+    }
+
+    public static String getBase64PhotoFromURL(String imageURL) {
+        try {
+            URL url = new URL(imageURL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.connect();
+
+            InputStream inputStream = connection.getInputStream();
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+            byte[] imageBytes = byteArrayOutputStream.toByteArray();
+
+            return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

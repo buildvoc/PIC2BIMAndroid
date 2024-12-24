@@ -19,7 +19,7 @@ public class PhotoList {
     private List<Photo> photos = new ArrayList<>();
     private String taskId;
 
-    @Deprecated
+    // @Deprecated
     public static PhotoList createFromJSONArray(AppDatabase appDatabase, JSONArray jsonArray, String taskId, Context context) throws JSONException, IOException {
         List<Photo> photos = new ArrayList<>();
         Integer indx = 0;
@@ -160,7 +160,7 @@ public class PhotoList {
     /*
      * removes from the database all photos that have identical photo digests in this list
      * */
-    @Deprecated
+    // @Deprecated
     public void deleteSameDigestPhotos() {
         for (Photo photo : photos) {
             String digest = photo.getDigest();
