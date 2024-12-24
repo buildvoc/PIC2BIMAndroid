@@ -364,7 +364,7 @@ public class ObservationSet implements Streamable {
 	}
 	
 	/**
-	 * @param signalStrengthInd the signalStrengthInd to set
+	 * @param freqNum the signalStrengthInd to set
 	 */
 	public void setFreqNum(int freqNum) {
 		this.freqNum = freqNum;

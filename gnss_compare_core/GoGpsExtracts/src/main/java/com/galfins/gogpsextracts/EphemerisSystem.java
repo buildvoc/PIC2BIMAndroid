@@ -34,10 +34,10 @@ import java.util.Arrays;
 public abstract class EphemerisSystem {
 
     /**
-     * @param time      (GPS time in seconds)
+     * @param unixTime      (GPS time in seconds)
      * @param satID
-     * @param range
-     * @param approxPos
+     * @param obsPseudorange
+     * @param satType
      */
 
 //	double[] pos ;
@@ -1046,7 +1046,6 @@ public abstract class EphemerisSystem {
     }
 
     /**
-     * @param traveltime
      */
     protected SimpleMatrix computeEarthRotationCorrection(long unixTime, double receiverClockError, double transmissionTime) {
 
@@ -1083,7 +1082,7 @@ public abstract class EphemerisSystem {
     }
 
     /**
-     * @param eph
+     * @param unixTime
      * @return Clock-corrected GPS transmission time
      */
     protected double computeClockCorrectedTransmissionTime(long unixTime, double satelliteClockError, double obsPseudorange) {

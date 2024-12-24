@@ -116,9 +116,9 @@ public class EphGps implements Streamable {
 	public EphGps(GpsEphemeris ephemerids) {
 		this.satID = ephemerids.svid;
 		this.satType = 'G';
-        this.week = ephemerids.week;
-        this.L2Code = ephemerids.codeL2;
-        this.L2Flag = (ephemerids.l2PDataFlag) ? 1 : 0;
+		this.week = ephemerids.week;
+		this.L2Code = ephemerids.codeL2;
+		this.L2Flag = (ephemerids.l2PDataFlag) ? 1 : 0;
 		this.svAccur = (int) ephemerids.accuracyM;
 		this.svHealth = ephemerids.health;
         this.iodc = ephemerids.iodc;

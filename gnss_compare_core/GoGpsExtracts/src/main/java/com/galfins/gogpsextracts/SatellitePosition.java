@@ -148,7 +148,7 @@ public class SatellitePosition extends Coordinates{
 		sp.maneuver = this.maneuver;
 		sp.predicted = this.predicted;
 		sp.satelliteClockError = this.satelliteClockError;
-    sp.setSpeed( speed.get(0), speed.get(1), speed.get(2));
+		sp.setSpeed( speed.get(0), speed.get(1), speed.get(2));
 		return sp;
 	}
 }

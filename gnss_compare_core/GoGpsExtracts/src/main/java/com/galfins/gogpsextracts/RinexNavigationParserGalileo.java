@@ -919,8 +919,8 @@ public class RinexNavigationParserGalileo extends EphemerisSystemGalileo impleme
 			}
 		}
 
-    if( refEph == null )
-      return null;
+		if( refEph == null )
+			return null;
 
 		if( refEph.getSvHealth() != 0) {
 		  return EphGalileo.UnhealthyEph;
