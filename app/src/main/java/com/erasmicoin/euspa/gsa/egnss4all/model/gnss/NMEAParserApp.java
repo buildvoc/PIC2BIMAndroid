@@ -10,7 +10,7 @@ public class NMEAParserApp extends NMEAParser {
     public NMEAParserApp(Context context) {
         super(context);
         setCentroidFilter((ggaData) -> {
-            NMEAParser nmeaExtractor = (NMEAParser) NMEAParserApp.this;
+            NMEAParser nmeaExtractor = NMEAParserApp.this;
             Integer currMeanSnr = nmeaExtractor.getSNRSatellites().getMeanSnr();
             return  (!PersistData.getCentroidFilterActive(context) || (
                     ggaData.getSatelliteNumber() != null && ggaData.getSatelliteNumber() >= PersistData.getMinNumberSats(context)

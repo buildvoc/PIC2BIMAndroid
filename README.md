@@ -5006,12 +5006,10 @@ At the top of the page, a map is displayed, where all of the paths are
 shown.
 
 <img src="./media/media_80f9c808fabbd3c9.png" width="650" height="297" />
-<span style="font-variant: normal"><span
-style="text-decoration: none"><span style="font-style: normal">**<span
-style="background: transparent">  
-Fig. </span>**</span></span></span>**42**<span
-style="font-variant: normal"><span style="text-decoration: none"><span
-style="font-style: normal">**<span style="background: transparent"> User
+<span style="font-variant: normal">
+<span style="text-decoration: none">
+<span style="font-style: normal">**<span style="background: transparent">  
+Fig. </span>**</span></span></span>**42**<span style="font-variant: normal"><span style="text-decoration: none"><span style="font-style: normal">**<span style="background: transparent"> User
 paths</span>**</span></span></span>
 
   
@@ -5836,9 +5834,7 @@ following:
 After logging in, the Agency management page is displayed.
 
 <img src="./media/media_6a575c733558634e.png" width="650" height="283" />
-<span style="font-variant: normal"><span
-style="text-decoration: none"><span style="font-style: normal">**<span
-style="background: transparent">  
+<span style="font-variant: normal"><span style="text-decoration: none"><span style="font-style: normal">**<span style="background: transparent">  
   
 Fig. </span>**</span></span></span>**53** <span
 style="font-variant: normal"><span style="text-decoration: none"><span
@@ -6045,3 +6041,8 @@ Officers management</span>**</span></span></span>
   
 
 </div>
+</span>
+</span>
+</span>
+</span>
+

@@ -36,7 +36,7 @@
                         android:id="@+id/imageView13"
                         style="@style/se_icon"
                         app:srcCompat="@drawable/all_icon_settings"
-                        android:tint="@color/mainPrimary"/>
+                        app:tint="@color/mainPrimary" />
 
                     <TextView
                         android:id="@+id/textView44"

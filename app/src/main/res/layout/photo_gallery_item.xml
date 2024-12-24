@@ -40,7 +40,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/all_icon_no_picture"
-            android:tint="@color/textNormal"/>
+            app:tint="@color/textNormal" />
 
         <TextView
             android:id="@+id/tpg_textView_photoError"
