@@ -205,7 +205,20 @@ public class Photo {
         Double lat = jsonObject.isNull("lat") ? null : jsonObject.getDouble("lat");
         Double lng = jsonObject.isNull("lng") ? null : jsonObject.getDouble("lng");
         DateTime created = jsonObject.isNull("created") ? null : DateTime.parse(jsonObject.getString("created"), DateTimeFormat.forPattern(DATETIME_RECEIVED_FORMAT));
-        String base64 = getBase64PhotoFromURL(jsonObject.getString("link"));
+        String base64 = "";
+
+        if (jsonObject.isNull("photo")) {
+            try {
+                base64 = getBase64PhotoFromURL(jsonObject.getString("link"));
+            } catch (Exception e) {
+                Log.d("Error", e.toString());
+            }
+        } else {
+            base64 = jsonObject.getString("photo");
+        }
+
+        Log.d("Photo", base64);
+
         String userId = LoggedUser.createFromAppDatabase(appDatabase).getId();
         String path = null;
         byte[] photoBytes = null;
@@ -691,25 +704,22 @@ public class Photo {
         }
     }
 
-    public static String getBase64PhotoFromURL(String imageURL) {
-        try {
-            URL url = new URL(imageURL);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.connect();
+    public static String getBase64PhotoFromURL(String imageURL) throws IOException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
-            InputStream inputStream = connection.getInputStream();
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+        URL url = new URL(imageURL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.connect();
 
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-            byte[] imageBytes = byteArrayOutputStream.toByteArray();
+        InputStream inputStream = connection.getInputStream();
+        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 
-            return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 60, byteArrayOutputStream);
+        byte[] imageBytes = byteArrayOutputStream.toByteArray();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }
 
 
