@@ -41,7 +41,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.concurrent.Phaser;
@@ -216,8 +215,6 @@ public class Photo {
         } else {
             base64 = jsonObject.getString("photo");
         }
-
-        Log.d("Photo", base64);
 
         String userId = LoggedUser.createFromAppDatabase(appDatabase).getId();
         String path = null;
