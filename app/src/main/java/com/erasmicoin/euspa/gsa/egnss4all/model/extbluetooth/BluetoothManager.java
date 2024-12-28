@@ -116,7 +116,7 @@ public class BluetoothManager {
         config.bluetoothServiceClass = BluetoothClassicService.class;
         config.bufferSize = 1024;
         config.characterDelimiter = '\n';
-        config.deviceName = "EGNSS4ALL";
+        config.deviceName = "PIC2BIM";
         config.callListenersInMainThread = true;
         config.uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"); // Required
 
