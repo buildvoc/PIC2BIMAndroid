@@ -46,7 +46,7 @@ class GGLoader {
         this.decimalFormat = new DecimalFormat("#.0###############", symbols);
     }
 
-    void load(GGRegion ggRegion, Context ctx) {
+    void load2(GGRegion ggRegion, Context ctx) {
         Log.d("GGLoader", "load");
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
@@ -101,22 +101,27 @@ class GGLoader {
         });
     }
 
-    void load2(GGRegion ggRegion, Context ctx) {
+    void load(GGRegion ggRegion, Context ctx) {
         String currentServer = GNSSSettingsStore.readCurrentServer(ctx);
             requestor.requestAuth(currentServer+"comm_shapes", response -> {
             try {
-                JSONObject jsonObject = new JSONObject(response);
-                String status = jsonObject.getString("status");
-                if (!status.equals("ok")) {
-                    String errMgs = jsonObject.getString("error_msg");
-                    ggManager.exception(ggManager.getContext().getString(R.string.map_unexpectedExceptionGG),
-                            ggManager.getContext().getString(R.string.map_exceptionAfterDownloadGG) + "\n\n" + errMgs, null);
-                    return;
+                if (response != null) {
+                    Activity activity = (Activity) ctx;
+                    JSONObject jsonObject = new JSONObject(response);
+                    activity.runOnUiThread(() -> {
+                        try {
+                            JSONObject dataObject = jsonObject.getJSONObject("data");
+                            JSONArray features = dataObject.getJSONArray("features");
+                            List<GGObject> ggObjects = GGObject.createListFromResponse(features);
+                            Log.d("GGLoader", String.valueOf(ggObjects.size()));
+                            ggManager.loaderLoadGrounds(ggObjects);
+                        } catch (JSONException | GGObject.GGParseException e) {
+                            ggManager.exception(ggManager.getContext().getString(R.string.map_unexpectedExceptionGG),
+                                    ggManager.getContext().getString(R.string.map_exceptionDuringParsingGG), e);
+                        }
+                    });
                 }
-                JSONArray shapes = jsonObject.getJSONArray("shapes");
-                List<GGObject> ggObjects = GGObject.createListFromResponse(shapes);
-                ggManager.loaderLoadGrounds(ggObjects);
-            } catch (JSONException | GGObject.GGParseException e) {
+            } catch (JSONException e) {
                 ggManager.exception(ggManager.getContext().getString(R.string.map_unexpectedExceptionGG),
                         ggManager.getContext().getString(R.string.map_exceptionDuringParsingGG), e);
             }
