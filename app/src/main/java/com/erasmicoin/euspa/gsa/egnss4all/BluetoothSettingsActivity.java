@@ -15,11 +15,13 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentResultListener;
+import androidx.lifecycle.Lifecycle;
 
 import com.erasmicoin.euspa.gsa.egnss4all.model.GNSSLocation.GNSSSettingsStore;
 import com.erasmicoin.euspa.gsa.egnss4all.model.extbluetooth.BluetoothManager;
@@ -57,6 +59,17 @@ public class BluetoothSettingsActivity extends BaseActivity implements Bluetooth
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        bluetoothManager.stop();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     private void init() {
@@ -145,7 +158,7 @@ public class BluetoothSettingsActivity extends BaseActivity implements Bluetooth
         startActivity(enableBtIntent);
     }
 
-    private boolean checkBluetoothEnabled(){
+    private boolean checkBluetoothEnabled() {
 
         if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -155,16 +168,16 @@ public class BluetoothSettingsActivity extends BaseActivity implements Bluetooth
                         dialogInterface.dismiss();
                         enableBluetooth();
                     })).setCancelable(false)
-                    .setNegativeButton(R.string.bsa_cancelbt,(dialogInterface, i) -> {
+                    .setNegativeButton(R.string.bsa_cancelbt, (dialogInterface, i) -> {
                         dialogInterface.dismiss();
                     });
             builder.create().show();
             if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
                 return false;
-            }else{
+            } else {
                 return true;
             }
-        }else{
+        } else {
             return true;
         }
     }
@@ -187,9 +200,9 @@ public class BluetoothSettingsActivity extends BaseActivity implements Bluetooth
     }
 
     public void testConnection(View view) {
-        if(selectedDevice == null){
+        if (selectedDevice == null) {
             notSelectedDlg.show();
-        }else{
+        } else {
             Dialog prdialog = new Dialog(view.getContext());
             prdialog.setContentView(R.layout.progress_dialog);
             Window window = prdialog.getWindow();
@@ -206,14 +219,21 @@ public class BluetoothSettingsActivity extends BaseActivity implements Bluetooth
                 public void onConnectionSuccess() {
                     prdialog.dismiss();
                     testResult = new ConnectionResultDialog(true);
-                    testResult.show(getSupportFragmentManager(),"ResultDialogFragment");
+                    testResult.show(getSupportFragmentManager(), "ResultDialogFragment");
                 }
 
                 @Override
                 public void onConnectionFailure() {
                     prdialog.dismiss();
-                    testResult = new ConnectionResultDialog(false);
-                    testResult.show(getSupportFragmentManager(),"ResultDialogFragment");
+                    if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
+                        testResult = new ConnectionResultDialog(false);
+                        testResult.show(getSupportFragmentManager(), "ResultDialogFragment");
+                    }
+                }
+
+                @Override
+                public void onDataReceived(String data) {
+                    Toast.makeText(BluetoothSettingsActivity.this, "NMEA: $" + data, Toast.LENGTH_SHORT).show();
                 }
             });
         }

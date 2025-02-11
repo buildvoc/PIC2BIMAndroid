@@ -103,12 +103,16 @@ public abstract class BaseActivity extends AppCompatActivity implements ServiceI
             Manifest.permission.ACCESS_WIFI_STATE,
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.CAMERA,
-            Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.BLUETOOTH,
             Manifest.permission.BLUETOOTH_ADMIN
+    };
+
+    String[] permissions_s = new String[]{
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.BLUETOOTH_SCAN,
     };
 
     @Override
@@ -325,13 +329,13 @@ public abstract class BaseActivity extends AppCompatActivity implements ServiceI
             dialog.setAutoButtons(false);
             syncDialog = dialog;
         }
-        if (syncDialog.getAlertDialog().isShowing()){
+        if (syncDialog.getAlertDialog().isShowing()) {
             return;
         }
         syncDialog.getAlertDialog().setCancelable(false);
         syncDialog.show();
         syncDialog.getAlertDialog().findViewById(R.id.myAlertDialog_constraintLayout_base).setBackground(null);
-        syncDialog.getAlertDialog().findViewById(R.id.myAlertDialog_constraintLayout_base).setPadding(0, 0, 0,0);
+        syncDialog.getAlertDialog().findViewById(R.id.myAlertDialog_constraintLayout_base).setPadding(0, 0, 0, 0);
         syncDialog.getNeutralButton().setVisibility(View.GONE);
         TextView stateTextView = syncDialog.getAlertDialog().findViewById(R.id.dsync_textView_state);
         stateTextView.setText(R.string.bs_syncStateProgress);
@@ -596,7 +600,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ServiceI
         startActivity(intent);
     }
 
-    public void showGnssSkyview(){
+    public void showGnssSkyview() {
         Intent intent = new Intent(this, GnssSkyMapActivity.class);
         startActivity(intent);
     }
@@ -616,16 +620,25 @@ public abstract class BaseActivity extends AppCompatActivity implements ServiceI
         List<String> listPermissionsNeeded = new ArrayList<>();
         for (String p : permissions) {
             if (p.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE) || p.equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
                     result = ContextCompat.checkSelfPermission(this, p);
-                }else{
+                } else {
                     result = PackageManager.PERMISSION_GRANTED;
                 }
-            }else{
+            } else {
                 result = ContextCompat.checkSelfPermission(this, p);
             }
             if (result != PackageManager.PERMISSION_GRANTED) {
                 listPermissionsNeeded.add(p);
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            for (String p : permissions_s) {
+                result = ContextCompat.checkSelfPermission(this, p);
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    listPermissionsNeeded.add(p);
+                }
             }
         }
         if (!listPermissionsNeeded.isEmpty()) {

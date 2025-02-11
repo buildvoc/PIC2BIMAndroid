@@ -25,6 +25,7 @@ import com.github.douglasjunior.bluetoothclassiclibrary.BluetoothClassicService;
 import com.github.douglasjunior.bluetoothclassiclibrary.BluetoothConfiguration;
 import com.github.douglasjunior.bluetoothclassiclibrary.BluetoothService;
 import com.github.douglasjunior.bluetoothclassiclibrary.BluetoothStatus;
+import com.github.douglasjunior.bluetoothlowenergylibrary.BluetoothLeService;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -93,9 +94,7 @@ public class BluetoothManager {
     private int cameraAnimateDurationMils = 700;
 
     public interface BluetoothLocationCallback {
-
         void onNewLocation(LocationResult locationResult);
-
     }
 
     BluetoothLocationCallback bluetoothLocationCallback;
@@ -113,12 +112,17 @@ public class BluetoothManager {
     public void initBluetooth(Context context){
         BluetoothConfiguration config = new BluetoothConfiguration();
         config.context = context;
-        config.bluetoothServiceClass = BluetoothClassicService.class;
+        config.bluetoothServiceClass = BluetoothLeService.class;
         config.bufferSize = 1024;
-        config.characterDelimiter = '\n';
+        config.characterDelimiter = '$';
         config.deviceName = "PIC2BIM";
         config.callListenersInMainThread = true;
-        config.uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"); // Required
+        config.uuidService = UUID.fromString("0000fff0-0000-1000-8000-00805f9b34fb"); // Required
+        config.uuidCharacteristic = UUID.fromString("0000fff1-0000-1000-8000-00805f9b34fb"); // Required
+        config.transport = BluetoothDevice.TRANSPORT_LE; // Required for dual-mode devices
+
+        config.uuid = UUID.fromString("fffffef0-0000-1000-8000-00805f9b34fb");// required
+//        config.uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"); // Required
 
         BluetoothService.init(config);
 
@@ -150,7 +154,7 @@ public class BluetoothManager {
         if (ActivityCompat.checkSelfPermission(appContext, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(appContext, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.BLUETOOTH_SCAN);
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT}, MY_BLUETOOTH_PERMISSION);
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_ADMIN, Manifest.permission.ACCESS_FINE_LOCATION}, MY_BLUETOOTH_PERMISSION);
         }
         ArrayList<BluetoothDevice> devices = new ArrayList<>();
         final boolean[] isRunning = new boolean[1];
@@ -158,7 +162,7 @@ public class BluetoothManager {
             @SuppressLint("MissingPermission")
             @Override
             public void onDeviceDiscovered(BluetoothDevice device, int rssi) {
-                if(device.getName() != null && !device.getName().isEmpty())
+                if(device.getName() != null && !device.getName().isEmpty() && !devices.contains(device))
                     devices.add(device);
             }
 
@@ -181,16 +185,17 @@ public class BluetoothManager {
     public interface TestConnectCallback{
         void onConnectionSuccess();
         void onConnectionFailure();
+        void onDataReceived(String data);
     }
 
     public void testConnection(BluetoothDevice device, TestConnectCallback callback){
-        service.setOnEventCallback(new BluetoothService.OnBluetoothEventCallback() {
+        service.setOnEventCallback(new BluetoothLeService.OnBluetoothEventCallback() {
             @Override
             public void onDataRead(byte[] buffer, int length) {
                 String message = new String(buffer);
-                //Log.d("GEGEGE",message);
-                service.disconnect();
-                callback.onConnectionSuccess();
+                Log.e("onDataRead",message);
+//                service.disconnect();
+                callback.onDataReceived(message);
                 //connected
             }
 
@@ -202,12 +207,15 @@ public class BluetoothManager {
                     service.disconnect();
                     callback.onConnectionFailure();
                     //not connected
+                } else if (status == BluetoothStatus.CONNECTED) {
+                    //connected
+                    callback.onConnectionSuccess();
                 }
             }
 
             @Override
             public void onDeviceName(String deviceName) {
-                Log.d("GEGEGE", deviceName);
+                Log.e("onDeviceName", deviceName);
             }
 
             @Override
@@ -217,7 +225,7 @@ public class BluetoothManager {
             @Override
             public void onDataWrite(byte[] buffer) {
                 String message = Arrays.toString(buffer);
-                Log.d(TAG, message);
+                Log.e(TAG, message);
             }
         });
         service.connect(device);
@@ -447,12 +455,11 @@ public class BluetoothManager {
         isRunning.setValue(true);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void stop() {
+        service.disconnect();
         if (!isRunning.getValue()) {
             return;
         }
-        service.disconnect();
         isRunning.setValue(false);
     }
 
