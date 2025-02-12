@@ -21,6 +21,7 @@ import com.erasmicoin.euspa.gsa.egnss4all.MainService;
 import com.erasmicoin.euspa.gsa.egnss4all.model.GNSSLocation.GNSSSettingsStore;
 import com.erasmicoin.euspa.gsa.egnss4all.model.OSNMA.ServerPostResponse;
 import com.erasmicoin.euspa.gsa.egnss4all.model.fusedLocation.FLDelegateActivity;
+import com.erasmicoin.euspa.gsa.egnss4all.utils.AppConstant;
 import com.github.douglasjunior.bluetoothclassiclibrary.BluetoothClassicService;
 import com.github.douglasjunior.bluetoothclassiclibrary.BluetoothConfiguration;
 import com.github.douglasjunior.bluetoothclassiclibrary.BluetoothService;
@@ -117,11 +118,11 @@ public class BluetoothManager {
         config.characterDelimiter = '$';
         config.deviceName = "PIC2BIM";
         config.callListenersInMainThread = true;
-        config.uuidService = UUID.fromString("0000fff0-0000-1000-8000-00805f9b34fb"); // Required
-        config.uuidCharacteristic = UUID.fromString("0000fff1-0000-1000-8000-00805f9b34fb"); // Required
+        config.uuidService = UUID.fromString(AppConstant.SERVICE_UUID); // Required
+        config.uuidCharacteristic = UUID.fromString(AppConstant.CHARACTERISTIC_UUID); // Required
         config.transport = BluetoothDevice.TRANSPORT_LE; // Required for dual-mode devices
 
-        config.uuid = UUID.fromString("fffffef0-0000-1000-8000-00805f9b34fb");// required
+        config.uuid = UUID.fromString(AppConstant.DEVICE_UUID);// required
 //        config.uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"); // Required
 
         BluetoothService.init(config);
