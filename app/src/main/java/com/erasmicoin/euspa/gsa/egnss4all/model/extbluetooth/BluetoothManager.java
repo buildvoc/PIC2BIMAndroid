@@ -122,7 +122,7 @@ public class BluetoothManager {
         config.uuidCharacteristic = UUID.fromString(AppConstant.CHARACTERISTIC_UUID); // Required
         config.transport = BluetoothDevice.TRANSPORT_LE; // Required for dual-mode devices
 
-        config.uuid = UUID.fromString(AppConstant.DEVICE_UUID);// required
+//        config.uuid = UUID.fromString(AppConstant.DEVICE_UUID);// required
 //        config.uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"); // Required
 
         BluetoothService.init(config);
