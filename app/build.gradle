@@ -46,6 +46,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.aar'])
 
     implementation project(path: ':gnss_scan')
+    implementation project(path: ':FastBleLib')
     implementation(project(path: ':gnss_compare_core')) {
         exclude(group: 'joda-time')
     }
@@ -90,7 +91,7 @@ dependencies {
 
     //implementation "de.micromata.jak:JavaAPIforKml:2.2.1"
 
-    implementation 'com.github.douglasjunior.AndroidBluetoothLibrary:BluetoothLowEnergyLibrary:0.4.0'
+//    implementation 'com.github.douglasjunior.AndroidBluetoothLibrary:BluetoothLowEnergyLibrary:0.4.0'
     implementation group: 'net.sf.marineapi', name: 'marineapi', version: '0.11.0'
     implementation ('com.googlecode.json-simple:json-simple:1.1.1'){
         exclude(group: 'org.hamcrest')

@@ -183,20 +183,21 @@ public class BluetoothSettingsActivity extends BaseActivity implements Bluetooth
     }
 
     public void scanDevices(View view) {
-        checkBluetoothEnabled();
-        scanDialog = new Dialog(view.getContext());
-        scanDialog.setContentView(R.layout.progress_dialog);
-        Window window = scanDialog.getWindow();
-        if (window != null) {
-            window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            TextView dialogMsg = scanDialog.findViewById(R.id.loading_msg);
-            dialogMsg.setText("Scanning. Please wait...");
-            scanDialog.show();
-        }
-        // scanDialog = ProgressDialog.show(this, "", "Scanning. Please wait...", true);
-        bluetoothManager.setScanEndCallback(this);
+        if (checkBluetoothEnabled()) {
+            scanDialog = new Dialog(view.getContext());
+            scanDialog.setContentView(R.layout.progress_dialog);
+            Window window = scanDialog.getWindow();
+            if (window != null) {
+                window.setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                TextView dialogMsg = scanDialog.findViewById(R.id.loading_msg);
+                dialogMsg.setText("Scanning. Please wait...");
+                scanDialog.show();
+            }
+            // scanDialog = ProgressDialog.show(this, "", "Scanning. Please wait...", true);
+            bluetoothManager.setScanEndCallback(this);
 
-        bluetoothManager.startScan(this);
+            bluetoothManager.startScan(this);
+        }
     }
 
     public void testConnection(View view) {
@@ -233,7 +234,8 @@ public class BluetoothSettingsActivity extends BaseActivity implements Bluetooth
 
                 @Override
                 public void onDataReceived(String data) {
-                    Toast.makeText(BluetoothSettingsActivity.this, "NMEA: $" + data, Toast.LENGTH_SHORT).show();
+                    if (!data.isEmpty())
+                        Toast.makeText(BluetoothSettingsActivity.this, "NMEA:" + data, Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -271,12 +273,13 @@ public class BluetoothSettingsActivity extends BaseActivity implements Bluetooth
     }
 
     public void externalDeviceToggle(View view) {
-        if(((Switch)view).isChecked()){
+        if (((Switch) view).isChecked()) {
             findViewById(R.id.selectedDeviceItem).setVisibility(View.VISIBLE);
             findViewById(R.id.testConnection).setVisibility(View.VISIBLE);
             findViewById(R.id.scanDevices).setVisibility(View.VISIBLE);
             GNSSSettingsStore.saveExternalBT(getApplicationContext(), true);
-        }else{
+        } else {
+            bluetoothManager.stop();
             findViewById(R.id.selectedDeviceItem).setVisibility(View.GONE);
             findViewById(R.id.testConnection).setVisibility(View.GONE);
             findViewById(R.id.scanDevices).setVisibility(View.GONE);

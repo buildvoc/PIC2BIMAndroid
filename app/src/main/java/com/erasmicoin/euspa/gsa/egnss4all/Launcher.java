@@ -2,6 +2,8 @@ package com.erasmicoin.euspa.gsa.egnss4all;
 
 import android.app.Application;
 
+import com.clj.fastble.BleManager;
+
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.joda.time.DateTimeZone;
@@ -10,7 +12,7 @@ public class Launcher extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        BleManager.getInstance().init(this);
         /*
         ServiceController serviceController = new ServiceController(this, new ServiceGetter(){
             @Override
