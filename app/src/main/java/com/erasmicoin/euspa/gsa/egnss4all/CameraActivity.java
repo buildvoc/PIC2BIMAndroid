@@ -289,8 +289,8 @@ public class CameraActivity extends BaseActivity implements CameraXConfig.Provid
 
             }
 
-            if(lastLocation.getExtras().containsKey("isExternal") && lastLocation.getExtras().getBoolean("isExternal")){
-                ((LinearLayout)findViewById(R.id.ca_layout_accuracy)).setVisibility(View.VISIBLE);
+            if(lastLocation.getExtras() != null && lastLocation.getExtras().containsKey("isExternal") && lastLocation.getExtras().getBoolean("isExternal")){
+                findViewById(R.id.ca_layout_accuracy).setVisibility(View.VISIBLE);
                 accuracyTextView = findViewById(R.id.ca_textView_accuracy);
                 DecimalFormat dfAccuracy = new DecimalFormat("####.####");
                 accuracyTextView.setText(dfAccuracy.format(lastLocation.getExtras().getDouble("accuracy")));

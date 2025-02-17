@@ -18,6 +18,7 @@ import com.clj.fastble.callback.BleScanCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
 import com.clj.fastble.scan.BleScanRuleConfig;
+import com.erasmicoin.euspa.gsa.egnss4all.MainService;
 import com.erasmicoin.euspa.gsa.egnss4all.model.GNSSLocation.GNSSSettingsStore;
 import com.erasmicoin.euspa.gsa.egnss4all.model.fusedLocation.FLDelegateActivity;
 import com.erasmicoin.euspa.gsa.egnss4all.utils.AppConstant;
@@ -26,6 +27,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+
+import net.sf.marineapi.nmea.parser.SentenceFactory;
+import net.sf.marineapi.nmea.sentence.GGASentence;
+import net.sf.marineapi.nmea.sentence.GSASentence;
+import net.sf.marineapi.nmea.sentence.RMCSentence;
+import net.sf.marineapi.nmea.util.GpsFixQuality;
+import net.sf.marineapi.nmea.util.Position;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -37,6 +45,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Pattern;
 
 public class BluetoothManager {
 
@@ -65,13 +74,20 @@ public class BluetoothManager {
     private Observer<Boolean> isRunningObserver;
     private FLDelegateActivity flDelegateActivity;
 
-    private BluetoothLocationSource bluetoothLocationSource;
+    private final BluetoothLocationSource bluetoothLocationSource;
     /**
      * used to move the camera to the nearest future position once
      */
     private boolean isCameraMoveRequested = false;
     private int cameraZoom = 16;
     private int cameraAnimateDurationMils = 700;
+
+    private String bleDataResponse = "";
+    private boolean deviceFound = false;
+    private double bleLat = 0.0;
+    private double bleLong = 0.0;
+    private double bleAltitude = 0.0;
+    private double bleAccuracy = 0.0;
 
     public interface BluetoothLocationCallback {
         void onNewLocation(LocationResult locationResult);
@@ -224,7 +240,7 @@ public class BluetoothManager {
 
         for (BleDevice scannedDevice : bleDevices) {
             if (Objects.equals(scannedDevice.getName(), device.getName())) {
-                Log.e(TAG, "scannedDevice.getName() : "+scannedDevice.getName()+" and device.getName() : "+device.getName());
+                Log.e(TAG, "scannedDevice.getName() : " + scannedDevice.getName() + " and device.getName() : " + device.getName());
                 selectedBleDevice = scannedDevice;
                 break;
             }
@@ -321,23 +337,110 @@ public class BluetoothManager {
                     public void onCharacteristicChanged(byte[] data) {
                         String message = new String(data, StandardCharsets.UTF_8);
                         Log.e("BLE -> onDataRead", message);
-                        if(message.startsWith("$")) {
-                            Log.e("Toast BLE -> onDataRead", bleDataResponse);
-                            if (callback != null) {
-                                callback.onDataReceived(bleDataResponse);
-                            }
-                            if (bluetoothLocationCallback != null) {
-                                // here need add code for parsing ble data
+                        if (message.contains("*")) {
+                            bleDataResponse = bleDataResponse + message;
+                            if (isValidNMEA(bleDataResponse)) {
+                                if (callback != null) {
+                                    Log.e("Toast BLE -> onDataRead", bleDataResponse);
+                                    callback.onDataReceived(bleDataResponse);
+                                } else {
+                                    SentenceFactory sf = SentenceFactory.getInstance();
+                                    Location myLocation = new Location(MainService.EXTERNAL_PROVIDER);
+
+                                    if (bleDataResponse.contains("GGA")) {
+                                        Log.e("External DATA", "GGA MESSAGE: <" + bleDataResponse + ">");
+                                        try {
+                                            GGASentence gga = (GGASentence) sf.createParser(bleDataResponse);
+                                            Position pos = gga.getPosition();
+                                            bleLat = pos.getLatitude();
+                                            bleLong = pos.getLongitude();
+                                            bleAltitude = pos.getAltitude();
+                                            myLocation.setLatitude(pos.getLatitude());
+                                            myLocation.setLongitude(pos.getLongitude());
+                                            myLocation.setAltitude(pos.getAltitude());
+                                            myLocation.setAccuracy((float) bleAccuracy);
+                                            myLocation.setTime(new Date().getTime());
+                                            ArrayList<Location> tmpList = new ArrayList<>();
+                                            tmpList.add(myLocation);
+                                            LocationResult lr = LocationResult.create(tmpList);
+                                            if (bluetoothLocationCallback != null) {
+                                                bluetoothLocationCallback.onNewLocation(lr);
+                                            } else {
+                                                newLocationResult(lr);
+                                            }
+
+                                        } catch (Exception e) {
+                                            Log.e(TAG, "Error parsing GGA <" + bleDataResponse + ">");
+                                        }
+
+                                    } else if (bleDataResponse.contains("GSA")) {
+                                        Log.e("External DATA", "GSA MESSAGE: <" + bleDataResponse + ">");
+                                        try {
+                                            GSASentence gsa = (GSASentence) sf.createParser(bleDataResponse);
+                                            bleAccuracy = gsa.getHorizontalDOP();
+                                            myLocation.setAccuracy((float) gsa.getHorizontalDOP());
+                                            myLocation.setLatitude(bleLat);
+                                            myLocation.setLongitude(bleLong);
+                                            myLocation.setAltitude(bleAltitude);
+                                            myLocation.setTime(new Date().getTime());
+                                            ArrayList<Location> tmpList = new ArrayList<>();
+                                            tmpList.add(myLocation);
+                                            LocationResult lr = LocationResult.create(tmpList);
+                                            if (bluetoothLocationCallback != null) {
+                                                bluetoothLocationCallback.onNewLocation(lr);
+                                            } else {
+                                                newLocationResult(lr);
+                                            }
+
+                                        } catch (Exception e) {
+                                            Log.e(TAG, "Error parsing gsa <" + bleDataResponse + ">");
+                                        }
+
+                                    } else if (bleDataResponse.contains("RMC")) {
+                                        Log.e("External DATA", "RMC MESSAGE: <" + bleDataResponse + ">");
+                                        try {
+                                            RMCSentence gga = (RMCSentence) sf.createParser(bleDataResponse);
+                                            Position pos = gga.getPosition();
+                                            bleLat = pos.getLatitude();
+                                            bleLong = pos.getLongitude();
+                                            myLocation.setLatitude(pos.getLatitude());
+                                            myLocation.setLongitude(pos.getLongitude());
+                                            myLocation.setAltitude(bleAltitude);
+                                            myLocation.setAccuracy((float) bleAccuracy);
+                                            myLocation.setTime(new Date().getTime());
+                                            ArrayList<Location> tmpList = new ArrayList<>();
+                                            tmpList.add(myLocation);
+                                            LocationResult lr = LocationResult.create(tmpList);
+                                            if (bluetoothLocationCallback != null) {
+                                                bluetoothLocationCallback.onNewLocation(lr);
+                                            } else {
+                                                newLocationResult(lr);
+                                            }
+
+                                        } catch (Exception e) {
+                                            Log.e(TAG, "Error parsing RMC <" + bleDataResponse + ">");
+                                        }
+                                    }
+                                }
                             }
                             bleDataResponse = "";
+                        } else {
+                            bleDataResponse = bleDataResponse + message;
                         }
-                        bleDataResponse = bleDataResponse + message;
                     }
                 });
     }
 
-    private String bleDataResponse = "";
-    private boolean deviceFound = false;
+    // Compile the pattern once for reuse
+    private static final Pattern NMEA_PATTERN = Pattern.compile(
+            "(\\$(G[ABILNPQ][A-Z]{3}(?:,(-?\\d*(\\.\\d+)?(?:\\.\\d+)?|[a-zA-Z]+|))+\\w*\\*[\\dA-Fa-f]{2})$)",
+            Pattern.CASE_INSENSITIVE
+    );
+
+    // Method to check if a single string is a valid NMEA sentence
+    public static boolean isValidNMEA(String input) {
+        return NMEA_PATTERN.matcher(input).matches();
+    }
 
     public void getDeviceByName(String deviceName, Activity activity) {
 //        if (ActivityCompat.checkSelfPermission(appContext, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED &&
@@ -410,18 +513,18 @@ public class BluetoothManager {
 //            service.startScan();
     }
 
-    private void getDeviceByName(String deviceName, Activity activity, DeviceFoundCallback deviceFoundCallback) {
-
-    }
-
-    public boolean isScanRunning() {
-        return scanIsRunning;
-    }
-
-    private Thread osnmaThread;
+//    private void getDeviceByName(String deviceName, Activity activity, DeviceFoundCallback deviceFoundCallback) {
+//
+//    }
+//
+//    public boolean isScanRunning() {
+//        return scanIsRunning;
+//    }
+//
+//    private Thread osnmaThread;
 
     public void requestLocationUpdates() {
-        String deviceName = GNSSSettingsStore.readExternalBTName(appContext);
+        //String deviceName = GNSSSettingsStore.readExternalBTName(appContext);
 //        if (selectedDevice != null) {
         if (selectedBleDevice != null) {
 
