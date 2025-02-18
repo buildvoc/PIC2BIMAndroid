@@ -19,3 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keep class net.sf.marineapi.** { *; }
+-keep interface net.sf.marineapi.** { *; }
+-keepattributes MethodParameters
+-dontwarn gnu.io.CommPortIdentifier
+-dontwarn gnu.io.RXTXPort
+-dontwarn gnu.io.SerialPort

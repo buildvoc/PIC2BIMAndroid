@@ -237,7 +237,7 @@ public class BluetoothSettingsActivity extends BaseActivity implements Bluetooth
 
                 @Override
                 public void onDataReceived(String data) {
-                    Log.e("Toast -> onDataReceived", data);
+                    Log.d("Toast -> onDataReceived", data);
                     Toast.makeText(BluetoothSettingsActivity.this, "NMEA:" + data, Toast.LENGTH_SHORT).show();
                 }
             });

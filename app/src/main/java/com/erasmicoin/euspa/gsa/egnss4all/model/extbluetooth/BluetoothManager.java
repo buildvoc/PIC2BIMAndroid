@@ -240,7 +240,7 @@ public class BluetoothManager {
 
         for (BleDevice scannedDevice : bleDevices) {
             if (Objects.equals(scannedDevice.getName(), device.getName())) {
-                Log.e(TAG, "scannedDevice.getName() : " + scannedDevice.getName() + " and device.getName() : " + device.getName());
+                Log.d(TAG, "scannedDevice.getName() : " + scannedDevice.getName() + " and device.getName() : " + device.getName());
                 selectedBleDevice = scannedDevice;
                 break;
             }
@@ -249,24 +249,24 @@ public class BluetoothManager {
         BleManager.getInstance().connect(selectedBleDevice, new BleGattCallback() {
             @Override
             public void onStartConnect() {
-                Log.e(TAG, "onStartConnect");
+                Log.d(TAG, "onStartConnect");
             }
 
             @Override
             public void onConnectFail(BleDevice bleDevice, BleException exception) {
-                Log.e(TAG, "onConnectFail E:" + exception.getDescription());
+                Log.d(TAG, "onConnectFail E:" + exception.getDescription());
                 callback.onConnectionFailure();
             }
 
             @Override
             public void onConnectSuccess(BleDevice bleDevice, BluetoothGatt gatt, int status) {
-                Log.e(TAG, "onConnectSuccess");
+                Log.d(TAG, "onConnectSuccess");
                 notifyBleData(callback, null);
             }
 
             @Override
             public void onDisConnected(boolean isActiveDisConnected, BleDevice bleDevice, BluetoothGatt gatt, int status) {
-                Log.e(TAG, "onDisConnected");
+                Log.d(TAG, "onDisConnected");
                 callback.onConnectionFailure();
             }
         });
@@ -336,12 +336,12 @@ public class BluetoothManager {
                     @Override
                     public void onCharacteristicChanged(byte[] data) {
                         String message = new String(data, StandardCharsets.UTF_8).trim();
-                        Log.e("BLE -> onDataRead", message);
+                        Log.d("BLE -> onDataRead", message);
                         if (message.startsWith("$")) {
                             bleDataResponse = "";
                         }
                         String[] multipleData = message.split("\\n");
-                        Log.e("BLE -> onDataRead", "multiple Data :- "+ multipleData.length);
+                        Log.d("BLE -> onDataRead", "multiple Data :- "+ multipleData.length);
                         if(multipleData.length > 1) {
                             for (String newData: multipleData) {
                                 if (newData.contains("*")) {
@@ -367,7 +367,7 @@ public class BluetoothManager {
                 callback.onDataReceived(newData);
             } else {
                 if (newData.contains("GGA")) {
-                    Log.e("External DATA", "GGA MESSAGE: <" + newData + ">");
+                    Log.d("External DATA", "GGA MESSAGE: <" + newData + ">");
                     try {
                         SentenceFactory sf = SentenceFactory.getInstance();
                         Location myLocation = new Location(MainService.EXTERNAL_PROVIDER);
@@ -391,11 +391,11 @@ public class BluetoothManager {
                         }
 
                     } catch (Exception e) {
-                        Log.e(TAG, "Error parsing GGA <" + newData + ">");
+                        Log.w(TAG, "Error parsing GGA <" + newData + ">");
                     }
 
                 } else if (newData.contains("GSA")) {
-                    Log.e("External DATA", "GSA MESSAGE: <" + newData + ">");
+                    Log.d("External DATA", "GSA MESSAGE: <" + newData + ">");
                     try {
                         SentenceFactory sf = SentenceFactory.getInstance();
                         Location myLocation = new Location(MainService.EXTERNAL_PROVIDER);
@@ -416,11 +416,11 @@ public class BluetoothManager {
                         }
 
                     } catch (Exception e) {
-                        Log.e(TAG, "Error parsing gsa <" + newData + ">");
+                        Log.w(TAG, "Error parsing gsa <" + newData + ">");
                     }
 
                 } else if (newData.contains("RMC")) {
-                    Log.e("External DATA", "RMC MESSAGE: <" + newData + ">");
+                    Log.d("External DATA", "RMC MESSAGE: <" + newData + ">");
                     try {
                         SentenceFactory sf = SentenceFactory.getInstance();
                         Location myLocation = new Location(MainService.EXTERNAL_PROVIDER);
@@ -443,12 +443,12 @@ public class BluetoothManager {
                         }
 
                     } catch (Exception e) {
-                        Log.e(TAG, "Error parsing RMC <" + newData + ">");
+                        Log.w(TAG, "Error parsing RMC <" + newData + ">");
                     }
                 }
             }
         } else {
-            Log.e(TAG, "invalid NMEA Sentence <" + newData + ">");
+            Log.w(TAG, "invalid NMEA Sentence <" + newData + ">");
         }
     }
 
@@ -477,7 +477,7 @@ public class BluetoothManager {
             @Override
             public void onScanStarted(boolean success) {
                 scanIsRunning = true;
-                Log.e(TAG, "onScanStarted");
+                Log.d(TAG, "onScanStarted");
             }
 
             @Override
@@ -554,7 +554,7 @@ public class BluetoothManager {
             BleManager.getInstance().connect(selectedBleDevice, new BleGattCallback() {
                 @Override
                 public void onStartConnect() {
-                    Log.e(TAG, "onStartConnect");
+                    Log.d(TAG, "onStartConnect");
                 }
 
                 @Override
@@ -563,13 +563,13 @@ public class BluetoothManager {
 
                 @Override
                 public void onConnectSuccess(BleDevice bleDevice, BluetoothGatt gatt, int status) {
-                    Log.e(TAG, "onConnectSuccess");
+                    Log.d(TAG, "onConnectSuccess");
                     notifyBleData(null, bluetoothLocationCallback);
                 }
 
                 @Override
                 public void onDisConnected(boolean isActiveDisConnected, BleDevice bleDevice, BluetoothGatt gatt, int status) {
-                    Log.e(TAG, "onDisConnected");
+                    Log.d(TAG, "onDisConnected");
                 }
             });
 
