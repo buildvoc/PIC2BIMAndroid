@@ -8,8 +8,10 @@ import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.ParcelUuid;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
@@ -54,6 +56,7 @@ public class BluetoothSettingsActivity extends BaseActivity implements Bluetooth
         setContentView(R.layout.activity_bluetooth_settings);
         setToolbar(R.id.toolbar);
         init();
+
     }
 
     @Override
@@ -234,8 +237,8 @@ public class BluetoothSettingsActivity extends BaseActivity implements Bluetooth
 
                 @Override
                 public void onDataReceived(String data) {
-                    if (!data.isEmpty())
-                        Toast.makeText(BluetoothSettingsActivity.this, "NMEA:" + data, Toast.LENGTH_SHORT).show();
+                    Log.e("Toast -> onDataReceived", data);
+                    Toast.makeText(BluetoothSettingsActivity.this, "NMEA:" + data, Toast.LENGTH_SHORT).show();
                 }
             });
         }
