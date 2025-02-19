@@ -84,10 +84,6 @@ public class BluetoothManager {
 
     private String bleDataResponse = "";
     private boolean deviceFound = false;
-    private double bleLat = 0.0;
-    private double bleLong = 0.0;
-    private double bleAltitude = 0.0;
-    private double bleAccuracy = 0.0;
 
     public interface BluetoothLocationCallback {
         void onNewLocation(LocationResult locationResult);
@@ -360,6 +356,7 @@ public class BluetoothManager {
                     }
                 });
     }
+    Location myLocation = new Location(MainService.EXTERNAL_PROVIDER);
 
     private void parsNMEAData(String newData, TestConnectCallback callback, BluetoothLocationCallback bluetoothLocationCallback) {
         if (isValidNMEA(newData)) {
@@ -370,16 +367,12 @@ public class BluetoothManager {
                     Log.d("External DATA", "GGA MESSAGE: <" + newData + ">");
                     try {
                         SentenceFactory sf = SentenceFactory.getInstance();
-                        Location myLocation = new Location(MainService.EXTERNAL_PROVIDER);
                         GGASentence gga = (GGASentence) sf.createParser(newData);
                         Position pos = gga.getPosition();
-                        bleLat = pos.getLatitude();
-                        bleLong = pos.getLongitude();
-                        bleAltitude = pos.getAltitude();
                         myLocation.setLatitude(pos.getLatitude());
                         myLocation.setLongitude(pos.getLongitude());
                         myLocation.setAltitude(pos.getAltitude());
-                        myLocation.setAccuracy((float) bleAccuracy);
+                        myLocation.setAccuracy((float) gga.getHorizontalDOP());
                         myLocation.setTime(new Date().getTime());
                         ArrayList<Location> tmpList = new ArrayList<>();
                         tmpList.add(myLocation);
@@ -398,13 +391,8 @@ public class BluetoothManager {
                     Log.d("External DATA", "GSA MESSAGE: <" + newData + ">");
                     try {
                         SentenceFactory sf = SentenceFactory.getInstance();
-                        Location myLocation = new Location(MainService.EXTERNAL_PROVIDER);
                         GSASentence gsa = (GSASentence) sf.createParser(newData);
-                        bleAccuracy = gsa.getHorizontalDOP();
                         myLocation.setAccuracy((float) gsa.getHorizontalDOP());
-                        myLocation.setLatitude(bleLat);
-                        myLocation.setLongitude(bleLong);
-                        myLocation.setAltitude(bleAltitude);
                         myLocation.setTime(new Date().getTime());
                         ArrayList<Location> tmpList = new ArrayList<>();
                         tmpList.add(myLocation);
@@ -423,15 +411,10 @@ public class BluetoothManager {
                     Log.d("External DATA", "RMC MESSAGE: <" + newData + ">");
                     try {
                         SentenceFactory sf = SentenceFactory.getInstance();
-                        Location myLocation = new Location(MainService.EXTERNAL_PROVIDER);
                         RMCSentence gga = (RMCSentence) sf.createParser(newData);
                         Position pos = gga.getPosition();
-                        bleLat = pos.getLatitude();
-                        bleLong = pos.getLongitude();
                         myLocation.setLatitude(pos.getLatitude());
                         myLocation.setLongitude(pos.getLongitude());
-                        myLocation.setAltitude(bleAltitude);
-                        myLocation.setAccuracy((float) bleAccuracy);
                         myLocation.setTime(new Date().getTime());
                         ArrayList<Location> tmpList = new ArrayList<>();
                         tmpList.add(myLocation);
