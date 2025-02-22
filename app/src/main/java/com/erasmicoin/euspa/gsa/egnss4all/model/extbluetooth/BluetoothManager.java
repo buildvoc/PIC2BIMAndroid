@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.content.Context;
 import android.location.Location;
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -31,6 +32,7 @@ import com.google.android.gms.maps.model.LatLng;
 import net.sf.marineapi.nmea.parser.SentenceFactory;
 import net.sf.marineapi.nmea.sentence.GGASentence;
 import net.sf.marineapi.nmea.sentence.GSASentence;
+import net.sf.marineapi.nmea.sentence.GSVSentence;
 import net.sf.marineapi.nmea.sentence.RMCSentence;
 import net.sf.marineapi.nmea.util.GpsFixQuality;
 import net.sf.marineapi.nmea.util.Position;
@@ -357,6 +359,9 @@ public class BluetoothManager {
                 });
     }
     Location myLocation = new Location(MainService.EXTERNAL_PROVIDER);
+    int visibleSats = 0;
+    int usedSats = 0;
+    int validatedSats = 0;
 
     private void parsNMEAData(String newData, TestConnectCallback callback, BluetoothLocationCallback bluetoothLocationCallback) {
         if (isValidNMEA(newData)) {
@@ -369,12 +374,15 @@ public class BluetoothManager {
                         SentenceFactory sf = SentenceFactory.getInstance();
                         GGASentence gga = (GGASentence) sf.createParser(newData);
                         Position pos = gga.getPosition();
+                        usedSats = gga.getSatelliteCount();
+                        validatedSats = gga.getSatelliteCount();
                         myLocation.setLatitude(pos.getLatitude());
                         myLocation.setLongitude(pos.getLongitude());
                         myLocation.setAltitude(pos.getAltitude());
                         myLocation.setAccuracy((float) gga.getHorizontalDOP());
                         myLocation.setTime(new Date().getTime());
                         ArrayList<Location> tmpList = new ArrayList<>();
+                        setExtraInLocation();
                         tmpList.add(myLocation);
                         LocationResult lr = LocationResult.create(tmpList);
                         if (bluetoothLocationCallback != null) {
@@ -392,9 +400,12 @@ public class BluetoothManager {
                     try {
                         SentenceFactory sf = SentenceFactory.getInstance();
                         GSASentence gsa = (GSASentence) sf.createParser(newData);
+                        usedSats = gsa.getSatelliteIds().length;
+                        validatedSats = gsa.getSatelliteIds().length;
                         myLocation.setAccuracy((float) gsa.getHorizontalDOP());
                         myLocation.setTime(new Date().getTime());
                         ArrayList<Location> tmpList = new ArrayList<>();
+                        setExtraInLocation();
                         tmpList.add(myLocation);
                         LocationResult lr = LocationResult.create(tmpList);
                         if (bluetoothLocationCallback != null) {
@@ -417,6 +428,7 @@ public class BluetoothManager {
                         myLocation.setLongitude(pos.getLongitude());
                         myLocation.setTime(new Date().getTime());
                         ArrayList<Location> tmpList = new ArrayList<>();
+                        setExtraInLocation();
                         tmpList.add(myLocation);
                         LocationResult lr = LocationResult.create(tmpList);
                         if (bluetoothLocationCallback != null) {
@@ -428,11 +440,39 @@ public class BluetoothManager {
                     } catch (Exception e) {
                         Log.w(TAG, "Error parsing RMC <" + newData + ">");
                     }
+                }  else if (newData.contains("GSV")) {
+                    Log.d("External DATA", "GSV MESSAGE: <" + newData + ">");
+                    try {
+                        SentenceFactory sf = SentenceFactory.getInstance();
+                        GSVSentence gsv = (GSVSentence) sf.createParser(newData);
+                        visibleSats = gsv.getSatelliteCount();
+                        myLocation.setTime(new Date().getTime());
+                        ArrayList<Location> tmpList = new ArrayList<>();
+                        setExtraInLocation();
+                        tmpList.add(myLocation);
+                        LocationResult lr = LocationResult.create(tmpList);
+                        if (bluetoothLocationCallback != null) {
+                            bluetoothLocationCallback.onNewLocation(lr);
+                        } else {
+                            newLocationResult(lr);
+                        }
+
+                    } catch (Exception e) {
+                        Log.w(TAG, "Error parsing GSV <" + newData + ">");
+                    }
                 }
             }
         } else {
             Log.w(TAG, "invalid NMEA Sentence <" + newData + ">");
         }
+    }
+
+    private void setExtraInLocation() {
+        Bundle bundle = new Bundle();
+        bundle.putInt(AppConstant.EXTRA_USED_SATELLITES, usedSats);
+        bundle.putInt(AppConstant.EXTRA_VISIBLE_SATELLITES, visibleSats);
+        bundle.putInt(AppConstant.EXTRA_VALIDATED_SATELLITES, validatedSats);
+        myLocation.setExtras(bundle);
     }
 
     private boolean isBleDataCheckSome = false;
@@ -449,6 +489,7 @@ public class BluetoothManager {
     }
 
     public void getDeviceByName(String deviceName, Activity activity) {
+        Log.d(TAG, "getDeviceByName : - "+deviceName);
 //        if (ActivityCompat.checkSelfPermission(appContext, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED &&
 //                ActivityCompat.checkSelfPermission(appContext, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
 //            ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.BLUETOOTH_SCAN);

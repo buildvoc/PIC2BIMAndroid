@@ -9,4 +9,7 @@ public class AppConstant {
     public static final String CHARACTERISTIC_UUID = "0000fff1-0000-1000-8000-00805f9b34fb";
     // "0000fff1-0000-1000-8000-00805f9b34fb"
 
+    public static final String EXTRA_VISIBLE_SATELLITES = "visiblesats";
+    public static final String EXTRA_USED_SATELLITES = "usedsats";
+    public static final String EXTRA_VALIDATED_SATELLITES = "validSats";
 }

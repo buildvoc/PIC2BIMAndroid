@@ -18,6 +18,7 @@ import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -66,6 +67,7 @@ import com.erasmicoin.euspa.gsa.egnss4all.model.pathTrack.PTOnNoPointToDelete;
 import com.erasmicoin.euspa.gsa.egnss4all.model.pathTrack.PTPath;
 import com.erasmicoin.euspa.gsa.egnss4all.model.pathTrack.PTPoint;
 import com.erasmicoin.euspa.gsa.egnss4all.model.pathTrack.PTService;
+import com.erasmicoin.euspa.gsa.egnss4all.utils.AppConstant;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.maps.CameraUpdate;
@@ -325,31 +327,31 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGM
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void initMap() {
         initManagers();
-        if(GNSSSettingsStore.readExternalBT(this)){
+        if (GNSSSettingsStore.readExternalBT(this)) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.map_warning).setMessage(R.string.map_bluetoothUsage)
                     .setPositiveButton(R.string.bsa_okbtn, (dialogInterface, i) -> {
                         dialogInterface.dismiss();
                         initBluetoothLocation();
-                        ((TextView)findViewById(R.id.map_locationProviderLabel)).setText(getString(R.string.map_blueMarkerValueBT));
+                        ((TextView) findViewById(R.id.map_locationProviderLabel)).setText(getString(R.string.map_blueMarkerValueBT));
                     });
             builder.create().show();
             findViewById(R.id.visibleSatsRow).setVisibility(View.VISIBLE);
             findViewById(R.id.usedSatsRow).setVisibility(View.VISIBLE);
-        }else{
+        } else {
             findViewById(R.id.visibleSatsRow).setVisibility(View.GONE);
             findViewById(R.id.usedSatsRow).setVisibility(View.GONE);
             ConstraintLayout positionProgress = findViewById(R.id.map_constraintLayout_positionTools);
             positionProgress.setVisibility(View.VISIBLE);
             boolean reachableInternet = Util.isInternetAvailable();
-            if(reachableInternet){
+            if (reachableInternet) {
                 //initGNSSLocation();
                 initLocationManager();
-                ((TextView)findViewById(R.id.map_locationProviderLabel)).setText(getString(R.string.map_blueMarkerValue));
-            }else{
+                ((TextView) findViewById(R.id.map_locationProviderLabel)).setText(getString(R.string.map_blueMarkerValue));
+            } else {
                 //initFusedLocation();
                 initLocationManager();
-                ((TextView)findViewById(R.id.map_locationProviderLabel)).setText(getString(R.string.map_blueMarkerValueFS));
+                ((TextView) findViewById(R.id.map_locationProviderLabel)).setText(getString(R.string.map_blueMarkerValueFS));
 
             }
         }
@@ -416,7 +418,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGM
     }
 
     @SuppressLint("MissingPermission")
-    private void initLocationManager(){
+    private void initLocationManager() {
         lmManager = new LMManager(getApplicationContext());
         lmManager.setLMDelegateActivity(this);
         if (locationPermissionCheck()) {
@@ -427,10 +429,10 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGM
     }
 
     @SuppressLint("MissingPermission")
-    private void initGNSSLocation(){
+    private void initGNSSLocation() {
         gnssManager = new GNSSManager(getApplicationContext());
         if (gnssManager.isConstellationOSNMA()) {
-            ((TableRow)findViewById(R.id.map_row_valisats)).setVisibility(View.VISIBLE);
+            ((TableRow) findViewById(R.id.map_row_valisats)).setVisibility(View.VISIBLE);
         }
         gnssManager.setFlDelegateActivity(this);
         gnssManager.setCameraZoom(CAMERA_MIN_ZOOM);
@@ -453,13 +455,13 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGM
     Dialog searchDialog;
 
     @SuppressLint("MissingPermission")
-    private void initBluetoothLocation(){
+    private void initBluetoothLocation() {
         int MY_BLUETOOTH_PERMISSION = 19;
         //if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED &&
-         //       ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.BLUETOOTH_CONNECT);
-            ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.BLUETOOTH_SCAN);
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT}, MY_BLUETOOTH_PERMISSION);
+        //       ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED){
+        ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.BLUETOOTH_CONNECT);
+        ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.BLUETOOTH_SCAN);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT}, MY_BLUETOOTH_PERMISSION);
         //}
         bluetoothManager = new BluetoothManager(getApplicationContext());
         bluetoothManager.setFlDelegateActivity(this);
@@ -490,14 +492,14 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGM
                     searchDialog.dismiss();
                     AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this);
                     builder.setTitle(R.string.bts_notFoundDevice)
-                            .setPositiveButton("OK",(dialogInterface, i) -> {
+                            .setPositiveButton("OK", (dialogInterface, i) -> {
                                 dialogInterface.dismiss();
                                 currentActivity.finish();
                             });
                     builder.create().show();
                 }
             });
-            bluetoothManager.getDeviceByName(GNSSSettingsStore.readExternalBTName(getApplicationContext()),this);
+            bluetoothManager.getDeviceByName(GNSSSettingsStore.readExternalBTName(getApplicationContext()), this);
 
             mMap.setLocationSource(bluetoothManager.getFlLocationSource());
             mMap.setMyLocationEnabled(true);
@@ -935,13 +937,13 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGM
         if (flManager != null) {
             flManager.stop();
         }
-        if(gnssManager != null){
+        if (gnssManager != null) {
             gnssManager.stop();
         }
-        if(lmManager != null){
+        if (lmManager != null) {
             lmManager.stop();
         }
-        if(bluetoothManager != null){
+        if (bluetoothManager != null) {
             bluetoothManager.stop();
         }
     }
@@ -967,13 +969,13 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGM
                     alert(getString(R.string.pt_cannotDrawWhileRecTitle), getString(R.string.pt_cannotDrawWhileRecText));
                 } else {
                     PTPoint firstPoint = ptPath.getPoints().get(0);
-                    PTPoint lastPoint = ptPath.getPoints().get(ptPath.getPoints().size()-1);
+                    PTPoint lastPoint = ptPath.getPoints().get(ptPath.getPoints().size() - 1);
                     double distLat = Math.abs(firstPoint.getLatitude() - lastPoint.getLatitude());
                     double distLon = Math.abs(firstPoint.getLongitude() - lastPoint.getLongitude());
 
-                    if(distLat > 0.001 && distLon > 0.001){
+                    if (distLat > 0.001 && distLon > 0.001) {
                         ptManager.drawPathPolyline(ptPath);
-                    }else{
+                    } else {
                         ptManager.drawPathPolygon(ptPath);
                     }
                 }
@@ -1131,14 +1133,14 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGM
         if (startMode.equals(START_MODE.PATH_TRACKING)) {
             adjustPathTrackingCameraLocation(location);
         }
-        if(lmManager != null || bluetoothManager != null){
+        if (lmManager != null || bluetoothManager != null) {
             adjustSatellitesNumbers(location);
         }
 
     }
 
     @Override
-    public void onNewLocation(LocationResult locationResult){
+    public void onNewLocation(LocationResult locationResult) {
         ConstraintLayout positionProgress = findViewById(R.id.map_constraintLayout_positionTools);
         positionProgress.setVisibility(View.GONE);
         Location location = locationResult.getLastLocation();
@@ -1160,21 +1162,30 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGM
     }
 
     private void adjustSatellitesNumbers(Location location) {
+        Log.w("MAPView", "adjustSatellitesNumbers >> - location:" + location.toString());
         TextView visible = findViewById(R.id.map_textView_visisats);
         TextView used = findViewById(R.id.map_textView_usisats);
-        if(location != null){
-            if(lmManager != null){
+        if (location != null) {
+            if (lmManager != null) {
                 findViewById(R.id.visibleSatsRow).setVisibility(View.GONE);
                 findViewById(R.id.usedSatsRow).setVisibility(View.GONE);
-            }else if(bluetoothManager != null && location.getProvider().equalsIgnoreCase(BluetoothManager.EXTERNAL_DEVICE_PROVIDER)){
+            } else if (bluetoothManager != null && location.getProvider().equalsIgnoreCase(MainService.EXTERNAL_PROVIDER)) {
                 findViewById(R.id.visibleSatsRow).setVisibility(View.VISIBLE);
                 findViewById(R.id.usedSatsRow).setVisibility(View.VISIBLE);
 
-                visible.setText(location.getExtras().getInt("visiblesats")+"");
-                used.setText(location.getExtras().getInt("usedsats")+"");
+                int usedSats = location.getExtras().getInt(AppConstant.EXTRA_USED_SATELLITES);
+                int visibleSats = location.getExtras().getInt(AppConstant.EXTRA_VISIBLE_SATELLITES);
+
+                if (usedSats > 0)
+                    used.setText(usedSats + "");
+                else used.setText(getString(R.string.map_basicInfoUnavailable));
+
+                if (visibleSats > 0)
+                    visible.setText(visibleSats + "");
+                else visible.setText(getString(R.string.map_basicInfoUnavailable));
             }
 
-        }else{
+        } else {
             visible.setText(getString(R.string.map_basicInfoUnavailable));
             used.setText(getString(R.string.map_basicInfoUnavailable));
         }
@@ -1184,19 +1195,22 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGM
         TextView validated = findViewById(R.id.map_textView_valisats);
         TextView accuracy = findViewById(R.id.map_textView_accuracy);
 
-        if((gnssManager != null && gnssManager.isConstellationOSNMA()) || bluetoothManager != null && location.getProvider().equalsIgnoreCase(BluetoothManager.EXTERNAL_DEVICE_PROVIDER))
-        {
+        if ((gnssManager != null && gnssManager.isConstellationOSNMA()) || bluetoothManager != null && location.getProvider().equalsIgnoreCase(MainService.EXTERNAL_PROVIDER)) {
             validatedRow.setVisibility(View.VISIBLE);
-            if(gnssManager != null){
-                validated.setText(gnssManager.getValidatedSatsNum()+"");
-            }else{
+            if (gnssManager != null) {
+                validated.setText(gnssManager.getValidatedSatsNum() + "");
+            } else {
                 accuracyRow.setVisibility(View.VISIBLE);
-                validated.setText(bluetoothManager.getValidatedSatsNum()+"");
+                int validatedSats = location.getExtras().getInt(AppConstant.EXTRA_VALIDATED_SATELLITES);
+                if (validatedSats > 0)
+                    validated.setText(validatedSats + "");
+                else validated.setText(getString(R.string.map_basicInfoUnavailable));
+//                validated.setText(bluetoothManager.getValidatedSatsNum() + "");
                 Double accuracyDbl = location.getExtras().getDouble("accuracy");
                 DecimalFormat df = new DecimalFormat("####.####");
                 accuracy.setText(df.format(accuracyDbl));
             }
-        }else{
+        } else {
             validatedRow.setVisibility(View.GONE);
             accuracyRow.setVisibility(View.GONE);
         }
