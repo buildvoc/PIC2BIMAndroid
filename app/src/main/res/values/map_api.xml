@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="map_key" translatable="false">
-        AIzaSyBRQTPTFC1LaXRNYp_3YrfyEIXNMMHvJCs
+         YOUR GOOGLE MAPS API KEY
     </string>
 </resources>
 
