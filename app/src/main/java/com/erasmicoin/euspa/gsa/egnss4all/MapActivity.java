@@ -1206,9 +1206,8 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGM
                     validated.setText(validatedSats + "");
                 else validated.setText(getString(R.string.map_basicInfoUnavailable));
 //                validated.setText(bluetoothManager.getValidatedSatsNum() + "");
-                Double accuracyDbl = location.getExtras().getDouble("accuracy");
                 DecimalFormat df = new DecimalFormat("####.####");
-                accuracy.setText(df.format(accuracyDbl));
+                accuracy.setText(df.format(location.getAccuracy()));
             }
         } else {
             validatedRow.setVisibility(View.GONE);
