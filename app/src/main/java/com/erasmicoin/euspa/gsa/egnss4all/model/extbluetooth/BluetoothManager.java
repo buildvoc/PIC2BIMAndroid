@@ -364,7 +364,7 @@ public class BluetoothManager {
     int validatedSats = 0;
 
     private void parsNMEAData(String newData, TestConnectCallback callback, BluetoothLocationCallback bluetoothLocationCallback) {
-        if (isValidNMEA(newData)) {
+        if (NMEAValidator.validateNMEASentence(newData)) {
             if (callback != null) {
                 callback.onDataReceived(newData);
             } else {
@@ -477,16 +477,16 @@ public class BluetoothManager {
 
     private boolean isBleDataCheckSome = false;
 
-    // Compile the pattern once for reuse
-    private static final Pattern NMEA_PATTERN = Pattern.compile(
-            "(\\$(G[ABILNPQ][A-Z]{3}(?:,(-?\\d*(\\.\\d+)?(?:\\.\\d+)?|[a-zA-Z]+|))+\\w*\\*[\\dA-Fa-f]{2})$)",
-            Pattern.CASE_INSENSITIVE
-    );
-
-    // Method to check if a single string is a valid NMEA sentence
-    public static boolean isValidNMEA(String input) {
-        return NMEA_PATTERN.matcher(input).matches();
-    }
+//    // Compile the pattern once for reuse
+//    private static final Pattern NMEA_PATTERN = Pattern.compile(
+//            "(\\$(G[ABILNPQ][A-Z]{3}(?:,(-?\\d*(\\.\\d+)?(?:\\.\\d+)?|[a-zA-Z]+|))+\\w*\\*[\\dA-Fa-f]{2})$)",
+//            Pattern.CASE_INSENSITIVE
+//    );
+//
+//    // Method to check if a single string is a valid NMEA sentence
+//    public static boolean isValidNMEA(String input) {
+//        return NMEA_PATTERN.matcher(input).matches();
+//    }
 
     public void getDeviceByName(String deviceName, Activity activity) {
         Log.d(TAG, "getDeviceByName : - "+deviceName);
