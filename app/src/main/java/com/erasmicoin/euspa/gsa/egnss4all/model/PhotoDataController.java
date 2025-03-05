@@ -84,7 +84,7 @@ public class PhotoDataController {
 
     private EkfController ekfController;
 
-    private ArrayList<InavMessage> inavMessages;
+    private ArrayList<InavMessage> inavMessages = new ArrayList<>();
 
     public PhotoDataController(Context context) throws EkfCreateException {
         this.context = context;

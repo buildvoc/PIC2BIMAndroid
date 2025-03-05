@@ -749,7 +749,7 @@ public class MainService extends Service implements GNSSManager.GNSSLocationCall
     }
 
     private LocationManager mLocationManager;
-    private ArrayList<InavMessage> inavMessages;
+    private ArrayList<InavMessage> inavMessages = new ArrayList<>();
 
     public ArrayList<InavMessage> getInavMessages(){
         return inavMessages;
