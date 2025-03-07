@@ -339,6 +339,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGM
             findViewById(R.id.map_row_valisats).setVisibility(View.VISIBLE);
             findViewById(R.id.usedSatsRow).setVisibility(View.VISIBLE);
         } else {
+            findViewById(R.id.map_row_valisats).setVisibility(View.GONE);
             findViewById(R.id.visibleSatsRow).setVisibility(View.GONE);
             findViewById(R.id.usedSatsRow).setVisibility(View.GONE);
             ConstraintLayout positionProgress = findViewById(R.id.map_constraintLayout_positionTools);
