@@ -87,20 +87,20 @@
                     <Button
                         android:id="@+id/map_button_mode"
                         style="@style/buttonTextSecondary"
-                        android:background="@drawable/background_button_white_r8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
+                        android:background="@drawable/background_button_white_r8"
                         android:onClick="pauseTracking"
                         android:text="@string/pt_pauseButton" />
 
                     <Button
                         android:id="@+id/map_button_rec"
                         style="@style/buttonTextSecondary"
-                        android:background="@drawable/background_button_white_r8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
+                        android:background="@drawable/background_button_white_r8"
                         android:onClick="recordTracking"
                         android:text="@string/pt_recButton" />
                 </LinearLayout>
@@ -108,10 +108,10 @@
                 <Button
                     android:id="@+id/button6"
                     style="@style/buttonTextSecondary"
-                    android:background="@drawable/background_button_white_r8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@drawable/background_button_white_r8"
                     android:onClick="gotToPathTrackingOverview"
                     android:text="@string/pt_pathsButton" />
 
@@ -144,29 +144,29 @@
             <Button
                 android:id="@+id/button11"
                 style="@style/buttonTextSecondary"
-                android:background="@drawable/background_button_white_r8"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginBottom="8dp"
+                android:background="@drawable/background_button_white_r8"
                 android:onClick="addCurrentPoint"
                 android:text="@string/pt_capturePointButton" />
 
             <Button
                 android:id="@+id/button12"
                 style="@style/buttonTextSecondary"
-                android:background="@drawable/background_button_white_r8"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginBottom="8dp"
+                android:background="@drawable/background_button_white_r8"
                 android:onClick="addCentroidPoint"
                 android:text="@string/pt_convexHullPointButton" />
 
             <Button
                 android:id="@+id/button10"
                 style="@style/buttonTextSecondary"
-                android:background="@drawable/background_button_white_r8"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
+                android:background="@drawable/background_button_white_r8"
                 android:onClick="deletePointDialog"
                 android:text="@string/pt_deletePointButton" />
         </LinearLayout>
@@ -212,12 +212,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="72dp"
+        android:layout_marginEnd="16dp"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <ProgressBar
             android:id="@+id/map_progressBar_position"
@@ -391,7 +391,8 @@
         <TableRow
             android:id="@+id/visibleSatsRow"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/textView120"
@@ -416,6 +417,7 @@
 
         <TableRow
             android:id="@+id/usedSatsRow"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -444,7 +446,7 @@
             android:id="@+id/map_row_valisats"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/textView1202"

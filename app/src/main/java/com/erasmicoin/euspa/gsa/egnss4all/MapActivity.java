@@ -336,7 +336,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGM
                         ((TextView) findViewById(R.id.map_locationProviderLabel)).setText(getString(R.string.map_blueMarkerValueBT));
                     });
             builder.create().show();
-            findViewById(R.id.visibleSatsRow).setVisibility(View.VISIBLE);
+            findViewById(R.id.map_row_valisats).setVisibility(View.VISIBLE);
             findViewById(R.id.usedSatsRow).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.visibleSatsRow).setVisibility(View.GONE);
@@ -1170,19 +1170,12 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGM
                 findViewById(R.id.visibleSatsRow).setVisibility(View.GONE);
                 findViewById(R.id.usedSatsRow).setVisibility(View.GONE);
             } else if (bluetoothManager != null && location.getProvider().equalsIgnoreCase(MainService.EXTERNAL_PROVIDER)) {
-                findViewById(R.id.visibleSatsRow).setVisibility(View.VISIBLE);
+                findViewById(R.id.visibleSatsRow).setVisibility(View.GONE);
                 findViewById(R.id.usedSatsRow).setVisibility(View.VISIBLE);
 
-                int usedSats = location.getExtras().getInt(AppConstant.EXTRA_USED_SATELLITES);
-                int visibleSats = location.getExtras().getInt(AppConstant.EXTRA_VISIBLE_SATELLITES);
+                int usedSats = location.getExtras().getInt(AppConstant.EXTRA_VISIBLE_SATELLITES);
+                used.setText(usedSats + "");
 
-                if (usedSats > 0)
-                    used.setText(usedSats + "");
-                else used.setText(getString(R.string.map_basicInfoUnavailable));
-
-                if (visibleSats > 0)
-                    visible.setText(visibleSats + "");
-                else visible.setText(getString(R.string.map_basicInfoUnavailable));
             }
 
         } else {
@@ -1202,9 +1195,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, GGM
             } else {
                 accuracyRow.setVisibility(View.VISIBLE);
                 int validatedSats = location.getExtras().getInt(AppConstant.EXTRA_VALIDATED_SATELLITES);
-                if (validatedSats > 0)
-                    validated.setText(validatedSats + "");
-                else validated.setText(getString(R.string.map_basicInfoUnavailable));
+                validated.setText(validatedSats + "");
 //                validated.setText(bluetoothManager.getValidatedSatsNum() + "");
                 DecimalFormat df = new DecimalFormat("####.####");
                 accuracy.setText(df.format(location.getAccuracy()));

@@ -400,8 +400,8 @@ public class BluetoothManager {
                     try {
                         SentenceFactory sf = SentenceFactory.getInstance();
                         GSASentence gsa = (GSASentence) sf.createParser(newData);
-                        usedSats = gsa.getSatelliteIds().length;
-                        validatedSats = gsa.getSatelliteIds().length;
+//                        usedSats = gsa.getSatelliteIds().length;
+//                        validatedSats = gsa.getSatelliteIds().length;
                         myLocation.setAccuracy((float) gsa.getHorizontalDOP());
                         myLocation.setTime(new Date().getTime());
                         ArrayList<Location> tmpList = new ArrayList<>();
